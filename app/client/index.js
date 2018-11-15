@@ -22,6 +22,9 @@ let Game = {
     update() {
         let dt = (Date.now() - Game.deltaTime) * .001;
 
+        for (let i in Game.children) {
+            Game.children[i].update(dt);
+        }
 
         Game.deltaTime = Date.now();
         Game.app.renderer.render(Game.app.scene, Game.app.camera);

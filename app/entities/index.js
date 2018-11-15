@@ -7,6 +7,7 @@ const TYPES = {
 };
 
 const ENTITIES = {
+    isNode: typeof window === 'undefined',
     PROPS,
     TYPES,
     Models: {},
@@ -16,7 +17,7 @@ const ENTITIES = {
     create(data = {}) {
         let entity = {
             id: data.id || (0 | Math.random() * 6.04e7).toString(36),
-            body: ENTITIES.Models[data[PROPS.netType] || 0].clone(),
+            body: ENTITIES.Models[data[PROPS.netType] || 0].Model.clone(),
             parent: undefined,
 
             [PROPS.netType]: data[PROPS.netType] || 0,
@@ -35,12 +36,18 @@ const ENTITIES = {
             }
         };
 
+        // Update method
+        entity.update = ENTITIES.Models[entity[PROPS.netType]][
+            ENTITIES.isNode ?
+                'ServerUpdate'
+                : 'ClientUpdate'
+        ](entity);
+
         entity.body.position.set(
             entity[PROPS.position].x,
             entity[PROPS.position].y,
             entity[PROPS.position].z
         );
-
 
         entity.body.quaternion.set(
             entity[PROPS.quaternion].x,
@@ -48,7 +55,6 @@ const ENTITIES = {
             entity[PROPS.quaternion].z,
             entity[PROPS.quaternion].w
         );
-
 
         return entity;
     }
