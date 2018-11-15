@@ -8,12 +8,16 @@ let Game = {
     ready: false,
     quality: 0.8,
     app: null,
+    children: {},
     initGame() {
         Game.app = AppFactory();
         Game.setQuality();
+
+        Entities.init();
+        test(Game.app);
+
         Game.update();
         Game.ready = true;
-        test(Game.app);
     },
     update() {
         let dt = (Date.now() - Game.deltaTime) * .001;
@@ -27,6 +31,11 @@ let Game = {
         Game.quality = pixelRatio;
         Game.app.renderer.setPixelRatio(window.devicePixelRatio * Game.quality);
         Game.app.renderer.setSize(window.innerWidth, window.innerHeight);
+    },
+    addEntity(childEntity) {
+        Game.children[childEntity.id] = childEntity;
+        childEntity.parent = Game;
+        Game.app.scene.add(childEntity.body);
     }
 };
 
