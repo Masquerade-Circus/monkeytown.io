@@ -19,6 +19,7 @@ let Main = {
             <body>
                 <div id="ui">
                     {children}
+                    <script src={`/js/socket.io.js?v=${Main.id}`}></script>
                     <script src={`/js/three.min.js?v=${Main.id}`}></script>
                     <script src={`/js/index.min.js?v=${Main.id}`}></script>
                 </div>

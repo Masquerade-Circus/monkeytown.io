@@ -1,5 +1,6 @@
 import config from './config';
 import AppFactory from './appFactory';
+import Connection from './connection';
 import test from './test';
 
 let Game = {
@@ -9,12 +10,14 @@ let Game = {
     quality: 0.8,
     app: null,
     children: {},
+    connection: Connection,
     initGame() {
         Game.app = AppFactory();
         Game.setQuality();
 
         Entities.init();
-        test(Game.app);
+        Connection.initSocket(Game.config.serverUrl);
+        test(Game);
 
         Game.update();
         Game.ready = true;

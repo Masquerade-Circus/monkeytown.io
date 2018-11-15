@@ -35,8 +35,11 @@ v.routes.get()
     ));
 
 // Init micro server
-micro(router).listen(3000, async () => {
+let server = micro(router).listen(3000, () => {
     process.stdout.write('Micro listening on port 3000\n');
 });
 
-
+global.THREE = require('three');
+global.IO = require('socket.io')(server);
+global.Game = require('../app/server');
+Game.initGame();
