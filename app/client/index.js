@@ -42,6 +42,30 @@ let Game = {
         Game.children[childEntity.id] = childEntity;
         childEntity.parent = Game;
         Game.app.scene.add(childEntity.body);
+    },
+    updateWorld(world) {
+        for (let i in Game.children) {
+            if (world.children[i] === undefined) {
+                Game.children[i].destroy();
+            }
+        }
+
+        for (let i in world.children) {
+            if (Game.children[i] === undefined) {
+                let entity = Entities.create(world.children[i]);
+                Game.addEntity(entity);
+                if (i === Game.playerId) {
+                    Game.setPlayer(Game.children[i]);
+                }
+            } else {
+                Object.assign(Game.children[i], world.children[i]);
+            }
+        }
+    },
+    setPlayer(entity) {
+        Game.player = entity;
+        Game.app.camera.position.set(0, 10, 10);
+        Game.app.camera.lookAt(0, 0, 0);
     }
 };
 

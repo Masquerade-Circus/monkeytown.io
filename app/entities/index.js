@@ -28,7 +28,7 @@ const ENTITIES = {
             [PROPS.remove]: false,
 
             destroy() {
-                if (entity) {
+                if (entity && entity.body && entity.body.parent) {
                     entity.body.parent.remove(entity.body);
                 }
                 delete Game.children[entity.id];
@@ -55,6 +55,11 @@ const ENTITIES = {
             entity[PROPS.quaternion].z,
             entity[PROPS.quaternion].w
         );
+
+        if (ENTITIES.isNode) {
+            entity.world = data.world;
+            entity.socket = data.socket;
+        }
 
         return entity;
     }
