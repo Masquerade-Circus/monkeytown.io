@@ -1,4 +1,3 @@
-let config = require('./config');
 let micro = require('micro');
 let Router = require('micro-ex-router');
 let Helper = require('./helpers');

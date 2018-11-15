@@ -17,8 +17,11 @@ let Main = {
                 <link rel="shortcut icon" href="/imgs/favicon.ico"/>
             </head>
             <body>
-                {children}
-                <script src={`/js/index.min.js?v=${Main.id}`}></script>
+                <div id="ui">
+                    {children}
+                    <script src={`/js/three.min.js?v=${Main.id}`}></script>
+                    <script src={`/js/index.min.js?v=${Main.id}`}></script>
+                </div>
             </body>
         </html>;
 
