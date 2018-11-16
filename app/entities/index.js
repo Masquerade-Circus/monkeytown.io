@@ -31,13 +31,45 @@ const ENTITIES = {
                 if (entity && entity.body && entity.body.parent) {
                     entity.body.parent.remove(entity.body);
                 }
+
+                if (Entities.isNode) {
+                    delete Game.worlds[entity.world].children[entity.id];
+                }
+
                 delete Game.children[entity.id];
                 entity = undefined;
+            },
+            update(dt) {
+                if (!Entities.isNode) {
+                    // Update position on the client
+                    if (entity[PROPS.lerp] === 1) {
+                        entity.body.position.copy(entity[PROPS.position]);
+                    } else if (entity[PROPS.lerp] < 1) {
+                        entity.body.position.lerp(
+                            new THREE.Vector3(
+                                entity[PROPS.position].x,
+                                entity[PROPS.position].y,
+                                entity[PROPS.position].z
+                            ),
+                            entity[PROPS.lerp]
+                        );
+                    }
+
+                    entity.body.quaternion.copy(entity[PROPS.quaternion]);
+                }
+
+                entity.updateMethod(dt);
+
+                if (Entities.isNode) {
+                    // Copy position that will be sent to the client
+                    entity[PROPS.position] = entity.body.position;
+                    entity[PROPS.quaternion] = entity.body.quaternion;
+                }
             }
         };
 
         // Update method
-        entity.update = ENTITIES.Models[entity[PROPS.netType]][
+        entity.updateMethod = ENTITIES.Models[entity[PROPS.netType]][
             ENTITIES.isNode ?
                 'ServerUpdate'
                 : 'ClientUpdate'

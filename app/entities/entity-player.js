@@ -9,11 +9,11 @@ let ModelFactory = () => {
 };
 
 let ServerUpdate = (entity) => (dt) => {
-
+    entity.body.position.x += 1 * dt;
 };
 
 let ClientUpdate = (entity) => (dt) => {
-    entity.body.position.x += 1 * dt;
+    // entity.body.position.x += 1 * dt;
 };
 
 let Factory = () => {

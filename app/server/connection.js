@@ -9,6 +9,7 @@ let Connection = {
                 player = Entities.create({
                     [Entities.PROPS.netType]: Entities.TYPES.Player,
                     [Entities.PROPS.position]: {x: 0, y: 0, z: 0},
+                    [Entities.PROPS.lerp]: 0.96,
                     id: playerId,
                     socket,
                     world
@@ -29,7 +30,7 @@ let Connection = {
             socket.sendWorld = function () {
                 if (!socket.sendingWorld) {
                     socket.sendingWorld = true;
-                    socket.emit('world', Game.getWorldInfo(socket));
+                    socket.emit('world', Game.fixedProps(Game.getWorldInfo(socket)));
                     socket.sendingWorld = false;
                 }
             };

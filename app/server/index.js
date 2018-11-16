@@ -95,6 +95,25 @@ const Game = {
             [Entities.PROPS.netType]: entity[Entities.PROPS.netType]
         };
         return info;
+    },
+    fixedProps(obj = {}, precision = 3) {
+        let o = Array.isArray(obj) ? [] : {};
+
+        for (let i in obj) {
+            if (typeof obj[i] === 'object') {
+                o[i] = Game.fixedProps(obj[i]);
+                continue;
+            }
+
+            if (typeof obj[i] === 'number') {
+                o[i] = +(obj[i]).toFixed(precision);
+                continue;
+            }
+
+            o[i] = obj[i];
+        }
+
+        return o;
     }
 };
 
