@@ -1,4 +1,4 @@
-global.Entities = require('../entities');
+const Entities = require('../entities');
 const Connection = require('./connection');
 const test = require('./test');
 

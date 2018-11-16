@@ -10,7 +10,6 @@ router
 v.routes('#ui', router);
 
 if (v.is.browser) {
-    window.Game = Game;
     Game.initGame();
 }
 
