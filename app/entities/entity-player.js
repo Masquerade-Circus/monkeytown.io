@@ -19,8 +19,13 @@ let ClientUpdate = (entity) => (dt) => {
 let Factory = () => {
     return {
         Model: ModelFactory(),
-        ServerUpdate,
-        ClientUpdate
+        init(entity) {
+            if (Entities.isNode) {
+                entity.updateMethod = ServerUpdate(entity);
+            } else {
+                entity.updateMethod = ClientUpdate(entity);
+            }
+        }
     };
 };
 

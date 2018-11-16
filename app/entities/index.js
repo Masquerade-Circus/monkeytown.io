@@ -6,18 +6,18 @@ const TYPES = {
     Player: 1
 };
 
-const ENTITIES = {
+const Entities = {
     isNode: typeof window === 'undefined',
     PROPS,
     TYPES,
-    Models: {},
+    Factories: {},
     init() {
-        ENTITIES.Models[TYPES.Player] = Player();
+        Entities.Factories[TYPES.Player] = Player();
     },
     create(data = {}) {
         let entity = {
             id: data.id || (0 | Math.random() * 6.04e7).toString(36),
-            body: ENTITIES.Models[data[PROPS.netType] || 0].Model.clone(),
+            body: new THREE.Object3D(),
             parent: undefined,
 
             [PROPS.netType]: data[PROPS.netType] || 0,
@@ -68,12 +68,10 @@ const ENTITIES = {
             }
         };
 
-        // Update method
-        entity.updateMethod = ENTITIES.Models[entity[PROPS.netType]][
-            ENTITIES.isNode ?
-                'ServerUpdate'
-                : 'ClientUpdate'
-        ](entity);
+        // Clone the model and set its initial position
+        if (Entities.Factories[data[PROPS.netType]].Model) {
+            entity.body.add(Entities.Factories[data[PROPS.netType]].Model.clone());
+        }
 
         entity.body.position.set(
             entity[PROPS.position].x,
@@ -88,7 +86,13 @@ const ENTITIES = {
             entity[PROPS.quaternion].w
         );
 
-        if (ENTITIES.isNode) {
+        // Init the entity
+        if (typeof Entities.Factories[entity[PROPS.netType]].init === 'function') {
+            Entities.Factories[entity[PROPS.netType]].init(entity);
+        }
+
+        // Set the world and the socket that belongs to this entity if any
+        if (Entities.isNode) {
             entity.world = data.world;
             entity.socket = data.socket;
         }
@@ -97,4 +101,4 @@ const ENTITIES = {
     }
 };
 
-module.exports = ENTITIES;
+module.exports = Entities;
