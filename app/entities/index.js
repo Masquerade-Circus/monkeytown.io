@@ -1,18 +1,14 @@
-const PROPS = require('./props');
-
-let Player = require('./entity-player');
-
-const TYPES = {
-    Player: 1
-};
+const {PROPS, NET_TYPES, ENTITIES} = require('./config');
 
 const Entities = {
     isNode: typeof window === 'undefined',
     PROPS,
-    TYPES,
+    NET_TYPES,
     Factories: {},
     init() {
-        Entities.Factories[TYPES.Player] = Player();
+        for (let nt in ENTITIES) {
+            Entities.Factories[nt] = ENTITIES[nt]();
+        }
     },
     create(data = {}) {
         let entity = {

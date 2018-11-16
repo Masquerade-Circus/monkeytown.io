@@ -1,3 +1,6 @@
+const Entities = require('../entities');
+const {PROPS, NET_TYPES} = Entities;
+
 let Connection = {
     initSockets() {
         IO.sockets.on("connection", function (socket) {
@@ -7,9 +10,9 @@ let Connection = {
 
             socket.on("connectServer", function (world = 'Alpha', callback = () => { }) {
                 player = Entities.create({
-                    [Entities.PROPS.netType]: Entities.TYPES.Player,
-                    [Entities.PROPS.position]: {x: 0, y: 0, z: 0},
-                    [Entities.PROPS.lerp]: 0.1,
+                    [PROPS.netType]: NET_TYPES.Player,
+                    [PROPS.position]: {x: 0, y: 0, z: 0},
+                    [PROPS.lerp]: 0.1,
                     id: playerId,
                     socket,
                     world

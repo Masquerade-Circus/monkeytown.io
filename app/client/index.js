@@ -1,7 +1,9 @@
 import config from './config';
-import AppFactory from './appFactory';
+import AppFactory from './app-factory';
 import Connection from './connection';
 import test from './test';
+import PlayerScriptFactory from './player-scripts';
+import Entities from '../entities';
 
 let Game = {
     config,
@@ -55,18 +57,15 @@ let Game = {
                 let entity = Entities.create(world.children[i]);
                 Game.addEntity(entity);
                 if (i === Game.playerId) {
-                    Game.setPlayer(Game.children[i]);
+                    Game.player = entity;
+                    Game.setPlayerScripts();
                 }
             } else {
                 Object.assign(Game.children[i], world.children[i]);
             }
         }
     },
-    setPlayer(entity) {
-        Game.player = entity;
-        Game.app.camera.position.set(0, 10, 10);
-        Game.app.camera.lookAt(0, 0, 0);
-    }
+    setPlayerScripts: PlayerScriptFactory
 };
 
 export default Game;
