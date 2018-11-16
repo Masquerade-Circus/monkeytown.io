@@ -8,6 +8,7 @@ let uglify = require('rollup-plugin-uglify');
 let buble = require('rollup-plugin-buble');
 let string = require('rollup-plugin-string');
 let json = require('rollup-plugin-json');
+let async = require('rollup-plugin-async');
 
 let uglifyOptions = {
     ecma: 5,
@@ -42,8 +43,12 @@ let inputOptions = {
             sourceMap: true
         }),
         json(),
+        async(),
         buble({
-            jsx: 'v'
+            jsx: 'v',
+            transforms: {
+                generator: false
+            }
         })
     ],
     cache: undefined

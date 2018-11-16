@@ -32,7 +32,7 @@ const Entities = {
                     delete Game.worlds[entity.world].children[entity.id];
                 }
 
-                delete Game.children[entity.id];
+                delete entity.parent.children[entity.id];
                 entity = undefined;
             },
             update(dt) {

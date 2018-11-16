@@ -1,22 +1,23 @@
 const ConnectionFactory = (Game) => {
     let Connection = {
         initSocket(url) {
-            if (window.socket !== undefined) {
-                window.socket.disconnect();
-                window.socket = undefined;
+            if (Game.socket !== undefined) {
+                Game.socket.disconnect();
+                Game.socket = undefined;
             }
 
-            window.socket = io(url);
-            socket.on('world', data => Game.updateWorld(data));
+            Game.socket = io(url);
+            Game.socket.on('world', data => Game.updateWorld(data));
         },
         connectServer(world = 'Alpha') {
             return new Promise((resolve) => {
-                socket.emit('connectServer', world, () => {
-                    Game.playerId = socket.id;
+                Game.socket.emit('connectServer', world, () => {
+                    Game.playerId = Game.socket.id;
                     resolve();
                 });
             });
-        }
+        },
+        getWorlds: () => new Promise((resolve) => Game.socket.emit('getWorlds', resolve))
     };
     return Connection;
 };

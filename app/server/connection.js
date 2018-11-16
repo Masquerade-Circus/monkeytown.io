@@ -23,11 +23,8 @@ let Connection = {
                 callback();
             });
 
-            socket.on('disconnect', () => {
-                if (player) {
-                    player.destroy();
-                }
-            });
+            socket.on('disconnect', () => player && player.destroy());
+            socket.on('getWorlds', (callback) => callback(Game.getWorlds()));
 
             socket.sendingWorld = false;
             socket.sendWorld = function () {

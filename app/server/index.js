@@ -115,6 +115,16 @@ const Game = {
         }
 
         return o;
+    },
+    getWorlds() {
+        let worlds = {};
+        for (let name in Game.worlds) {
+            worlds[name] = {
+                playerCount: Game.worlds[name].playerCount,
+                maxPlayers: Game.worlds[name].maxPlayers
+            };
+        }
+        return worlds;
     }
 };
 

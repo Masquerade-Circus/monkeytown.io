@@ -1,6 +1,6 @@
 let test = function (Game) {
 
-    Game.connection.connectServer();
+    Game.connectServer();
 };
 
 export default test;

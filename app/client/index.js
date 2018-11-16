@@ -14,7 +14,7 @@ let Game = {
     quality: 0.8,
     app: null,
     children: {},
-    initGame() {
+    async initGame() {
         Game.app = AppFactory();
         Game.setQuality();
 
@@ -24,6 +24,7 @@ let Game = {
         test(Game);
 
         Game.update();
+        await Game.getWorlds();
         Game.ready = true;
     },
     update() {
@@ -60,6 +61,7 @@ let Game = {
                 Game.addEntity(entity);
                 if (i === Game.playerId) {
                     Game.player = entity;
+                    Game.player.socket = Game.socket;
                     Game.setPlayerScripts(Game);
                 }
             } else {
@@ -67,7 +69,16 @@ let Game = {
             }
         }
     },
-    setPlayerScripts: PlayerScriptFactory
+    setPlayerScripts: PlayerScriptFactory,
+    connectServer: () => Game.connection.connectServer(),
+    worlds: {},
+    async getWorlds() {
+        let worlds = await Game.connection.getWorlds();
+        for (let world in worlds) {
+            worlds[world].selected = false;
+        }
+        Game.worlds = worlds;
+    }
 };
 
 export default Game;

@@ -2,15 +2,74 @@ html,body{margin: 0;padding: 0;font-size: 1rem;overflow:hidden;}
 body,input,select,textarea {
     font-family: -apple-system, Roboto, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     line-height: 1.42;
+    width: 100%;
+    margin: 0.1rem;
 }
 *,::before,::after {box-sizing: border-box;}
 h1,h2,h3,h4,h5,h6{margin: 0;padding: 0;line-height: 1;font-weight: 300}
+div:empty,nav:empty,section:empty{display: none;}
 
 a{outline: 0;text-decoration: none;color: #3f51b5;display: inline-block;}
-a:hover{opacity: 0.8;}
+a:hover,button:hover,.button:hover{opacity: 0.8;}
 a,button,.button{cursor: pointer}
+button{border: 0;border-radius: 0.3rem; padding: 0.1rem 0.5rem;}
 
-#game-canvas{position: fixed; top:0; left: 0; right: 0; bottom: 0; z-index:1;}
+.w100{width: 100%}
+.w75{width: 75%}
+.w50{width: 50%}
+.w25{width: 25%}
+.w10{width: 10%}
+
+/****************** Flex Start ******************/
+[data-flex]{display: flex;flex-wrap: wrap}
+[data-flex]>*{flex: 1 0;}
+[data-flex*='row']{flex-direction: row;}
+[data-flex*='row-reverse']{flex-direction: row-reverse;}
+[data-flex*='column']{flex-direction: column;}
+[data-flex*='column-reverse']{flex-direction: column-reverse;}
+[data-flex*='start']{justify-content: flex-start;}
+[data-flex*='end']{justify-content: flex-end;}
+[data-flex*='center']{justify-content: center;}
+[data-flex*='between']{justify-content: space-between;}
+[data-flex*='around']{justify-content: space-around;}
+/****************** Flex End ******************/
+
+/****************** Colors Start ******************/
+[data-background*="white"]{background: rgba(255,255,255,0.8); color: #555}
+[data-background*="black"]{background: rgba(0,0,0,0.8); color: #fff}
+[data-background*="success"]{background: #00e676; color: #fff}
+[data-background*="warning"]{background: #ff3d00; color: #fff}
+[data-background*="info"]{background: #2979ff; color: #fff}
+[data-background*="danger"]{background: #ff1744; color: #fff}
+
+[data-color*="white"]{color: #fff}
+[data-color*="black"]{color: #555}
+[data-color*="success"]{color: #00e676}
+[data-color*="warning"]{color: #ff3d00}
+[data-color*="info"]{color: #2979ff}
+[data-color*="danger"]{color: #ff1744}
+/****************** Colors End ******************/
+
+/****************** Panels Start ******************/
+[data-panel]{position: fixed; border-radius: 0.3rem; display: flex; flex-direction: column; min-width: 15rem;}
+
+/* Position */
+[data-panel*="top"]{top: 0;}
+[data-panel*="left"]{left: 0;}
+[data-panel*="right"]{right: 0;}
+[data-panel*="bottom"]{bottom: 0;}
+[data-panel*="middle"]{top: 50%;transform: translate(0, -50%);}
+[data-panel*="center"]{left: 50%;transform: translate(-50%, 0);text-align: center;}
+[data-panel*="middle"][data-panel*="center"]{transform:translate(-50%,-50%)}
+[data-panel*="inline"]{display: inline-block; position: relative;margin:0.3rem}
+
+/* Children */
+[data-panel]>*{padding: 0.3rem; border-bottom: 1px solid rgba(126,126,126, 0.5)}
+[data-panel]>:last-child{border: 0;}
+[data-panel]>div{flex-grow: 1}
+/****************** Panels End ******************/
+
+#game-canvas{position: fixed; top:0; left: 0; right: 0; bottom: 0; z-index:1; display: block}
 #ui{position:relative;z-index: 2;color: #fff;}
 
-svg{max-width: 100px;}
+svg{max-width: 100px;display: block;}
