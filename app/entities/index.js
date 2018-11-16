@@ -40,8 +40,8 @@ const Entities = {
                 entity = undefined;
             },
             update(dt) {
+                // Update position on the client
                 if (!Entities.isNode) {
-                    // Update position on the client
                     if (entity[PROPS.lerp] === 1) {
                         entity.body.position.copy(entity[PROPS.position]);
                     } else if (entity[PROPS.lerp] < 1) {
@@ -58,19 +58,41 @@ const Entities = {
                     entity.body.quaternion.copy(entity[PROPS.quaternion]);
                 }
 
-                // Run start handlers
-                if (entity.timers.start.length > 0) {
-                    for (let i = 0, l = entity.timers.start.length; i < l; i++) {
-                        entity.timers.start[i](dt);
-                    }
+                entity.runScript('start', dt);
+
+                entity.runEveryTimers(dt);
+
+                entity.runScript('tick', dt);
+
+                // Copy position that will be sent to the client
+                if (Entities.isNode) {
+                    entity[PROPS.position] = entity.body.position;
+                    entity[PROPS.quaternion] = entity.body.quaternion;
                 }
 
-                // Run timer handlers
+                entity.runScript('end', dt);
+
+                if (Entities.isNode && entity.remove) {
+                    entity.destroy();
+                }
+            },
+            // This should allow us to create methods like entity.every(100, () => 'Do something')
+            every(nameOrTime, handler) {
+                if (entity.timers[nameOrTime] === undefined) {
+                    entity.timers[nameOrTime] = {
+                        timer: Date.now(),
+                        handlers: []
+                    };
+                }
+
+                if (typeof handler === 'function') {
+                    entity.timers[nameOrTime].handlers.push(handler);
+                }
+                return;
+            },
+            runEveryTimers(dt) {
                 for (let i in entity.timers) {
-                    // Update just the time based handlers
                     if (
-                        entity.timers[i].timer &&
-                        Array.isArray(entity.timers[i].handlers) &&
                         entity.timers[i].handlers.length > 0 &&
                         Date.now() - entity.timers[i].timer > +i
                     ) {
@@ -80,57 +102,28 @@ const Entities = {
                         entity.timers[i].timer = Date.now();
                     }
                 }
-
-                // Run tick handlers
-                if (entity.timers.tick.length > 0) {
-                    for (let i = 0, l = entity.timers.tick.length; i < l; i++) {
-                        entity.timers.tick[i](dt);
-                    }
-                }
-
-                if (Entities.isNode) {
-                    // Copy position that will be sent to the client
-                    entity[PROPS.position] = entity.body.position;
-                    entity[PROPS.quaternion] = entity.body.quaternion;
-                }
-
-                // Run end handlers
-                if (entity.timers.end.length > 0) {
-                    for (let i = 0, l = entity.timers.end.length; i < l; i++) {
-                        entity.timers.end[i](dt);
-                    }
-                }
-
-                if (entity.remove) {
-                    entity.destroy();
-                }
-            },
-            // This should allow us to create methods like entity.every(100, () => 'Do something')
-            every(nameOrTime, handler) {
-                if (typeof nameOrTime === 'number') {
-                    if (entity.timers[nameOrTime] === undefined) {
-                        entity.timers[nameOrTime] = {
-                            timer: Date.now(),
-                            handlers: []
-                        };
-                    }
-
-                    if (typeof handler === 'function') {
-                        entity.timers[nameOrTime].handlers.push(handler);
-                    }
-                    return;
-                }
-
-                if (entity.timers[nameOrTime] === undefined) {
-                    entity.timers[nameOrTime] = [];
-                }
-
-                if (typeof handler === 'function') {
-                    entity.timers[nameOrTime].push(handler);
-                }
             },
             timers: {
                 // '100': {timer: Date.now(), handlers: []},
+            },
+            // This should allow us to create methods like entity.addScript('start', () => 'Do something')
+            addScript(name, handler) {
+                if (entity.scripts[name] === undefined) {
+                    entity.scripts[name] = [];
+                }
+
+                if (typeof handler === 'function') {
+                    entity.scripts[name].push(handler);
+                }
+            },
+            runScript(name, ...args) {
+                if (entity.scripts[name].length > 0) {
+                    for (let i = 0, l = entity.scripts[name].length; i < l; i++) {
+                        entity.scripts[name][i](...args);
+                    }
+                }
+            },
+            scripts: {
                 'start': [],
                 'tick': [],
                 'end': []
