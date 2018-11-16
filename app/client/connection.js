@@ -12,7 +12,6 @@ let Connection = {
         return new Promise((resolve) => {
             socket.emit('connectServer', world, () => {
                 Game.playerId = socket.id;
-
                 resolve();
             });
         });

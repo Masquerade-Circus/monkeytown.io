@@ -92,7 +92,8 @@ const Game = {
                 z: entity.body.quaternion.z,
                 w: entity.body.quaternion.w
             },
-            [Entities.PROPS.netType]: entity[Entities.PROPS.netType]
+            [Entities.PROPS.netType]: entity[Entities.PROPS.netType],
+            [Entities.PROPS.lerp]: entity[Entities.PROPS.lerp]
         };
         return info;
     },

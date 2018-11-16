@@ -9,7 +9,7 @@ let Connection = {
                 player = Entities.create({
                     [Entities.PROPS.netType]: Entities.TYPES.Player,
                     [Entities.PROPS.position]: {x: 0, y: 0, z: 0},
-                    [Entities.PROPS.lerp]: 0.96,
+                    [Entities.PROPS.lerp]: 0.1,
                     id: playerId,
                     socket,
                     world

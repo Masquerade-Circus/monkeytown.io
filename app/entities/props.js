@@ -1,11 +1,10 @@
+// NOTE: Set only the props that will be sent to the client
 const PROPS = {
     netType: 'n',
     position: 'p',
     quaternion: 'q',
     scale: 's',
-    body: 'b',
-    lerp: 'l',
-    remove: 'r'
+    lerp: 'l'
 };
 
 module.exports = PROPS;
