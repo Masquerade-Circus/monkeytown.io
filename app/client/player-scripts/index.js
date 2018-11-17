@@ -1,5 +1,5 @@
 import Entities from '../../entities';
-const {PROPS} = Entities;
+const {PROPS, STATUS} = Entities;
 
 let KeyboardScriptFactory = (Game) => {
     let raycaster = new THREE.Raycaster();
@@ -43,7 +43,8 @@ let KeyboardScriptFactory = (Game) => {
 };
 
 let Factory = (Game) => {
-    Game.player.addScript('tick', () => {
+    // Camera
+    Game.player.addScript('topDownCamera', (dt) => {
         Game.app.camera.position.copy(Game.player.body.position);
         Game.app.camera.position.y += 15;
         // Game.app.camera.position.y += 230;
@@ -51,9 +52,12 @@ let Factory = (Game) => {
         Game.app.camera.lookAt(Game.player.body.position);
     });
 
+    Game.player.addScript('tick', (dt) => {
+        Game.player.runScript('topDownCamera', dt);
+    });
 
     Game.player.addScript('keyboard', KeyboardScriptFactory(Game));
-    Game.player.every(100, () => {
+    Game.player.addScript('end', () => {
         if (Game.keyboard.target === Game.canvas) {
             Game.player.runScript('keyboard');
         }

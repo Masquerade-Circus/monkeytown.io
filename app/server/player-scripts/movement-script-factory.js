@@ -1,5 +1,5 @@
 let Factory = (entity) => (dt) => {
-    let howMuch = 20 * dt;
+    let howMuch = 10 * dt;
     let x = 0;
     let z = 0;
 

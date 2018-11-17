@@ -11,13 +11,19 @@ const ENTITIES = {
     [NET_TYPES.Tree]: TreeEntityFactory
 };
 
+const STATUS = {
+    Static: 0,
+    Fighting: 1
+};
+
 // NOTE: Set only the props that will be sent to the client
 const PROPS = {
     netType: 'n',
     position: 'p',
     quaternion: 'q',
     scale: 's',
-    lerp: 'l'
+    lerp: 'l',
+    status: 'st'
 };
 
-module.exports = {PROPS, NET_TYPES, ENTITIES};
+module.exports = {PROPS, NET_TYPES, ENTITIES, STATUS};

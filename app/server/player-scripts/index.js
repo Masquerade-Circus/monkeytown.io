@@ -1,5 +1,7 @@
 let MovementFactory = require('./movement-script-factory');
 let KeyboardFactory = require('../../shared/keyboard-factory');
+let Entities = require('../../entities');
+let {PROPS, STATUS} = Entities;
 
 let Factory = (entity) => {
     let lookAt = new THREE.Vector3();
@@ -24,6 +26,13 @@ let Factory = (entity) => {
     entity.every(5000, () => {
 
     });
+
+    entity.addScript('tick', () => {
+        entity[PROPS.status] = entity.keyboard.isButtonPressed('left')
+            ? STATUS.Fighting
+            : STATUS.Static;
+    });
+
     entity.addScript('end', () => {
         entity.keyboard.pressedKeys = [];
         entity.keyboard.mouse.b = [];

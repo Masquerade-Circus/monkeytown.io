@@ -1,3 +1,4 @@
+const Config = require('./config');
 
 let circle = function (rad, color, segments = 32) {
     let geometry = new THREE.CircleBufferGeometry(rad, segments);
@@ -82,7 +83,11 @@ let MonkeyFactory = () => {
 
     monkey.castShadow = true;
     monkey.receiveShadow = true;
-    return monkey;
+
+    let object = new THREE.Object3D();
+    object.add(monkey);
+    object.name = 'model';
+    return object;
 };
 
 let Factory = () => {
@@ -93,7 +98,27 @@ let Factory = () => {
 
         },
         initClient(entity) {
+            entity.addScript('fightAnimation', (dt) => {
+                let model = entity.body.getObjectByName('model');
+                if (entity[Config.PROPS.status] === Config.STATUS.Fighting) {
+                    let rotationSpeed = 100;
+                    let rotateAngle = Math.PI / 2 * dt * rotationSpeed;
 
+                    if (THREE.Math.radToDeg(model.rotation.y) > 60) {
+                        let rotateAngle = -THREE.Math.radToDeg(model.rotation.y);
+                        model.rotateY(THREE.Math.degToRad(rotateAngle));
+                    } else {
+                        model.rotateY(THREE.Math.degToRad(rotateAngle));
+                    }
+                } else {
+                    let rotateAngle = -THREE.Math.radToDeg(model.rotation.y);
+                    model.rotateY(THREE.Math.degToRad(rotateAngle));
+                }
+            });
+
+            entity.addScript('tick', (dt) => {
+                entity.runScript('fightAnimation', dt);
+            });
         }
     };
 };

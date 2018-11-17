@@ -88,19 +88,20 @@ const Game = {
     getEntityInfo(entity) {
         let info = {
             id: entity.id,
-            [Entities.PROPS.position]: {
+            [PROPS.position]: {
                 x: entity.body.position.x,
                 y: entity.body.position.y,
                 z: entity.body.position.z
             },
-            [Entities.PROPS.quaternion]: {
+            [PROPS.quaternion]: {
                 x: entity.body.quaternion.x,
                 y: entity.body.quaternion.y,
                 z: entity.body.quaternion.z,
                 w: entity.body.quaternion.w
             },
-            [Entities.PROPS.netType]: entity[Entities.PROPS.netType],
-            [Entities.PROPS.lerp]: entity[Entities.PROPS.lerp]
+            [PROPS.netType]: entity[PROPS.netType],
+            [PROPS.lerp]: entity[PROPS.lerp],
+            [PROPS.status]: entity[PROPS.status]
         };
         return info;
     },

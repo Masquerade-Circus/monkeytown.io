@@ -1,8 +1,9 @@
-const {PROPS, NET_TYPES, ENTITIES} = require('./config');
+const {PROPS, NET_TYPES, ENTITIES, STATUS} = require('./config');
 
 const Entities = {
     isNode: typeof window === 'undefined',
     PROPS,
+    STATUS,
     NET_TYPES,
     Factories: {},
     init() {
@@ -22,6 +23,7 @@ const Entities = {
             [PROPS.quaternion]: data[PROPS.quaternion] || {x: 0, y: 0, z: 0, w: 0},
             [PROPS.scale]: data[PROPS.scale] || 1,
             [PROPS.lerp]: data[PROPS.lerp] || 1,
+            [PROPS.status]: data[PROPS.status] || 0,
 
             destroy() {
                 if (entity && entity.body && entity.body.parent) {
@@ -86,12 +88,13 @@ const Entities = {
                 }
                 return;
             },
-            runEveryTimers(dt) {
+            runEveryTimers() {
                 for (let i in entity.timers) {
                     if (
                         entity.timers[i].handlers.length > 0 &&
                         Date.now() - entity.timers[i].timer > +i
                     ) {
+                        let dt = (Date.now() - entity.timers[i].timer) * .001;
                         for (let k = 0, l = entity.timers[i].handlers.length; k < l; k++) {
                             entity.timers[i].handlers[k](dt);
                         }
