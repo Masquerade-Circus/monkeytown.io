@@ -14,8 +14,9 @@ let Game = {
     app: null,
     children: {},
     keyboard: null,
+    canvas: null,
     async initGame() {
-        Game.app = AppFactory();
+        AppFactory(Game);
         Game.setQuality();
 
         Entities.init();

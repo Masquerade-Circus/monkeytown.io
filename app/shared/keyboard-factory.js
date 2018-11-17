@@ -3,47 +3,51 @@
  * to get the pressed keys by the user
  */
 
+let modifiers = {
+    '⇧': 16, shift: 16,
+    '⌥': 18, alt: 18, option: 18,
+    '⌃': 17, ctrl: 17, control: 17,
+    '⌘': 91, command: 91
+};
+
+let special = {
+    backspace: 8, tab: 9, clear: 12,
+    enter: 13, 'return': 13,
+    esc: 27, escape: 27, space: 32,
+    left: 37, up: 38,
+    right: 39, down: 40,
+    del: 46, 'delete': 46,
+    home: 36, end: 35,
+    pageup: 33, pagedown: 34,
+    ',': 188, '.': 190, '/': 191,
+    '`': 192, '-': 189, '=': 187,
+    ';': 186, '\'': 222,
+    '[': 219, ']': 221, '\\': 220
+};
+
+let f = {
+    f1: 112,
+    f2: 113,
+    f3: 114,
+    f4: 115,
+    f5: 116,
+    f6: 117,
+    f7: 118,
+    f8: 119,
+    f9: 120,
+    f10: 121,
+    f11: 122,
+    f12: 123
+};
+
 let KeyboardFactory = function (element) {
     let Keyboard = {
-        modifiers: {
-            '⇧': 16, shift: 16,
-            '⌥': 18, alt: 18, option: 18,
-            '⌃': 17, ctrl: 17, control: 17,
-            '⌘': 91, command: 91
-        },
-        special: {
-            backspace: 8, tab: 9, clear: 12,
-            enter: 13, 'return': 13,
-            esc: 27, escape: 27, space: 32,
-            left: 37, up: 38,
-            right: 39, down: 40,
-            del: 46, 'delete': 46,
-            home: 36, end: 35,
-            pageup: 33, pagedown: 34,
-            ',': 188, '.': 190, '/': 191,
-            '`': 192, '-': 189, '=': 187,
-            ';': 186, '\'': 222,
-            '[': 219, ']': 221, '\\': 220
-        },
-        f: {
-            f1: 112,
-            f2: 113,
-            f3: 114,
-            f4: 115,
-            f5: 116,
-            f6: 117,
-            f7: 118,
-            f8: 119,
-            f9: 120,
-            f10: 121,
-            f11: 122,
-            f12: 123
-        },
+        target: null,
         pressedKeys: [],
         code(x) {
-            return Keyboard.special[x] ||
-                Keyboard.modifiers[x] ||
-                Keyboard.f[x] ||
+            return special[x] ||
+                modifiers[x] ||
+                f[x] ||
                 x.toUpperCase().charCodeAt(0);
         },
         isPressed(x) {
@@ -53,6 +57,7 @@ let KeyboardFactory = function (element) {
             Keyboard.pressedKeys.push(Keyboard.code(key));
         },
         keyDownListener(event) {
+            Keyboard.target = event.target;
             if (Keyboard.pressedKeys.indexOf(event.keyCode) === -1) {
                 Keyboard.pressedKeys.push(event.keyCode);
             }
