@@ -4,6 +4,7 @@ import ConnectionFactory from './connection-factory';
 import test from './test';
 import PlayerScriptFactory from './player-scripts';
 import Entities from '../entities';
+import KeyboardFactory from '../shared/keyboard-factory';
 
 let Game = {
     config,
@@ -12,6 +13,7 @@ let Game = {
     quality: 0.8,
     app: null,
     children: {},
+    keyboard: null,
     async initGame() {
         Game.app = AppFactory();
         Game.setQuality();
@@ -19,6 +21,7 @@ let Game = {
         Entities.init();
         Game.connection = ConnectionFactory(Game);
         Game.connection.initSocket(Game.config.serverUrl);
+        Game.keyboard = KeyboardFactory(document.body);
         test(Game);
 
         Game.update();

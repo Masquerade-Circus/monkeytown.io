@@ -9,7 +9,7 @@ let Page = {
     },
     view() {
         return <article onupdate={Page.onupdate}>
-            <Panel position="center middle">
+            <Panel position="center">
                 Welcome, this is the game ui.
             </Panel>
         </article>;

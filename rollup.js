@@ -38,7 +38,8 @@ let inputOptions = {
             include: [
                 './node_modules/**',
                 './app/server/**',
-                './app/entities/**'
+                './app/entities/**',
+                './app/shared/**'
             ],
             sourceMap: true
         }),
@@ -78,7 +79,8 @@ if (process.env.NODE_ENV !== 'production') {
         include: [
             './app/ui/**',
             './app/client/**',
-            './app/entities/**'
+            './app/entities/**',
+            './app/shared/**'
         ],
         chokidar: false
     };
