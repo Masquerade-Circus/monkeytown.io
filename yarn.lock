@@ -5513,10 +5513,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-valyrian.js@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/valyrian.js/-/valyrian.js-2.0.5.tgz#a95a105a03ee88c836c6be0add9849fad1324454"
-  integrity sha512-c813qysIZ7M9f1p3iyJx4wgo+cJkGo04sjleOKUbDFpLKb2atnl2QYoQ5OTagF8IHFjOORfWgNAoDoikHvQnoQ==
+valyrian.js@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/valyrian.js/-/valyrian.js-2.0.6.tgz#83e6c87a93ccaaf6cc1f42b5759f6cf3c8ada9cb"
+  integrity sha512-Q+aXXi+0qu5wV78qUnjuLjho+gRUMq507zhWA4jhV+0MLgDc8tnRZ/o4AqAgXltvbCmQC+MVdagpuLJVUgTx/g==
   dependencies:
     clean-css "^4.1.11"
     cssnano "^3.10.0"

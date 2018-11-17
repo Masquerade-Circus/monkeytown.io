@@ -5,8 +5,6 @@ import test from './test';
 import PlayerScriptFactory from './player-scripts';
 import Entities from '../entities';
 
-let Connection = null;
-
 let Game = {
     config,
     deltaTime: Date.now(),
@@ -59,25 +57,50 @@ let Game = {
             if (Game.children[i] === undefined) {
                 let entity = Entities.create(world.children[i]);
                 Game.addEntity(entity);
-                if (i === Game.playerId) {
-                    Game.player = entity;
-                    Game.player.socket = Game.socket;
-                    Game.setPlayerScripts(Game);
-                }
             } else {
                 Object.assign(Game.children[i], world.children[i]);
             }
         }
     },
     setPlayerScripts: PlayerScriptFactory,
-    connectServer: () => Game.connection.connectServer(),
+    async connectServer() {
+        let player = await Game.connection.connectServer(Game.selectedWorld);
+        let entity = Entities.create(player);
+        Game.addEntity(entity);
+        Game.player = entity;
+        Game.setPlayerScripts(Game);
+    },
+    selectedWorld: null,
     worlds: {},
     async getWorlds() {
         let worlds = await Game.connection.getWorlds();
+        let selected = false;
         for (let world in worlds) {
             worlds[world].selected = false;
+            worlds[world].disabled = false;
+            if (
+                !selected &&
+                worlds[world].playerCount < worlds[world].maxPlayers
+            ) {
+                worlds[world].selected = true;
+                Game.selectedWorld = world;
+                selected = true;
+            }
+            if (worlds[world].playerCount >= worlds[world].maxPlayers) {
+                worlds[world].disabled = true;
+            }
         }
         Game.worlds = worlds;
+    },
+    selectWorld(name) {
+        for (let world in Game.worlds) {
+            if (world === name) {
+                Game.worlds[world].selected = true;
+                Game.selectedWorld = world;
+            } else {
+                Game.worlds[world].selected = false;
+            }
+        }
     }
 };
 

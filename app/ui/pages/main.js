@@ -13,7 +13,7 @@ let Main = {
                 <meta name="description" content={Main.description}/>
                 <meta http-equiv="x-UA-Compatible" content="IE=edge"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, minimal-ui"/>
-                <link href="/css/main.css" rel="stylesheet"/>
+                <link href={`/css/main.css?v=${Main.id}`} rel="stylesheet"/>
                 <link rel="shortcut icon" href="/imgs/favicon.ico"/>
             </head>
             <body>

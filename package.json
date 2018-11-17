@@ -6,7 +6,7 @@
     "main": "index.js",
     "license": "Apache 2.0",
     "scripts": {
-        "dev:server": "cross-env NODE_ENV=development port=4000 nodemon -w ./backend -w ./public -w ./app/server -w ./app/entities server.js",
+        "dev:server": "cross-env NODE_ENV=development port=4000 nodemon -e css,js,json -w ./backend -w ./public -w ./app/server -w ./app/entities server.js",
         "dev:game": "cross-env NODE_ENV=development node rollup.js",
         "build": "cross-env NODE_ENV=production node rollup.js",
         "start": "cross-env NODE_ENV=production port=4000 node server.js"
@@ -20,7 +20,7 @@
         "recursive-readdir": "^2.2.2",
         "socket.io": "^2.1.1",
         "three": "^0.98.0",
-        "valyrian.js": "^2.0.5"
+        "valyrian.js": "^2.0.6"
     },
     "devDependencies": {
         "nodemon": "^1.18.6",

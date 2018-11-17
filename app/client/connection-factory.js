@@ -7,13 +7,21 @@ const ConnectionFactory = (Game) => {
             }
 
             Game.socket = io(url);
+
+            /**
+             * As we will destroy the player when socket disconnects
+             * with this we will reload the browser page if the user recconnects
+             */
+            Game.socket.on('reconnect', () => window.location.href = window.location.href);
+
+            // Custom game events
             Game.socket.on('world', data => Game.updateWorld(data));
         },
         connectServer(world = 'Alpha') {
             return new Promise((resolve) => {
-                Game.socket.emit('connectServer', world, () => {
-                    Game.playerId = Game.socket.id;
-                    resolve();
+                Game.socket.emit('connectServer', world, (entity) => {
+                    entity.socket = Game.socket;
+                    resolve(entity);
                 });
             });
         },
