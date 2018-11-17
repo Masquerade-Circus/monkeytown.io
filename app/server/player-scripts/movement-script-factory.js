@@ -3,17 +3,17 @@ let Factory = (entity) => (dt) => {
     let x = 0;
     let z = 0;
 
-    if (entity.keyboard.isPressed('w')) {
+    if (entity.keyboard.isKeyPressed('w')) {
         z = -1;
     }
-    if (entity.keyboard.isPressed('s')) {
+    if (entity.keyboard.isKeyPressed('s')) {
         z = 1;
     }
 
-    if (entity.keyboard.isPressed('a')) {
+    if (entity.keyboard.isKeyPressed('a')) {
         x = -1;
     }
-    if (entity.keyboard.isPressed('d')) {
+    if (entity.keyboard.isKeyPressed('d')) {
         x = 1;
     }
 

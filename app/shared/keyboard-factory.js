@@ -40,62 +40,125 @@ let f = {
     f12: 123
 };
 
-let KeyboardFactory = function (element) {
+let mouse = {
+    left: 1,
+    right: 3,
+    middle: 2
+};
+
+let KeyboardFactory = function (element, preventContext = true) {
     let Keyboard = {
         target: null,
         pressedKeys: [],
         mouse: {
             x: 0,
-            y: 0
+            y: 0,
+            b: [],
+            d: 0
         },
+        clearMouseDelta: null,
         code(x) {
             return special[x] ||
                 modifiers[x] ||
                 f[x] ||
                 x.toUpperCase().charCodeAt(0);
         },
-        isPressed(x) {
+        isKeyPressed(x) {
             return Keyboard.pressedKeys.indexOf(Keyboard.code(x)) !== -1;
         },
         pressKey(key) {
-            Keyboard.pressedKeys.push(Keyboard.code(key));
-        },
-        keyDownListener(event) {
-            Keyboard.target = event.target;
-            if (Keyboard.pressedKeys.indexOf(event.keyCode) === -1) {
-                Keyboard.pressedKeys.push(event.keyCode);
+            let code = Keyboard.code(key);
+            if (Keyboard.pressedKeys.indexOf(code) === -1) {
+                Keyboard.pressedKeys.push(code);
             }
         },
-        keyUpListener(event) {
-            let index = Keyboard.pressedKeys.indexOf(event.keyCode);
-            if (index !== -1) {
-                Keyboard.pressedKeys.splice(index, 1);
+        isButtonPressed(x) {
+            return Keyboard.mouse.b.indexOf(mouse[x]) !== -1;
+        },
+        pressButton(x) {
+            if (Keyboard.mouse.b.indexOf(mouse[x]) === -1) {
+                Keyboard.mouse.b.push(mouse[x]);
             }
         },
-        mouseMoveListener(event) {
+        keyListener(event) {
+            if (event.type === 'keydown') {
+                Keyboard.target = event.target;
+                if (Keyboard.pressedKeys.indexOf(event.keyCode) === -1) {
+                    Keyboard.pressedKeys.push(event.keyCode);
+                }
+                return;
+            }
+
+            if (event.type === 'keyup') {
+                let index = Keyboard.pressedKeys.indexOf(event.keyCode);
+                if (index !== -1) {
+                    Keyboard.pressedKeys.splice(index, 1);
+                }
+            }
+        },
+        mouseListener(event) {
             Keyboard.target = event.target;
             Keyboard.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             Keyboard.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            // Fix cross browser button that triggered the event
+            event.which ? event.which :
+                event.button === 1 ? 1 :
+                    event.button === 2 ? 3 :
+                        event.button === 4 ? 2 : 1;
+
+            if (event.type.indexOf('mousedown') !== -1) {
+                if (Keyboard.mouse.b.indexOf(event.which) === -1) {
+                    Keyboard.mouse.b.push(event.which);
+                }
+                return;
+            }
+
+            if (event.type.indexOf('mouseup') !== -1) {
+                let index = Keyboard.mouse.b.indexOf(event.which);
+                if (index !== -1) {
+                    Keyboard.mouse.b.splice(index, 1);
+                }
+            }
+
+            if (event.type.indexOf('mousewheel') !== -1 || event.type.indexOf('DOMMouseScroll') !== -1) {
+                let delta = Math.max(-1, Math.min(1, event.wheelDelta || -event.detail));
+                Keyboard.mouse.d = delta;
+                clearTimeout(Keyboard.clearMouseDelta);
+                Keyboard.clearMouseDelta = setTimeout(() => {
+                    Keyboard.mouse.d = 0;
+                }, 150);
+            }
+        },
+        addEvent(type, handler) {
+            if (element !== undefined) {
+                let el = typeof element === 'string'
+                    ? document.querySelectorAll(element)[0]
+                    : element;
+
+                if (el.addEventListener) {
+                    el.addEventListener(type, handler, false);
+                    if (type === 'mousewheel') {
+                        el.addEventListener('DOMMouseScroll', handler, false);
+                    }
+                } else {
+                    el.attachEvent(`on${type}`, handler);
+                }
+
+            }
+        },
+        preventContext(event) {
+            event.preventDefault();
         }
     };
 
-    if (element !== undefined) {
-        let el = typeof element === 'string'
-            ? document.querySelectorAll(element)[0]
-            : element;
-
-        el.addEventListener
-            ? el.addEventListener('keydown', Keyboard.keyDownListener, false)
-            : el.attachEvent('onkeydown', Keyboard.keyDownListener);
-
-        el.addEventListener
-            ? el.addEventListener('keyup', Keyboard.keyUpListener, false)
-            : el.attachEvent('onkeyup', Keyboard.keyUpListener);
-
-        el.addEventListener
-            ? el.addEventListener('mousemove', Keyboard.mouseMoveListener, false)
-            : el.attachEvent('onmousemove', Keyboard.mouseMoveListener);
-    }
+    Keyboard.addEvent('keydown', Keyboard.keyListener);
+    Keyboard.addEvent('keyup', Keyboard.keyListener);
+    Keyboard.addEvent('mousemove', Keyboard.mouseListener);
+    Keyboard.addEvent('mousedown', Keyboard.mouseListener);
+    Keyboard.addEvent('mouseup', Keyboard.mouseListener);
+    Keyboard.addEvent('mousewheel', Keyboard.mouseListener);
+    Keyboard.addEvent('contextmenu', Keyboard.preventContext);
 
     return Keyboard;
 };
