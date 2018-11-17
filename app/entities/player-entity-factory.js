@@ -1,14 +1,14 @@
 
 let Factory = () => {
-    let sphere = new THREE.Mesh(
-        new THREE.SphereGeometry(1, 32, 32),
+    let Model = new THREE.Mesh(
+        new THREE.BoxGeometry(1, 1, 1),
         new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide })
     );
-    sphere.receiveShadow = true;
-    sphere.castShadow = true;
+    Model.receiveShadow = true;
+    Model.castShadow = true;
 
     return {
-        Model: sphere,
+        Model,
         initServer(entity) {
 
         },

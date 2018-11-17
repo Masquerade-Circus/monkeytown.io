@@ -41,7 +41,7 @@ let AppFactory = function (Game) {
 
 
     Game.app.ground = new THREE.Mesh(
-        new THREE.PlaneGeometry(1000, 1000),
+        new THREE.PlaneGeometry(500, 500),
         new THREE.MeshStandardMaterial({color: 0x9cff57, side: THREE.DoubleSide})
     );
     Game.app.ground.rotation.x = -(Math.PI / 2);

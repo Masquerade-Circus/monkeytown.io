@@ -1,21 +1,24 @@
+let MovementFactory = require('./movement-script-factory');
+let KeyboardFactory = require('../../shared/keyboard-factory');
+
 let Factory = (entity) => {
-    entity.every(800, (dt) => {
-        entity.body.position.x += 20 * dt;
+    let lookAt = new THREE.Vector3();
+    entity.keyboard = KeyboardFactory();
+    entity.socket.on('keyboard', keys => entity.keyboard.pressedKeys = keys);
+    entity.socket.on('mouse', point => {
+        lookAt.copy(point);
     });
-    entity.addScript('movement', (dt, direction) => {
-        let howMuch = 0.5 * dt;
-        if (direction === 'left') {
-            entity.body.position.x -= howMuch;
-        }
-        if (direction === 'right') {
-            entity.body.position.x += howMuch;
-        }
-    });
+
+    entity.addScript('movement', MovementFactory(entity));
     entity.addScript('start', (dt) => {
-        entity.runScript('movement', dt, 'left');
+        entity.body.lookAt(lookAt);
+        entity.runScript('movement', dt);
     });
     entity.every(5000, () => {
-        console.log(entity.keyboard.pressedKeys);
+
+    });
+    entity.addScript('end', () => {
+        entity.keyboard.pressedKeys = [];
     });
 };
 

@@ -1,6 +1,5 @@
 const Entities = require('../entities');
 const {PROPS, NET_TYPES} = Entities;
-const KeyboardFactory = require('../shared/keyboard-factory');
 const PlayerScriptsFactory = require('./player-scripts');
 
 let Connection = {
@@ -23,7 +22,6 @@ let Connection = {
                     });
 
                     Game.addEntity(player);
-                    player.keyboard = KeyboardFactory();
                     socket.world = world;
                     callback(null, Game.fixedProps(Game.getEntityInfo(player)));
                     PlayerScriptsFactory(player);
@@ -35,11 +33,6 @@ let Connection = {
 
             socket.on('disconnect', () => player && player.destroy());
             socket.on('getWorlds', (callback) => callback(Game.getWorlds()));
-            socket.on('keyboard', keys => {
-                if (player && player.keyboard) {
-                    player.keyboard.pressedKeys = keys;
-                }
-            });
 
             socket.sendingWorld = false;
             socket.sendWorld = function () {

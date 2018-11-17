@@ -44,6 +44,10 @@ let KeyboardFactory = function (element) {
     let Keyboard = {
         target: null,
         pressedKeys: [],
+        mouse: {
+            x: 0,
+            y: 0
+        },
         code(x) {
             return special[x] ||
                 modifiers[x] ||
@@ -67,6 +71,11 @@ let KeyboardFactory = function (element) {
             if (index !== -1) {
                 Keyboard.pressedKeys.splice(index, 1);
             }
+        },
+        mouseMoveListener(event) {
+            Keyboard.target = event.target;
+            Keyboard.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            Keyboard.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         }
     };
 
@@ -82,6 +91,10 @@ let KeyboardFactory = function (element) {
         el.addEventListener
             ? el.addEventListener('keyup', Keyboard.keyUpListener, false)
             : el.attachEvent('onkeyup', Keyboard.keyUpListener);
+
+        el.addEventListener
+            ? el.addEventListener('mousemove', Keyboard.mouseMoveListener, false)
+            : el.attachEvent('onmousemove', Keyboard.mouseMoveListener);
     }
 
     return Keyboard;
