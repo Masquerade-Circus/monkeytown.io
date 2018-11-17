@@ -68,11 +68,13 @@ let Game = {
              * we will handle the creation of the creation of the player entity
              * when the connectServer promise resolve
              */
-            if (Game.children[i] === undefined && Game.children[i].id !== Game.socket.id) {
+            if (Game.children[i] === undefined && world.children[i].id !== Game.socket.id) {
                 let entity = Entities.create(world.children[i]);
                 Game.addEntity(entity);
             } else {
-                Object.assign(Game.children[i], world.children[i]);
+                if (Game.children[i] !== undefined) {
+                    Object.assign(Game.children[i], world.children[i]);
+                }
             }
         }
     },

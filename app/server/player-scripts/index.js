@@ -7,6 +7,7 @@ let Factory = (entity) => {
     entity.socket.on('keyboard', keys => entity.keyboard.pressedKeys = keys);
     entity.socket.on('mouse', point => {
         lookAt.copy(point);
+        lookAt.y = entity.body.position.y;
     });
 
     entity.addScript('movement', MovementFactory(entity));
