@@ -40,15 +40,10 @@ let Factory = (Game) => {
 
     Game.player.addScript('keyboard', KeyboardScriptFactory(Game));
     Game.player.every(100, () => {
-        if (
-            Game.player
-            && Game.player.socket
-            && Game.keyboard.target === Game.canvas
-        ) {
+        if (Game.keyboard.target === Game.canvas) {
             Game.player.runScript('keyboard');
         }
     });
-
 };
 
 export default Factory;

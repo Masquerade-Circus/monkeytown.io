@@ -14,6 +14,7 @@ let Factory = (entity) => {
     entity.addScript('movement', MovementFactory(entity));
     entity.addScript('start', (dt) => {
         entity.runScript('movement', dt);
+        entity.limit();
     });
     entity.every(5000, () => {
 

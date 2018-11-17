@@ -35,13 +35,13 @@ let AppFactory = function (Game) {
 
 
     Game.app.light = new THREE.DirectionalLight(0xffffff, 0.9);
-    Game.app.light.position.set(20, 40, 30);
+    Game.app.light.position.set(30, 60, 50);
     Game.app.light.position.multiplyScalar(2);
 
-    Game.app.light.shadow.camera.left = -150;
-    Game.app.light.shadow.camera.right = 150;
-    Game.app.light.shadow.camera.top = 150;
-    Game.app.light.shadow.camera.bottom = -150;
+    Game.app.light.shadow.camera.left = -162;
+    Game.app.light.shadow.camera.right = 162;
+    Game.app.light.shadow.camera.top = 162;
+    Game.app.light.shadow.camera.bottom = -162;
     Game.app.light.shadow.mapSize.width = 2048;
     Game.app.light.shadow.mapSize.height = 2048;
 
@@ -58,11 +58,7 @@ let AppFactory = function (Game) {
     let groundtexture = textureLoader.load("imgs/grass.gif");
     let groundmaterial = new THREE.MeshPhongMaterial({
         color: 0x999999,
-        map: groundtexture,
-        // bumpMap: groundtexture,
-        bumpMapScale: 0.0001,
-        specular: 0x999999,
-        shininess: 0
+        map: groundtexture
     });
     groundtexture.anisotropy = 1;
     groundtexture.wrapS = groundtexture.wrapT = THREE.RepeatWrapping;
@@ -70,7 +66,6 @@ let AppFactory = function (Game) {
     Game.app.ground = new THREE.Mesh(
         new THREE.PlaneBufferGeometry(300, 300),
         groundmaterial
-        // new THREE.MeshStandardMaterial({color: 0x9cff57, side: THREE.DoubleSide})
     );
     Game.app.ground.rotation.x = -(Math.PI / 2);
     Game.app.ground.castShadow = false;
@@ -78,6 +73,17 @@ let AppFactory = function (Game) {
     Game.app.ground.position.set(0, -1, 0);
     Game.app.ground.scale.set(15, 15, 15);
     Game.app.scene.add(Game.app.ground);
+
+    let limits = new THREE.Mesh(
+        new THREE.RingBufferGeometry(215, 220, 4),
+        new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide })
+    );
+    limits.position.set(0, 0.8, 0);
+    limits.castShadow = true;
+    limits.receiveShadow = true;
+    limits.rotation.x = -Math.PI / 2;
+    limits.rotation.z = -Math.PI / 4;
+    Game.app.scene.add(limits);
 };
 
 export default AppFactory;
