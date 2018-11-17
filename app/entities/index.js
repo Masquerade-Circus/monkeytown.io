@@ -124,18 +124,18 @@ const Entities = {
                 'tick': [],
                 'end': []
             },
-            limit(distance = 150) {
+            limit(distance = 100) {
                 if (entity.body.position.x < -distance) {
-                    entity.body.position.x = -150;
+                    entity.body.position.x = -distance;
                 }
                 if (entity.body.position.x > distance) {
-                    entity.body.position.x = 150;
+                    entity.body.position.x = distance;
                 }
                 if (entity.body.position.z < -distance) {
-                    entity.body.position.z = -150;
+                    entity.body.position.z = -distance;
                 }
                 if (entity.body.position.z > distance) {
-                    entity.body.position.z = 150;
+                    entity.body.position.z = distance;
                 }
             }
         };

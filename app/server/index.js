@@ -1,6 +1,9 @@
 const Entities = require('../entities');
 const Connection = require('./connection');
+const GameReady = require('./game-ready');
 const test = require('./test');
+
+const {PROPS, NET_TYPES} = Entities;
 
 const Game = {
     deltaTime: Date.now(),
@@ -16,6 +19,7 @@ const Game = {
 
         Game.update();
         Game.ready = true;
+        GameReady(Game);
     },
     update() {
         let dt = (Date.now() - Game.deltaTime) * .001;
@@ -26,7 +30,10 @@ const Game = {
 
         for (let i in Game.children) {
             Game.children[i].update(dt);
-            if (Game.children[i].world) {
+            if (
+                Game.children[i][PROPS.netType] === NET_TYPES.Player
+                && Game.children[i].world
+            ) {
                 Game.worlds[Game.children[i].world].playerCount += 1;
             }
         }
@@ -48,8 +55,8 @@ const Game = {
         servers.forEach(world => {
             Game.worlds[world] = {
                 size: {
-                    width: 300,
-                    height: 300
+                    width: 100,
+                    height: 100
                 },
                 children: {},
                 name: world,
@@ -71,7 +78,7 @@ const Game = {
             let distance = entity.body.position.distanceTo(position);
 
             // Get only the closest entities
-            if (distance < 50) {
+            if (distance < 26 * 1.41) {
                 worldInfo.children[i] = Game.getEntityInfo(entity);
             }
         }

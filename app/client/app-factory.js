@@ -4,7 +4,7 @@ let AppFactory = function (Game) {
 
     Game.app.scene = new THREE.Scene();
     Game.app.scene.background = new THREE.Color(0xf2f7ff);
-    Game.app.scene.fog = new THREE.Fog(0xf2f7ff, 1, 200);
+    // Game.app.scene.fog = new THREE.Fog(0xf2f7ff, 1, 200);
 
     Game.app.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
     Game.app.camera.position.set(0, 15, 12);
@@ -75,7 +75,7 @@ let AppFactory = function (Game) {
     Game.app.scene.add(Game.app.ground);
 
     let limits = new THREE.Mesh(
-        new THREE.RingBufferGeometry(215, 220, 4),
+        new THREE.RingBufferGeometry(145, 150, 4),
         new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide })
     );
     limits.position.set(0, 0.8, 0);
