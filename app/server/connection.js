@@ -1,28 +1,45 @@
 const Entities = require('../entities');
 const {PROPS, NET_TYPES} = Entities;
+const KeyboardFactory = require('../shared/keyboard-factory');
+const PlayerScriptsFactory = require('./player-scripts');
 
 let Connection = {
     initSockets() {
         IO.sockets.on("connection", function (socket) {
             let player;
+            let connecting = false;
+
             socket.world = 'Alpha';
-
             socket.on("connectServer", function (world = 'Alpha', callback = () => { }) {
-                player = Entities.create({
-                    [PROPS.netType]: NET_TYPES.Player,
-                    [PROPS.position]: {x: 0, y: 0, z: 0},
-                    [PROPS.lerp]: 0.1,
-                    socket,
-                    world
-                });
+                if (!player && !connecting && Game.children[socket.id] === undefined) {
+                    connecting = true;
+                    player = Entities.create({
+                        [PROPS.netType]: NET_TYPES.Player,
+                        [PROPS.position]: {x: 0, y: 0, z: 0},
+                        [PROPS.lerp]: 0.1,
+                        id: socket.id,
+                        socket,
+                        world
+                    });
 
-                Game.addEntity(player);
-                socket.world = world;
-                callback(Game.fixedProps(Game.getEntityInfo(player)));
+                    Game.addEntity(player);
+                    player.keyboard = KeyboardFactory();
+                    socket.world = world;
+                    callback(null, Game.fixedProps(Game.getEntityInfo(player)));
+                    PlayerScriptsFactory(player);
+                    connecting = false;
+                    return;
+                }
+                callback('Wrong connection');
             });
 
             socket.on('disconnect', () => player && player.destroy());
             socket.on('getWorlds', (callback) => callback(Game.getWorlds()));
+            socket.on('keyboard', keys => {
+                if (player && player.keyboard) {
+                    player.keyboard.pressedKeys = keys;
+                }
+            });
 
             socket.sendingWorld = false;
             socket.sendWorld = function () {

@@ -19,7 +19,11 @@ const ConnectionFactory = (Game) => {
         },
         connectServer(world = 'Alpha') {
             return new Promise((resolve) => {
-                Game.socket.emit('connectServer', world, (entity) => {
+                Game.socket.emit('connectServer', world, (err, entity) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
                     entity.socket = Game.socket;
                     resolve(entity);
                 });

@@ -158,6 +158,10 @@ const Entities = {
         // Set the world and the socket that belongs to this entity if any
         if (Entities.isNode) {
             entity.world = data.world;
+        }
+
+        // If there is a socket property add it to the entity
+        if (data.socket !== undefined) {
             entity.socket = data.socket;
         }
 

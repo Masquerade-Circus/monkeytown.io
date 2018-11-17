@@ -3,6 +3,7 @@ import {Panel} from '../components';
 import Game from '../../client';
 
 let Page = {
+    autologin: true,
     getOptions() {
         let options = [];
         for (let name in Game.worlds) {
@@ -25,6 +26,11 @@ let Page = {
     onupdate() {
         if (Game.player) {
             v.routes.go('/game');
+            return;
+        }
+
+        if (Page.autologin && Game.is.ready && !Game.is.connecting && !Game.is.connected) {
+            Page.play();
         }
     },
     view() {
@@ -40,9 +46,9 @@ let Page = {
                         <button
                             onclick={Page.play}
                             data-background="success"
-                            disabled={!Game.ready}
+                            disabled={!Game.is.ready || Game.is.connecting}
                             class="w100">
-                            {Game.ready ? 'Play' : 'Loading...'}
+                            {Game.is.connecting ? 'Connecting...' : Game.is.ready ? 'Play' : 'Loading...'}
                         </button>
                     </Panel>
                     <Panel position="inline" color="white">

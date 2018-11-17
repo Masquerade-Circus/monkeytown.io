@@ -1,12 +1,29 @@
+import Entities from '../../entities';
+const {PROPS} = Entities;
 let Factory = (Game) => {
-    // We will set the player scripts in here
-    Game.app.camera.position.set(0, 15, 12);
-    Game.app.camera.lookAt(0, 0, 0);
-    Game.player.every(5000, () => {
-        console.log(Game.keyboard.pressedKeys);
-        console.log(Game.keyboard.target);
-        console.log(Game.keyboard.target === Game.canvas);
+    Game.player.every(200, () => {
+        let position = {
+            x: Game.player[PROPS.position].x,
+            y: Game.player[PROPS.position].y + 15,
+            z: Game.player[PROPS.position].z + 12
+        };
+        Game.app.camera.position.lerp(position, 0.1);
+
+        Game.app.camera.lookAt(Game.player.body.position);
     });
+
+    Game.player.every(100, () => {
+        if (Game.player && Game.player.socket) {
+            let pressedKeys = Game.keyboard.pressedKeys;
+            if (
+                pressedKeys.length > 0 &&
+                Game.keyboard.target === Game.canvas
+            ) {
+                Game.player.socket.emit('keyboard', pressedKeys);
+            }
+        }
+    });
+
 };
 
 export default Factory;

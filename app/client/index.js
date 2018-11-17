@@ -9,6 +9,11 @@ import KeyboardFactory from '../shared/keyboard-factory';
 let Game = {
     config,
     deltaTime: Date.now(),
+    is: {
+        ready: false,
+        connecting: false,
+        connected: false
+    },
     ready: false,
     quality: 0.8,
     app: null,
@@ -27,7 +32,7 @@ let Game = {
 
         Game.update();
         await Game.getWorlds();
-        Game.ready = true;
+        Game.is.ready = true;
     },
     update() {
         let dt = (Date.now() - Game.deltaTime) * .001;
@@ -58,7 +63,12 @@ let Game = {
         }
 
         for (let i in world.children) {
-            if (Game.children[i] === undefined) {
+            /**
+             * Entity must be undefined and must not be the player,
+             * we will handle the creation of the creation of the player entity
+             * when the connectServer promise resolve
+             */
+            if (Game.children[i] === undefined && Game.children[i].id !== Game.socket.id) {
                 let entity = Entities.create(world.children[i]);
                 Game.addEntity(entity);
             } else {
@@ -68,11 +78,16 @@ let Game = {
     },
     setPlayerScripts: PlayerScriptFactory,
     async connectServer() {
-        let player = await Game.connection.connectServer(Game.selectedWorld);
-        let entity = Entities.create(player);
-        Game.addEntity(entity);
-        Game.player = entity;
-        Game.setPlayerScripts(Game);
+        if (Game.is.ready && !Game.is.connecting && !Game.is.connected) {
+            Game.is.connecting = true;
+            let player = await Game.connection.connectServer(Game.selectedWorld);
+            let entity = Entities.create(player);
+            Game.addEntity(entity);
+            Game.player = entity;
+            Game.setPlayerScripts(Game);
+            Game.is.connected = true;
+            Game.is.connecting = false;
+        }
     },
     selectedWorld: null,
     worlds: {},
