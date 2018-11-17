@@ -1,6 +1,6 @@
 
 let circle = function (rad, color, segments = 32) {
-    let geometry = new THREE.CircleGeometry(rad, segments);
+    let geometry = new THREE.CircleBufferGeometry(rad, segments);
     let material = new THREE.MeshStandardMaterial({ color, side: THREE.DoubleSide });
     let circle = new THREE.Mesh(geometry, material);
     circle.receiveShadow = true;

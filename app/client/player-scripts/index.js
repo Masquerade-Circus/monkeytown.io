@@ -30,8 +30,12 @@ let KeyboardScriptFactory = (Game) => {
 };
 
 let Factory = (Game) => {
-    Game.app.camera.position.set(0, 15, 12);
-    Game.app.camera.lookAt(0, 0, 0);
+    Game.player.addScript('tick', () => {
+        Game.app.camera.position.copy(Game.player.body.position);
+        Game.app.camera.position.y += 15;
+        Game.app.camera.position.z += 12;
+        Game.app.camera.lookAt(Game.player.body.position);
+    });
 
 
     Game.player.addScript('keyboard', KeyboardScriptFactory(Game));

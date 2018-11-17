@@ -8,11 +8,11 @@ let Factory = (entity) => {
     entity.socket.on('mouse', point => {
         lookAt.copy(point);
         lookAt.y = entity.body.position.y;
+        entity.body.lookAt(lookAt);
     });
 
     entity.addScript('movement', MovementFactory(entity));
     entity.addScript('start', (dt) => {
-        entity.body.lookAt(lookAt);
         entity.runScript('movement', dt);
     });
     entity.every(5000, () => {

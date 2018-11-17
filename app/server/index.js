@@ -48,8 +48,8 @@ const Game = {
         servers.forEach(world => {
             Game.worlds[world] = {
                 size: {
-                    width: 1000,
-                    height: 1000
+                    width: 300,
+                    height: 300
                 },
                 children: {},
                 name: world,

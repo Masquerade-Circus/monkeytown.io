@@ -8,9 +8,11 @@ let Page = {
         }
     },
     view() {
-        return <article onupdate={Page.onupdate}>
+        return <article oninit={Page.onupdate} onupdate={Page.onupdate}>
             <Panel position="center">
                 Welcome, this is the game ui.
+                <br/>
+                {Game.player ? `${Game.player.p.x}/${Game.player.p.z}` : ''}
             </Panel>
         </article>;
     }
