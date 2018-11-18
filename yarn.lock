@@ -288,6 +288,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.38.tgz#01fb3f7ee5da861fa7dd4c518f1fa7b01ba39b7f"
   integrity sha512-DQpoqhq5wxekTecxnf33SRGqpPNfyQLW/TmOZpNssSkZZStN9ujzRS6+aReY3qNzGuIyX77LoCUcm0qYgET7aQ==
 
+TinyAnimate@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/TinyAnimate/-/TinyAnimate-0.4.0.tgz#354190d5687cebdc45de7480cdc1f8eacb16724c"
+  integrity sha1-NUGQ1Wh869xF3nSAzcH46ssWckw=
+
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"

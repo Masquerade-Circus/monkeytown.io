@@ -12,6 +12,7 @@
         "start": "cross-env NODE_ENV=production port=4000 node server.js"
     },
     "dependencies": {
+        "TinyAnimate": "^0.4.0",
         "compression": "^1.7.3",
         "cors": "^2.8.5",
         "cross-env": "^5.2.0",

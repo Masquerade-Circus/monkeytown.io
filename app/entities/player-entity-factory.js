@@ -1,4 +1,5 @@
 const Config = require('./config');
+const TinyAnimate = require('TinyAnimate');
 
 let circle = function (rad, color, segments = 32) {
     let geometry = new THREE.CircleBufferGeometry(rad, segments);
@@ -98,25 +99,40 @@ let Factory = () => {
 
         },
         initClient(entity) {
-            entity.addScript('fightAnimation', (dt) => {
-                let model = entity.body.getObjectByName('model');
-                if (entity[Config.PROPS.status] === Config.STATUS.Fighting) {
-                    let rotationSpeed = 100;
-                    let rotateAngle = Math.PI / 2 * dt * rotationSpeed;
-
-                    if (THREE.Math.radToDeg(model.rotation.y) > 60) {
-                        let rotateAngle = -THREE.Math.radToDeg(model.rotation.y);
-                        model.rotateY(THREE.Math.degToRad(rotateAngle));
-                    } else {
-                        model.rotateY(THREE.Math.degToRad(rotateAngle));
+            let Model = entity.body.getObjectByName('model');
+            let Fighting = {
+                animating: false,
+                start() {
+                    if (!Fighting.animating) {
+                        Fighting.animating = true;
+                        Fighting.animateIn();
                     }
+                },
+                stop() {
+                    Fighting.animating = false;
+                },
+                animateIn() {
+                    if (Fighting.animating) {
+                        TinyAnimate.animate(0, 70, 100, Fighting.update, 'easeIn', Fighting.animateOut);
+                    }
+                },
+                animateOut() {
+                    TinyAnimate.animate(70, 0, 400, Fighting.update, 'easeOut', Fighting.animateIn);
+                },
+                update(rotateAngle) {
+                    let angle = Math.min(rotateAngle - THREE.Math.radToDeg(Model.rotation.y, 70));
+                    Model.rotateY(THREE.Math.degToRad(angle));
+                }
+            };
+            entity.addScript('fightAnimation', () => {
+                if (entity[Config.PROPS.status] === Config.STATUS.Fighting) {
+                    Fighting.start();
                 } else {
-                    let rotateAngle = -THREE.Math.radToDeg(model.rotation.y);
-                    model.rotateY(THREE.Math.degToRad(rotateAngle));
+                    Fighting.stop();
                 }
             });
 
-            entity.addScript('tick', (dt) => {
+            entity.every(150, (dt) => {
                 entity.runScript('fightAnimation', dt);
             });
         }
