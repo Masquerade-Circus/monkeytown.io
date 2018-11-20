@@ -1,6 +1,16 @@
 import KeyboardScriptFactory from './keyboard-script-factory';
+import {PROPS, INVENTORY} from '../../entities/config';
 
 let Factory = (Game) => {
+    Game.player[PROPS.Inventory] = {
+        [INVENTORY.Wood]: 0
+    };
+    Game.socket.on('updatePlayer', data => {
+        if (Game.player) {
+            Object.assign(Game.player, data);
+        }
+    });
+
     // Camera
     Game.player.addScript('topDownCamera', (dt) => {
         Game.app.camera.position.copy(Game.player.body.position);

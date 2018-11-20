@@ -117,7 +117,7 @@ let Factory = () => {
             };
 
             entity.addScript('tick', (dt) => {
-                if (entity[Config.PROPS.status] === Config.STATUS.Fighting) {
+                if (entity[Config.PROPS.Status] === Config.STATUS.Fighting) {
                     Fighting.animate();
                 }
             });

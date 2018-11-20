@@ -1,46 +1,42 @@
 let MovementFactory = require('./movement-script-factory');
-let KeyboardFactory = require('../../shared/keyboard-factory');
+let KeyboardFactory = require('./keyboard-script-factory');
 let Entities = require('../../entities');
-let {PROPS, STATUS, NET_TYPES} = Entities;
+let {PROPS, STATUS, NET_TYPES, INVENTORY} = Entities;
 
 let Factory = (entity) => {
-    let lookAt = new THREE.Vector3();
-    entity.keyboard = KeyboardFactory();
-    entity[PROPS.status] = STATUS.Static;
+    let needsUpdate = false;
+    entity[PROPS.Inventory] = {
+        [INVENTORY.Wood]: 0
+    };
 
-    entity.socket.on('keyboard', keys => {
-        entity.keyboard.pressedKeys = keys;
-    });
-
-    entity.socket.on('mouse', mouseData => {
-        if (mouseData.p) {
-            lookAt.copy(mouseData.p);
-            lookAt.y = entity.body.position.y;
-            entity.body.lookAt(lookAt);
-        }
-
-        entity.keyboard.mouse.b = mouseData.b;
-        entity.keyboard.mouse.d = mouseData.d;
-
-        if (entity[PROPS.status] !== STATUS.Fighting && entity.keyboard.isButtonPressed('left')) {
-            entity.runScript('fight');
-        }
-    });
-
+    KeyboardFactory(entity);
     entity.addScript('movement', MovementFactory(entity));
-    entity.addScript('fight', () => {
-        entity[PROPS.status] = STATUS.Fighting;
+    entity.addScript('updatePlayer', () => {
+        if (needsUpdate) {
+            entity.socket.emit('updatePlayer', {
+                [PROPS.Inventory]: entity[PROPS.Inventory]
+            });
+            needsUpdate = false;
+        }
+    });
 
-        let entities = Game.getWorldEntities(entity, 3);
-        for (let i in entities) {
-            if (i !== entity.id) {
-                if (entities[i][PROPS.netType] === NET_TYPES.Tree) {
-                    Game.children[i].runScript('fight');
+    entity.addScript('fight', () => {
+        if (entity[PROPS.Status] !== STATUS.Fighting) {
+            entity[PROPS.Status] = STATUS.Fighting;
+
+            let entities = Game.getWorldEntities(entity, 3);
+            for (let i in entities) {
+                if (i !== entity.id) {
+                    if (entities[i][PROPS.NetType] === NET_TYPES.Tree) {
+                        Game.children[i].runScript('fight');
+                        entity[PROPS.Inventory][INVENTORY.Wood] += 5;
+                        needsUpdate = true;
+                    }
                 }
             }
-        }
 
-        setTimeout(() => entity[PROPS.status] = STATUS.Static, 400);
+            setTimeout(() => entity[PROPS.Status] = STATUS.Static, 500);
+        }
     });
 
 
@@ -54,9 +50,8 @@ let Factory = (entity) => {
     });
 
     entity.addScript('end', () => {
-        entity.keyboard.pressedKeys = [];
-        entity.keyboard.mouse.b = [];
-        entity.keyboard.mouse.d = 0;
+        entity.keyboard.reset();
+        entity.runScript('updatePlayer');
     });
 };
 

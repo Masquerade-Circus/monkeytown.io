@@ -149,6 +149,11 @@ let KeyboardFactory = function (element, preventContext = true) {
         },
         preventContext(event) {
             event.preventDefault();
+        },
+        reset() {
+            Keyboard.pressedKeys = [];
+            Keyboard.mouse.b = [];
+            Keyboard.mouse.d = 0;
         }
     };
 

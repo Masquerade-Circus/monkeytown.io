@@ -31,7 +31,7 @@ const Game = {
         for (let i in Game.children) {
             Game.children[i].update(dt);
             if (
-                Game.children[i][PROPS.netType] === NET_TYPES.Player
+                Game.children[i][PROPS.NetType] === NET_TYPES.Player
                 && Game.children[i].world
             ) {
                 Game.worlds[Game.children[i].world].playerCount += 1;
@@ -69,7 +69,7 @@ const Game = {
         let world = Game.worlds[player.world];
         let worldEntities = {};
 
-        let position = player.p || new THREE.Vector3(0, 0, 0);
+        let position = player[PROPS.Position] || new THREE.Vector3(0, 0, 0);
 
         for (let i in world.children) {
             let entity = world.children[i];
@@ -86,20 +86,20 @@ const Game = {
     getEntityInfo(entity) {
         let info = {
             id: entity.id,
-            [PROPS.position]: {
+            [PROPS.Position]: {
                 x: entity.body.position.x,
                 y: entity.body.position.y,
                 z: entity.body.position.z
             },
-            [PROPS.quaternion]: {
+            [PROPS.Quaternion]: {
                 x: entity.body.quaternion.x,
                 y: entity.body.quaternion.y,
                 z: entity.body.quaternion.z,
                 w: entity.body.quaternion.w
             },
-            [PROPS.netType]: entity[PROPS.netType],
-            [PROPS.lerp]: entity[PROPS.lerp],
-            [PROPS.status]: entity[PROPS.status]
+            [PROPS.NetType]: entity[PROPS.NetType],
+            [PROPS.Lerp]: entity[PROPS.Lerp],
+            [PROPS.Status]: entity[PROPS.Status]
         };
         return info;
     },

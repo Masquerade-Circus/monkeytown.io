@@ -18,12 +18,23 @@ const STATUS = {
 
 // NOTE: Set only the props that will be sent to the client
 const PROPS = {
-    netType: 'n',
-    position: 'p',
-    quaternion: 'q',
-    scale: 's',
-    lerp: 'l',
-    status: 'st'
+    NetType: 'a',
+    Position: 'b',
+    Quaternion: 'c',
+    Scale: 'd',
+    Lerp: 'e',
+    Status: 'f',
+    Inventory: 'g'
 };
 
-module.exports = {PROPS, NET_TYPES, ENTITIES, STATUS};
+const INVENTORY = {
+    Wood: 'a'
+};
+
+module.exports = {
+    PROPS,
+    NET_TYPES,
+    ENTITIES,
+    STATUS,
+    INVENTORY
+};

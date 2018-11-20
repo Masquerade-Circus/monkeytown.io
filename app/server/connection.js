@@ -13,9 +13,9 @@ let Connection = {
                 if (!player && !connecting && Game.children[socket.id] === undefined) {
                     connecting = true;
                     player = Entities.create({
-                        [PROPS.netType]: NET_TYPES.Player,
-                        [PROPS.position]: {x: 0, y: 1, z: 0},
-                        [PROPS.lerp]: 0.1,
+                        [PROPS.NetType]: NET_TYPES.Player,
+                        [PROPS.Position]: {x: 0, y: 1, z: 0},
+                        [PROPS.Lerp]: 0.1,
                         id: socket.id,
                         socket,
                         world

@@ -27,8 +27,8 @@ let Factory = () => {
         initServer(entity) {
             const Config = require('./config');
             entity.addScript('fight', () => {
-                entity[Config.PROPS.status] = Config.STATUS.Fighting;
-                setTimeout(() => entity[Config.PROPS.status] = Config.STATUS.Static, 400);
+                entity[Config.PROPS.Status] = Config.STATUS.Fighting;
+                setTimeout(() => entity[Config.PROPS.Status] = Config.STATUS.Static, 400);
             });
         },
         initClient(entity) {
@@ -53,7 +53,7 @@ let Factory = () => {
             };
 
             entity.addScript('tick', (dt) => {
-                if (entity[Config.PROPS.status] === Config.STATUS.Fighting) {
+                if (entity[Config.PROPS.Status] === Config.STATUS.Fighting) {
                     Fighting.animate();
                 }
             });

@@ -1,10 +1,17 @@
-const {PROPS, NET_TYPES, ENTITIES, STATUS} = require('./config');
+const {
+    PROPS,
+    NET_TYPES,
+    ENTITIES,
+    STATUS,
+    INVENTORY
+} = require('./config');
 
 const Entities = {
     isNode: typeof window === 'undefined',
     PROPS,
     STATUS,
     NET_TYPES,
+    INVENTORY,
     Factories: {},
     init() {
         for (let nt in ENTITIES) {
@@ -18,12 +25,12 @@ const Entities = {
             parent: undefined,
             remove: false,
 
-            [PROPS.netType]: data[PROPS.netType] || 0,
-            [PROPS.position]: data[PROPS.position] || {x: 0, y: 1, z: 0},
-            [PROPS.quaternion]: data[PROPS.quaternion] || {x: 0, y: 0, z: 0, w: 0},
-            [PROPS.scale]: data[PROPS.scale] || 1,
-            [PROPS.lerp]: data[PROPS.lerp] || 1,
-            [PROPS.status]: data[PROPS.status] || 0,
+            [PROPS.NetType]: data[PROPS.NetType] || 0,
+            [PROPS.Position]: data[PROPS.Position] || {x: 0, y: 1, z: 0},
+            [PROPS.Quaternion]: data[PROPS.Quaternion] || {x: 0, y: 0, z: 0, w: 0},
+            [PROPS.Scale]: data[PROPS.Scale] || 1,
+            [PROPS.Lerp]: data[PROPS.Lerp] || 1,
+            [PROPS.Status]: data[PROPS.Status] || 0,
 
             destroy() {
                 if (entity && entity.body && entity.body.parent) {
@@ -40,20 +47,20 @@ const Entities = {
             update(dt) {
                 // Update position on the client
                 if (!Entities.isNode) {
-                    if (entity[PROPS.lerp] === 1) {
-                        entity.body.position.copy(entity[PROPS.position]);
-                    } else if (entity[PROPS.lerp] < 1) {
+                    if (entity[PROPS.Lerp] === 1) {
+                        entity.body.position.copy(entity[PROPS.Position]);
+                    } else if (entity[PROPS.Lerp] < 1) {
                         entity.body.position.lerp(
                             new THREE.Vector3(
-                                entity[PROPS.position].x,
-                                entity[PROPS.position].y,
-                                entity[PROPS.position].z
+                                entity[PROPS.Position].x,
+                                entity[PROPS.Position].y,
+                                entity[PROPS.Position].z
                             ),
-                            entity[PROPS.lerp]
+                            entity[PROPS.Lerp]
                         );
                     }
 
-                    entity.body.quaternion.copy(entity[PROPS.quaternion]);
+                    entity.body.quaternion.copy(entity[PROPS.Quaternion]);
                 }
 
                 entity.runScript('start', dt);
@@ -64,8 +71,8 @@ const Entities = {
 
                 // Copy position that will be sent to the client
                 if (Entities.isNode) {
-                    entity[PROPS.position] = entity.body.position;
-                    entity[PROPS.quaternion] = entity.body.quaternion;
+                    entity[PROPS.Position] = entity.body.position;
+                    entity[PROPS.Quaternion] = entity.body.quaternion;
                 }
 
                 entity.runScript('end', dt);
@@ -145,33 +152,33 @@ const Entities = {
 
         // Clone the model and set its initial position
         // At serverside we don't need the real model, just handle the Object3D props
-        if (!Entities.isNode && Entities.Factories[data[PROPS.netType]].Model) {
-            let Model = Entities.Factories[data[PROPS.netType]].Model.clone();
+        if (!Entities.isNode && Entities.Factories[data[PROPS.NetType]].Model) {
+            let Model = Entities.Factories[data[PROPS.NetType]].Model.clone();
             Model.name = 'Model';
             entity.body.add(Model);
         }
 
         entity.body.position.set(
-            entity[PROPS.position].x,
-            entity[PROPS.position].y,
-            entity[PROPS.position].z
+            entity[PROPS.Position].x,
+            entity[PROPS.Position].y,
+            entity[PROPS.Position].z
         );
 
         entity.body.quaternion.set(
-            entity[PROPS.quaternion].x,
-            entity[PROPS.quaternion].y,
-            entity[PROPS.quaternion].z,
-            entity[PROPS.quaternion].w
+            entity[PROPS.Quaternion].x,
+            entity[PROPS.Quaternion].y,
+            entity[PROPS.Quaternion].z,
+            entity[PROPS.Quaternion].w
         );
 
         // Init the entity
 
-        if (Entities.isNode && typeof Entities.Factories[entity[PROPS.netType]].initServer === 'function') {
-            Entities.Factories[entity[PROPS.netType]].initServer(entity);
+        if (Entities.isNode && typeof Entities.Factories[entity[PROPS.NetType]].initServer === 'function') {
+            Entities.Factories[entity[PROPS.NetType]].initServer(entity);
         }
 
-        if (!Entities.isNode && typeof Entities.Factories[entity[PROPS.netType]].initClient === 'function') {
-            Entities.Factories[entity[PROPS.netType]].initClient(entity);
+        if (!Entities.isNode && typeof Entities.Factories[entity[PROPS.NetType]].initClient === 'function') {
+            Entities.Factories[entity[PROPS.NetType]].initClient(entity);
         }
 
         // Set the world and the socket that belongs to this entity if any
