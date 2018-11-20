@@ -65,11 +65,9 @@ const Game = {
             };
         });
     },
-    getWorldInfo(player) {
+    getWorldEntities(player, maxDistance = 26 * 1.41) {
         let world = Game.worlds[player.world];
-        let worldInfo = {
-            children: {}
-        };
+        let worldEntities = {};
 
         let position = player.p || new THREE.Vector3(0, 0, 0);
 
@@ -78,12 +76,12 @@ const Game = {
             let distance = entity.body.position.distanceTo(position);
 
             // Get only the closest entities
-            if (distance < 26 * 1.41) {
-                worldInfo.children[i] = Game.getEntityInfo(entity);
+            if (distance < maxDistance) {
+                worldEntities[i] = Game.getEntityInfo(entity);
             }
         }
 
-        return worldInfo;
+        return worldEntities;
     },
     getEntityInfo(entity) {
         let info = {

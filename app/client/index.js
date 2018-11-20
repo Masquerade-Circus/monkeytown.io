@@ -55,25 +55,25 @@ let Game = {
         childEntity.parent = Game;
         Game.app.scene.add(childEntity.body);
     },
-    updateWorld(world) {
+    updateWorld(worldEntities) {
         for (let i in Game.children) {
-            if (world.children[i] === undefined) {
+            if (worldEntities[i] === undefined) {
                 Game.children[i].destroy();
             }
         }
 
-        for (let i in world.children) {
+        for (let i in worldEntities) {
             /**
              * Entity must be undefined and must not be the player,
              * we will handle the creation of the creation of the player entity
              * when the connectServer promise resolve
              */
-            if (Game.children[i] === undefined && world.children[i].id !== Game.socket.id) {
-                let entity = Entities.create(world.children[i]);
+            if (Game.children[i] === undefined && worldEntities[i].id !== Game.socket.id) {
+                let entity = Entities.create(worldEntities[i]);
                 Game.addEntity(entity);
             } else {
                 if (Game.children[i] !== undefined) {
-                    Object.assign(Game.children[i], world.children[i]);
+                    Object.assign(Game.children[i], worldEntities[i]);
                 }
             }
         }

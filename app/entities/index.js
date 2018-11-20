@@ -146,7 +146,9 @@ const Entities = {
         // Clone the model and set its initial position
         // At serverside we don't need the real model, just handle the Object3D props
         if (!Entities.isNode && Entities.Factories[data[PROPS.netType]].Model) {
-            entity.body.add(Entities.Factories[data[PROPS.netType]].Model.clone());
+            let Model = Entities.Factories[data[PROPS.netType]].Model.clone();
+            Model.name = 'Model';
+            entity.body.add(Model);
         }
 
         entity.body.position.set(

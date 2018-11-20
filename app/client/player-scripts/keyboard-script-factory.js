@@ -4,7 +4,6 @@ let KeyboardScriptFactory = (Game) => {
     let intersects;
 
     return () => {
-
         let mouseData = {
             b: Game.keyboard.mouse.b,
             d: Game.keyboard.mouse.d

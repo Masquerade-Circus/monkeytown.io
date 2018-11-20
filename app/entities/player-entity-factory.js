@@ -87,7 +87,6 @@ let MonkeyFactory = () => {
 
     let object = new THREE.Object3D();
     object.add(monkey);
-    object.name = 'model';
     return object;
 };
 
@@ -99,41 +98,28 @@ let Factory = () => {
 
         },
         initClient(entity) {
-            let Model = entity.body.getObjectByName('model');
+            let Model = entity.body.getObjectByName('Model');
             let Fighting = {
                 animating: false,
-                start() {
+                animate() {
                     if (!Fighting.animating) {
                         Fighting.animating = true;
-                        Fighting.animateIn();
+                        TinyAnimate.animate(0, Math.PI / 2, 100, Fighting.update, 'easeIn', () => {
+                            TinyAnimate.animate(Math.PI / 2, 0, 400, Fighting.update, 'easeOut', () => {
+                                Fighting.animating = false;
+                            });
+                        });
                     }
                 },
-                stop() {
-                    Fighting.animating = false;
-                },
-                animateIn() {
-                    if (Fighting.animating) {
-                        TinyAnimate.animate(0, 70, 100, Fighting.update, 'easeIn', Fighting.animateOut);
-                    }
-                },
-                animateOut() {
-                    TinyAnimate.animate(70, 0, 400, Fighting.update, 'easeOut', Fighting.animateIn);
-                },
-                update(rotateAngle) {
-                    let angle = Math.min(rotateAngle - THREE.Math.radToDeg(Model.rotation.y, 70));
-                    Model.rotateY(THREE.Math.degToRad(angle));
+                update(rad) {
+                    Model.rotation.y = rad;
                 }
             };
-            entity.addScript('fightAnimation', () => {
-                if (entity[Config.PROPS.status] === Config.STATUS.Fighting) {
-                    Fighting.start();
-                } else {
-                    Fighting.stop();
-                }
-            });
 
-            entity.every(150, (dt) => {
-                entity.runScript('fightAnimation', dt);
+            entity.addScript('tick', (dt) => {
+                if (entity[Config.PROPS.status] === Config.STATUS.Fighting) {
+                    Fighting.animate();
+                }
             });
         }
     };
