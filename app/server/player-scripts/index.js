@@ -6,7 +6,11 @@ let {PROPS, STATUS, NET_TYPES, INVENTORY} = Entities;
 let Factory = (entity) => {
     let needsUpdate = false;
     entity[PROPS.Inventory] = {
-        [INVENTORY.Wood]: 0
+        [INVENTORY.Wood]: 0,
+        [INVENTORY.Stone]: 0,
+        [INVENTORY.Iron]: 0,
+        [INVENTORY.Silver]: 0,
+        [INVENTORY.Gold]: 0
     };
 
     KeyboardFactory(entity);
@@ -27,11 +31,27 @@ let Factory = (entity) => {
             let entities = Game.getWorldEntities(entity, 3);
             for (let i in entities) {
                 if (i !== entity.id) {
-                    if (entities[i][PROPS.NetType] === NET_TYPES.Tree) {
-                        Game.children[i].runScript('fight');
-                        entity[PROPS.Inventory][INVENTORY.Wood] += 5;
-                        needsUpdate = true;
+                    Game.children[i].runScript('fight');
+
+                    switch (entities[i][PROPS.NetType]) {
+                        case NET_TYPES.Tree:
+                            entity[PROPS.Inventory][INVENTORY.Wood] += 1;
+                            break;
+                        case NET_TYPES.Stone:
+                            entity[PROPS.Inventory][INVENTORY.Stone] += 1;
+                            break;
+                        case NET_TYPES.Iron:
+                            entity[PROPS.Inventory][INVENTORY.Iron] += 1;
+                            break;
+                        case NET_TYPES.Silver:
+                            entity[PROPS.Inventory][INVENTORY.Silver] += 1;
+                            break;
+                        case NET_TYPES.Gold:
+                            entity[PROPS.Inventory][INVENTORY.Gold] += 1;
+                            break;
                     }
+
+                    needsUpdate = true;
                 }
             }
 

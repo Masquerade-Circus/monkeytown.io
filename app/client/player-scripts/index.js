@@ -3,7 +3,11 @@ import {PROPS, INVENTORY} from '../../entities/config';
 
 let Factory = (Game) => {
     Game.player[PROPS.Inventory] = {
-        [INVENTORY.Wood]: 0
+        [INVENTORY.Wood]: 0,
+        [INVENTORY.Stone]: 0,
+        [INVENTORY.Iron]: 0,
+        [INVENTORY.Silver]: 0,
+        [INVENTORY.Gold]: 0
     };
     Game.socket.on('updatePlayer', data => {
         if (Game.player) {
@@ -15,6 +19,7 @@ let Factory = (Game) => {
     Game.player.addScript('topDownCamera', (dt) => {
         Game.app.camera.position.copy(Game.player.body.position);
         Game.app.camera.position.y += 15;
+        // Game.app.camera.position.y += 220;
         Game.app.camera.position.z += 8;
         Game.app.camera.lookAt(Game.player.body.position);
     });

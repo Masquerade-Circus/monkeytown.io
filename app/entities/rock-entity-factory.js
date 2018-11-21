@@ -1,29 +1,37 @@
 const TinyAnimate = require('TinyAnimate');
-let TreeFactory = function () {
-
-    let cylinder = new THREE.Mesh(
-        new THREE.CylinderBufferGeometry(0.2, 0.5, 2, 32),
-        new THREE.MeshStandardMaterial({color: 0x542207, metalness: 0, roughness: 1})
-    );
+let RockFactory = function (Type) {
+    let data;
+    switch (Type) {
+        case 'gold':
+            data = {color: 0xFFD700};
+            break;
+        case 'silver':
+            data = {color: 0xCBCDCD};
+            break;
+        case 'iron':
+            data = {color: 0x828383};
+            break;
+        case 'stone':
+            data = {color: 0x535454};
+            break;
+    }
 
     let ico = new THREE.Mesh(
         new THREE.IcosahedronBufferGeometry(2),
-        new THREE.MeshStandardMaterial({color: 0x087f23, metalness: 0, roughness: 1})
+        new THREE.MeshStandardMaterial(data)
     );
-    ico.position.set(0, 2, 0);
+    ico.position.set(0, -0.5, 0);
     ico.castShadow = true;
     ico.receiveShadow = true;
-    ico.name = 'top';
+    ico.rotation.y = -Math.PI / Math.random() * 2;
 
-    cylinder.add(ico);
-    cylinder.castShadow = true;
-    cylinder.receiveShadow = true;
-
-    return cylinder;
+    return ico;
 };
-let Factory = () => {
+
+let Factory = (Type = 'stone') => () => {
+
     return {
-        Model: TreeFactory(),
+        Model: RockFactory(Type),
         initServer(entity) {
             const Config = require('./config');
             entity.addScript('fight', () => {
@@ -33,8 +41,7 @@ let Factory = () => {
         },
         initClient(entity) {
             const Config = require('./config');
-            let TreeModel = entity.body.getObjectByName('Model');
-            let Model = TreeModel.getObjectByName('top');
+            let Model = entity.body.getObjectByName('Model');
             let Fighting = {
                 animating: false,
                 animate() {

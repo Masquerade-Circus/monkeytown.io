@@ -22,13 +22,40 @@ let getRandomPointInRegion = (region = {x: -100, x2: 100, y: 0, y2: 0, z: -100, 
 
 let Factory = (Game) => {
     for (let i = 40; i--;) {
-        let data = {
+        Game.addEntity(Entities.create({
             [PROPS.NetType]: NET_TYPES.Tree,
             [PROPS.Position]: getRandomPointInRegion(),
             world: 'Alpha'
-        };
-        let Tree = Entities.create(data);
-        Game.addEntity(Tree);
+        }));
+    }
+
+    for (let i = 4; i--;) {
+        Game.addEntity(Entities.create({
+            [PROPS.NetType]: NET_TYPES.Gold,
+            [PROPS.Position]: getRandomPointInRegion(),
+            world: 'Alpha'
+        }));
+    }
+    for (let i = 6; i--;) {
+        Game.addEntity(Entities.create({
+            [PROPS.NetType]: NET_TYPES.Silver,
+            [PROPS.Position]: getRandomPointInRegion(),
+            world: 'Alpha'
+        }));
+    }
+    for (let i = 10; i--;) {
+        Game.addEntity(Entities.create({
+            [PROPS.NetType]: NET_TYPES.Iron,
+            [PROPS.Position]: getRandomPointInRegion(),
+            world: 'Alpha'
+        }));
+    }
+    for (let i = 20; i--;) {
+        Game.addEntity(Entities.create({
+            [PROPS.NetType]: NET_TYPES.Stone,
+            [PROPS.Position]: getRandomPointInRegion(),
+            world: 'Alpha'
+        }));
     }
 
 };

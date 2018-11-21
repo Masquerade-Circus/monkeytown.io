@@ -38,7 +38,7 @@ let Connection = {
             socket.sendWorld = function () {
                 if (!socket.sendingWorld) {
                     socket.sendingWorld = true;
-                    socket.emit('world', Game.fixedProps(Game.getWorldEntities(player || socket)));
+                    socket.emit('world', Game.fixedProps(Game.getWorldEntities(player || socket, 18 * 1.41)));
                     socket.sendingWorld = false;
                 }
             };

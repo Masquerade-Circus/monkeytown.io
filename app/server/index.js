@@ -65,7 +65,7 @@ const Game = {
             };
         });
     },
-    getWorldEntities(player, maxDistance = 26 * 1.41) {
+    getWorldEntities(player, maxDistance = 3) {
         let world = Game.worlds[player.world];
         let worldEntities = {};
 

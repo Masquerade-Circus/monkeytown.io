@@ -1,14 +1,23 @@
 let PlayerEntityFactory = require('./player-entity-factory');
 let TreeEntityFactory = require('./tree-entity-factory');
+let RockEntityFactory = require('./rock-entity-factory');
 
 const NET_TYPES = {
     Player: 0,
-    Tree: 1
+    Tree: 1,
+    Stone: 2,
+    Iron: 3,
+    Silver: 4,
+    Gold: 5
 };
 
 const ENTITIES = {
     [NET_TYPES.Player]: PlayerEntityFactory,
-    [NET_TYPES.Tree]: TreeEntityFactory
+    [NET_TYPES.Tree]: TreeEntityFactory,
+    [NET_TYPES.Stone]: RockEntityFactory('stone'),
+    [NET_TYPES.Iron]: RockEntityFactory('iron'),
+    [NET_TYPES.Silver]: RockEntityFactory('silver'),
+    [NET_TYPES.Gold]: RockEntityFactory('gold')
 };
 
 const STATUS = {
@@ -28,7 +37,11 @@ const PROPS = {
 };
 
 const INVENTORY = {
-    Wood: 'a'
+    Wood: 'a',
+    Stone: 'b',
+    Iron: 'c',
+    Silver: 'd',
+    Gold: 'e'
 };
 
 module.exports = {
