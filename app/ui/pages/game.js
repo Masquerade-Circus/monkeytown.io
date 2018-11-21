@@ -19,12 +19,12 @@ let Page = {
     view() {
         if (Game.player) {
             return <article oninit={Page.onupdate} onupdate={Page.onupdate}>
-                <Panel title="Inventory" position="left top">
-                    Wood: {Game.player[PROPS.Inventory][INVENTORY.Wood]}
-                    <br/>Stone: {Game.player[PROPS.Inventory][INVENTORY.Stone]}
-                    <br/>Iron: {Game.player[PROPS.Inventory][INVENTORY.Iron]}
-                    <br/>Silver: {Game.player[PROPS.Inventory][INVENTORY.Silver]}
-                    <br/>Gold: {Game.player[PROPS.Inventory][INVENTORY.Gold]}
+                <Panel title="Inventory" position="left top" color="black">
+                    <ul>
+                        {Object.keys(INVENTORY).map(item => {
+                            return <li>{item}: {Game.player[PROPS.Inventory][INVENTORY[item]]}</li>;
+                        })}
+                    </ul>
                 </Panel>
                 <Panel position="center">
                     Welcome, this is the game ui.

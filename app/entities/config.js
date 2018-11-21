@@ -41,7 +41,9 @@ const INVENTORY = {
     Stone: 'b',
     Iron: 'c',
     Silver: 'd',
-    Gold: 'e'
+    Gold: 'e',
+    Food: 'f',
+    Leaves: 'g'
 };
 
 module.exports = {

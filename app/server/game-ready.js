@@ -21,6 +21,7 @@ let getRandomPointInRegion = (region = {x: -100, x2: 100, y: 0, y2: 0, z: -100, 
 };
 
 let Factory = (Game) => {
+
     for (let i = 40; i--;) {
         Game.addEntity(Entities.create({
             [PROPS.NetType]: NET_TYPES.Tree,

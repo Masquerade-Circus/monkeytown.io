@@ -2,13 +2,8 @@ import KeyboardScriptFactory from './keyboard-script-factory';
 import {PROPS, INVENTORY} from '../../entities/config';
 
 let Factory = (Game) => {
-    Game.player[PROPS.Inventory] = {
-        [INVENTORY.Wood]: 0,
-        [INVENTORY.Stone]: 0,
-        [INVENTORY.Iron]: 0,
-        [INVENTORY.Silver]: 0,
-        [INVENTORY.Gold]: 0
-    };
+    Game.player[PROPS.Inventory] = {};
+    Object.values(INVENTORY).forEach(item => Game.player[PROPS.Inventory][item] = 0);
     Game.socket.on('updatePlayer', data => {
         if (Game.player) {
             Object.assign(Game.player, data);
