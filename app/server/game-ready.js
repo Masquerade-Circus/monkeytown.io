@@ -59,6 +59,14 @@ let Factory = (Game) => {
         }));
     }
 
+    for (let i = 20; i--;) {
+        Game.addEntity(Entities.create({
+            [PROPS.NetType]: NET_TYPES.Bush,
+            [PROPS.Position]: getRandomPointInRegion(),
+            world: 'Alpha'
+        }));
+    }
+
 };
 
 module.exports = Factory;

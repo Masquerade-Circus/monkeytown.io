@@ -48,6 +48,10 @@ let Factory = (entity) => {
                             case NET_TYPES.Gold:
                                 entity[PROPS.Inventory][INVENTORY.Gold] += 1;
                                 break;
+                            case NET_TYPES.Bush:
+                                entity[PROPS.Inventory][INVENTORY.Food] += 3;
+                                entity[PROPS.Inventory][INVENTORY.Leaves] += 2;
+                                break;
                         }
                     }
 
