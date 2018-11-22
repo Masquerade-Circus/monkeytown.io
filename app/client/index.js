@@ -15,7 +15,7 @@ let Game = {
         connected: false
     },
     ready: false,
-    quality: 0.8,
+    quality: 0.7,
     app: null,
     children: {},
     keyboard: null,
@@ -35,6 +35,8 @@ let Game = {
         Game.is.ready = true;
     },
     update() {
+        requestAnimationFrame(() => Game.update());
+
         let dt = (Date.now() - Game.deltaTime) * .001;
 
         for (let i in Game.children) {
@@ -43,9 +45,8 @@ let Game = {
 
         Game.deltaTime = Date.now();
         Game.app.renderer.render(Game.app.scene, Game.app.camera);
-        requestAnimationFrame(() => Game.update());
     },
-    setQuality(pixelRatio = 0.8) {
+    setQuality(pixelRatio = 0.7) {
         Game.quality = pixelRatio;
         Game.app.renderer.setPixelRatio(window.devicePixelRatio * Game.quality);
         Game.app.renderer.setSize(window.innerWidth, window.innerHeight);

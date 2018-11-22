@@ -43,7 +43,7 @@ const Game = {
         }
 
         Game.deltaTime = Date.now();
-        setTimeout(() => Game.update(), 1000 / 60);
+        setTimeout(() => Game.update(), 1000 / 30);
     },
     addEntity(childEntity) {
         Game.children[childEntity.id] = childEntity;

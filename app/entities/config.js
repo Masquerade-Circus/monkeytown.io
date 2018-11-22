@@ -36,17 +36,23 @@ const PROPS = {
     Scale: 'd',
     Lerp: 'e',
     Status: 'f',
-    Inventory: 'g'
+    Resources: 'g',
+    Inventory: 'h'
 };
 
-const INVENTORY = {
+const RESOURCES = {
     Wood: 'a',
     Stone: 'b',
     Iron: 'c',
     Silver: 'd',
     Gold: 'e',
-    Food: 'f',
-    Leaves: 'g'
+    Food: 'f'
+};
+
+const INVENTORY = {
+    Knife: {id: 'a', wood: 25, stone: 25, damage: 2, range: 0},
+    Axe: {id: 'b', wood: 50, stone: 50, damage: 1, range: 0.5},
+    Spear: {id: 'c', wood: 100, stone: 100, damage: 3, range: 1}
 };
 
 module.exports = {
@@ -54,5 +60,6 @@ module.exports = {
     NET_TYPES,
     ENTITIES,
     STATUS,
+    RESOURCES,
     INVENTORY
 };

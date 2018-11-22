@@ -19,9 +19,9 @@ let Page = {
     selectWorld(e) {
         Game.selectWorld(e.target.value);
     },
-    async play() {
-        await Game.connectServer();
-        v.routes.go('/game');
+    play() {
+        Game.connectServer();
+        // v.routes.go('/game');
     },
     onupdate() {
         if (Game.player) {

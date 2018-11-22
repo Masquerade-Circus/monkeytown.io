@@ -3,6 +3,7 @@ const {
     NET_TYPES,
     ENTITIES,
     STATUS,
+    RESOURCES,
     INVENTORY
 } = require('./config');
 
@@ -11,6 +12,7 @@ const Entities = {
     PROPS,
     STATUS,
     NET_TYPES,
+    RESOURCES,
     INVENTORY,
     Factories: {},
     init() {
