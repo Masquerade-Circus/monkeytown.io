@@ -19,11 +19,25 @@ let Page = {
     buy(event) {
         Game.player.runScript('buy', event.target.dataset.item);
     },
-    getBuyButton(name) {
+    getBuyButton(name, level) {
         let item = INVENTORY[name];
-        return <button onclick={Page.buy} data-item={name}>
-            Wooden {name} (wood: {item.wood} | stone: {item.stone})
-        </button>;
+        let label = '';
+        switch (level) {
+            case 0:
+                label = `Wooden ${name} (wood: ${item.wood} | stone: ${item.stone})`;
+                break;
+            case 1:
+                label = `Iron ${name} (wood: ${item.wood} | stone: ${item.stone} | iron: ${item.stone})`;
+                break;
+            case 2:
+                label = `Silver ${name} (wood: ${item.wood} | stone: ${item.stone} | silver: ${item.stone})`;
+                break;
+            case 3:
+                label = `Golden ${name} (wood: ${item.wood} | stone: ${item.stone} | gold: ${item.stone})`;
+                break;
+        }
+
+        return <button onclick={Page.buy} data-item={name}>{label}</button>;
     },
     getStore() {
         return Object.keys(INVENTORY).map(name => {
@@ -35,7 +49,34 @@ let Page = {
                 && item.wood <= resources[RESOURCES.Wood]
                 && item.stone <= resources[RESOURCES.Stone]
             ) {
-                return Page.getBuyButton(name);
+                return Page.getBuyButton(name, level);
+            }
+
+            if (
+                level === 1
+                && item.wood <= resources[RESOURCES.Wood]
+                && item.stone <= resources[RESOURCES.Stone]
+                && item.stone <= resources[RESOURCES.Iron]
+            ) {
+                return Page.getBuyButton(name, level);
+            }
+
+            if (
+                level === 2
+                && item.wood <= resources[RESOURCES.Wood]
+                && item.stone <= resources[RESOURCES.Stone]
+                && item.stone <= resources[RESOURCES.Silver]
+            ) {
+                return Page.getBuyButton(name, level);
+            }
+
+            if (
+                level === 3
+                && item.wood <= resources[RESOURCES.Wood]
+                && item.stone <= resources[RESOURCES.Stone]
+                && item.stone <= resources[RESOURCES.Gold]
+            ) {
+                return Page.getBuyButton(name, level);
             }
         });
     },

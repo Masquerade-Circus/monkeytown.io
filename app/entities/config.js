@@ -50,9 +50,9 @@ const RESOURCES = {
 };
 
 const INVENTORY = {
-    Knife: {id: 'a', wood: 25, stone: 25, damage: 2, range: 0},
-    Axe: {id: 'b', wood: 50, stone: 50, damage: 1, range: 0.5},
-    Spear: {id: 'c', wood: 100, stone: 100, damage: 3, range: 1}
+    Knife: {id: 'a', wood: 25, stone: 25, damage: 2, range: 0, collect: 0.05},
+    Axe: {id: 'b', wood: 50, stone: 50, damage: 1, range: 0.5, collect: 0.1},
+    Spear: {id: 'c', wood: 100, stone: 100, damage: 3, range: 1, collect: 0}
 };
 
 module.exports = {
