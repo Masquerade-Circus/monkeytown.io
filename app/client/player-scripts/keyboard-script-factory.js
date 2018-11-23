@@ -3,39 +3,29 @@ let KeyboardScriptFactory = (Game) => {
     let mouse = new THREE.Vector2();
     let intersects;
 
-    return () => {
-        let mouseData = {
-            b: Game.keyboard.mouse.b,
-            d: Game.keyboard.mouse.d
-        };
-
-        if (
-            mouse.x !== Game.keyboard.mouse.x || mouse.y !== Game.keyboard.mouse.y // Mouse moved
-            || mouseData.b.length > 0 // Button pressed
-            || mouseData.d !== 0 // Mousewheel event
-        ) {
-            mouse.x = Game.keyboard.mouse.x;
-            mouse.y = Game.keyboard.mouse.y;
-            mouseData.p = false;
-            raycaster.setFromCamera(mouse, Game.app.camera);
-            intersects = raycaster.intersectObjects([Game.app.ground]);
-            if (intersects.length === 1) {
-                mouseData.p = {
-                    x: intersects[0].point.x,
-                    y: intersects[0].point.y,
-                    z: intersects[0].point.z
-                };
+    Game.keyboard.onChange((type, data) => {
+        if (Game.keyboard.target === Game.canvas) {
+            if (type === 'mousemove') {
+                if (mouse.x !== data.x || mouse.y !== data.y) {
+                    mouse.x = data.x;
+                    mouse.y = data.y;
+                    raycaster.setFromCamera(mouse, Game.app.camera);
+                    intersects = raycaster.intersectObjects([Game.app.ground]);
+                    if (intersects.length === 1) {
+                        let p = {
+                            x: intersects[0].point.x,
+                            y: intersects[0].point.y,
+                            z: intersects[0].point.z
+                        };
+                        Game.player.socket.emit('keyboard', type, Game.fixedProps(p));
+                    }
+                }
+                return;
             }
-            Game.player.socket.emit('mouse', Game.fixedProps(mouseData));
-        }
 
-        if (
-            Game.keyboard.pressedKeys.length > 0 &&
-            Game.keyboard.target === Game.canvas
-        ) {
-            Game.player.socket.emit('keyboard', Game.keyboard.pressedKeys);
+            Game.player.socket.emit('keyboard', type, data);
         }
-    };
+    });
 };
 
 export default KeyboardScriptFactory;

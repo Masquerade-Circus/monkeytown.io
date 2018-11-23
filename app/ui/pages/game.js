@@ -81,9 +81,12 @@ let Page = {
         });
     },
     getItems() {
+        let equiped = Object.values(INVENTORY)[Game.player[PROPS.Equiped]];
         return Object.keys(INVENTORY).map(name => {
             let item = INVENTORY[name];
-            return <Panel position="inline" color="black">{name} {Game.player[PROPS.Inventory][item.id]}</Panel>;
+            let level = Game.player[PROPS.Inventory][item.id];
+            let selected = equiped.id === item.id;
+            return <Panel position="inline" color="black">{name} {level} {selected}</Panel>;
         });
     },
     getResources() {

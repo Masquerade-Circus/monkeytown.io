@@ -2,6 +2,8 @@ import KeyboardScriptFactory from './keyboard-script-factory';
 import {PROPS, RESOURCES, INVENTORY} from '../../entities/config';
 
 let Factory = (Game) => {
+    KeyboardScriptFactory(Game);
+
     Game.player[PROPS.Resources] = {};
     Object.values(RESOURCES).forEach(item => Game.player[PROPS.Resources][item] = 0);
 
@@ -29,13 +31,6 @@ let Factory = (Game) => {
 
     Game.player.addScript('tick', (dt) => {
         Game.player.runScript('topDownCamera', dt);
-    });
-
-    Game.player.addScript('keyboard', KeyboardScriptFactory(Game));
-    Game.player.addScript('end', () => {
-        if (Game.keyboard.target === Game.canvas) {
-            Game.player.runScript('keyboard');
-        }
     });
 };
 

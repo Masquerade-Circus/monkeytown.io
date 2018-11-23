@@ -1,17 +1,7 @@
 let Entities = require('../../entities');
-let {PROPS, RESOURCES, INVENTORY} = Entities;
+let {PROPS, INVENTORY} = Entities;
 
 let Factory = (entity) => {
-    entity.needsUpdate = true;
-
-    entity[PROPS.Resources] = {};
-    Object.values(RESOURCES).forEach(item => entity[PROPS.Resources][item] = 0);
-
-    entity[PROPS.Inventory] = {};
-    Object.values(INVENTORY).forEach(item => entity[PROPS.Inventory][item.id] = 0);
-
-    entity[PROPS.Equiped] = 0;
-
     entity.getEquipedItem = () => {
         let item;
         let equipedId = Object.values(INVENTORY)[entity[PROPS.Equiped]].id;
@@ -54,18 +44,6 @@ let Factory = (entity) => {
             entity.needsUpdate = true;
         }
     });
-
-    entity.addScript('updatePlayer', () => {
-        if (entity.needsUpdate) {
-            entity.socket.emit('updatePlayer', {
-                [PROPS.Resources]: entity[PROPS.Resources],
-                [PROPS.Inventory]: entity[PROPS.Inventory],
-                [PROPS.Equiped]: entity[PROPS.Equiped]
-            });
-            entity.needsUpdate = false;
-        }
-    });
-    entity.runScript('updatePlayer');
 };
 
 module.exports = Factory;

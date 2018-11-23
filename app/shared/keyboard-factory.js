@@ -51,8 +51,10 @@ let KeyboardFactory = function (element, preventContext = true) {
         target: null,
         pressedKeys: [],
         mouse: {
-            x: 0,
-            y: 0,
+            p: {
+                x: 0,
+                y: 0
+            },
             b: [],
             d: 0
         },
@@ -80,11 +82,25 @@ let KeyboardFactory = function (element, preventContext = true) {
                 Keyboard.mouse.b.push(mouse[x]);
             }
         },
+
+        changeHandlers: [],
+        onChange(handler) {
+            Keyboard.changeHandlers.push(handler);
+        },
+        run(...args) {
+            let i = 0;
+            let l = Keyboard.changeHandlers.length;
+            for (;i < l; i++) {
+                Keyboard.changeHandlers[i](...args);
+            }
+        },
+
         keyListener(event) {
             if (event.type === 'keydown') {
                 Keyboard.target = event.target;
                 if (Keyboard.pressedKeys.indexOf(event.keyCode) === -1) {
                     Keyboard.pressedKeys.push(event.keyCode);
+                    Keyboard.run('keydown', Keyboard.pressedKeys);
                 }
                 return;
             }
@@ -93,13 +109,19 @@ let KeyboardFactory = function (element, preventContext = true) {
                 let index = Keyboard.pressedKeys.indexOf(event.keyCode);
                 if (index !== -1) {
                     Keyboard.pressedKeys.splice(index, 1);
+                    Keyboard.run('keyup', Keyboard.pressedKeys);
                 }
             }
         },
+
         mouseListener(event) {
             Keyboard.target = event.target;
-            Keyboard.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            Keyboard.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            let prevMouse = {x: Keyboard.mouse.p.x, y: Keyboard.mouse.p.y};
+            Keyboard.mouse.p.x = (event.clientX / window.innerWidth) * 2 - 1;
+            Keyboard.mouse.p.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            if (Keyboard.mouse.p.x !== prevMouse.x || Keyboard.mouse.p.y !== prevMouse.y) {
+                Keyboard.run('mousemove', Keyboard.mouse.p);
+            }
 
             // Fix cross browser button that triggered the event
             event.which ? event.which :
@@ -110,6 +132,7 @@ let KeyboardFactory = function (element, preventContext = true) {
             if (event.type.indexOf('mousedown') !== -1) {
                 if (Keyboard.mouse.b.indexOf(event.which) === -1) {
                     Keyboard.mouse.b.push(event.which);
+                    Keyboard.run('mousedown', Keyboard.mouse.b);
                 }
                 return;
             }
@@ -118,16 +141,19 @@ let KeyboardFactory = function (element, preventContext = true) {
                 let index = Keyboard.mouse.b.indexOf(event.which);
                 if (index !== -1) {
                     Keyboard.mouse.b.splice(index, 1);
+                    Keyboard.run('mouseup', Keyboard.mouse.b);
                 }
             }
 
             if (event.type.indexOf('mousewheel') !== -1 || event.type.indexOf('DOMMouseScroll') !== -1) {
                 let delta = Math.max(-1, Math.min(1, event.wheelDelta || -event.detail));
                 Keyboard.mouse.d = delta;
+                Keyboard.run('mousewheel', Keyboard.mouse.d);
                 clearTimeout(Keyboard.clearMouseDelta);
                 Keyboard.clearMouseDelta = setTimeout(() => {
                     Keyboard.mouse.d = 0;
-                }, 150);
+                    Keyboard.run('mousewheel', Keyboard.mouse.d);
+                }, 100);
             }
         },
         addEvent(type, handler) {

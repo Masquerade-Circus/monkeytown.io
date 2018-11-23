@@ -37,7 +37,8 @@ const PROPS = {
     Lerp: 'e',
     Status: 'f',
     Resources: 'g',
-    Inventory: 'h'
+    Inventory: 'h',
+    Equiped: 'i'
 };
 
 const RESOURCES = {
@@ -50,8 +51,8 @@ const RESOURCES = {
 };
 
 const INVENTORY = {
-    Knife: {id: 'a', wood: 25, stone: 25, damage: 2, range: 0, collect: 0.05},
-    Axe: {id: 'b', wood: 50, stone: 50, damage: 1, range: 0.5, collect: 0.1},
+    Knife: {id: 'a', wood: 25, stone: 25, damage: 2, range: 0, collect: 5},
+    Axe: {id: 'b', wood: 50, stone: 50, damage: 1, range: 0.5, collect: 10},
     Spear: {id: 'c', wood: 100, stone: 100, damage: 3, range: 1, collect: 0}
 };
 
