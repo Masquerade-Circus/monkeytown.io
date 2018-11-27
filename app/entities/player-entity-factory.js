@@ -9,7 +9,6 @@ let Factory = () => {
 
         },
         initClient(entity, Entities) {
-
             let Model = entity.body.getObjectByName('Model');
             let Fighting = {
                 animating: false,

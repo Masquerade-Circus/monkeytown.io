@@ -19,9 +19,9 @@ let KnifeFactory = (Type) => () => {
 
     let shape = new THREE.Shape();
 
-    shape.lineTo(i * 1.5, 0);
-    shape.lineTo(i * 1.5, i * 4);
-    shape.bezierCurveTo (0, i * 3, 0, i * 2, 0, 0);
+    shape.lineTo(i * 1.7, 0);
+    shape.lineTo(i * 2, i * 4);
+    shape.lineTo(-i, i * 4.5);
 
     let mesh = new THREE.Mesh(
         new THREE.ShapeGeometry(shape),
@@ -34,10 +34,10 @@ let KnifeFactory = (Type) => () => {
     mesh.receiveShadow = true;
 
     let plane = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry(i / 2, i * 2, 1, 1),
+        new THREE.PlaneBufferGeometry(i, i * 6, 1, 1),
         new THREE.MeshStandardMaterial({ color: 0x542207, side: THREE.DoubleSide })
     );
-    plane.position.set(i, -i, 0);
+    plane.position.set(i, -i * 3, 0);
     plane.castShadow = true;
     plane.receiveShadow = true;
 

@@ -51,9 +51,9 @@ const RESOURCES = {
 };
 
 const INVENTORY = {
-    a: {name: 'Knife', wood: 25, stone: 25, damage: 2, range: 0, collect: 5},
-    b: {name: 'Axe', wood: 50, stone: 50, damage: 1, range: 0.5, collect: 10},
-    c: {name: 'Spear', wood: 100, stone: 100, damage: 3, range: 1, collect: 0}
+    a: {name: 'Knife', wood: 25, stone: 25, damage: 2, range: 1, collect: 5},
+    b: {name: 'Axe', wood: 50, stone: 50, damage: 1, range: 1.5, collect: 10},
+    c: {name: 'Spear', wood: 100, stone: 100, damage: 3, range: 2, collect: 0}
 };
 
 module.exports = {

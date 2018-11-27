@@ -18,26 +18,27 @@ let KnifeFactory = (Type) => () => {
     let i = 0.3;
 
     let shape = new THREE.Shape();
-
+    shape.moveTo(i / 4, 0, 0);
     shape.lineTo(i * 1.5, 0);
-    shape.lineTo(i * 1.5, i * 4);
-    shape.bezierCurveTo (0, i * 3, 0, i * 2, 0, 0);
+    shape.lineTo(i * 2, i);
+    shape.lineTo(i, i * 5);
+    shape.lineTo(-0.05, i);
 
     let mesh = new THREE.Mesh(
         new THREE.ShapeGeometry(shape),
         new THREE.MeshStandardMaterial({ color, side: THREE.DoubleSide })
     );
-    mesh.position.set(-1, 0, 1.2);
+    mesh.position.set(-1.4, 0, 1.2);
     mesh.rotation.x = -Math.PI / 2;
     mesh.rotation.z = Math.PI / 2;
     mesh.castShadow = true;
     mesh.receiveShadow = true;
 
     let plane = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry(i / 2, i * 2, 1, 1),
+        new THREE.PlaneBufferGeometry(i, i * 10, 1, 1),
         new THREE.MeshStandardMaterial({ color: 0x542207, side: THREE.DoubleSide })
     );
-    plane.position.set(i, -i, 0);
+    plane.position.set(i * 0.9, -i * 5, 0);
     plane.castShadow = true;
     plane.receiveShadow = true;
 

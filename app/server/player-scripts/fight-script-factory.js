@@ -16,6 +16,7 @@ let Factory = (entity) => () => {
                 }
 
                 let random = (0 | Math.random() * 101) - item.collect;
+                random = 1;
 
                 switch (entities[i][PROPS.NetType]) {
                     case NET_TYPES.Tree:

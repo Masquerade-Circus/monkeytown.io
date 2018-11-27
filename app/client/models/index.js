@@ -4,6 +4,8 @@ import RockFactory from './rock-factory';
 import TreeFactory from './tree-factory';
 
 import KnifeFactory from './knife-factory';
+import AxeFactory from './axe-factory';
+import SpearFactory from './spear-factory';
 
 export default {
     Bush: BushFactory,
@@ -17,5 +19,15 @@ export default {
     StoneKnife: KnifeFactory('Stone'),
     IronKnife: KnifeFactory('Iron'),
     SilverKnife: KnifeFactory('Silver'),
-    GoldKinife: KnifeFactory('Gold')
+    GoldKinife: KnifeFactory('Gold'),
+
+    StoneAxe: AxeFactory('Stone'),
+    IronAxe: AxeFactory('Iron'),
+    SilverAxe: AxeFactory('Silver'),
+    GoldAxe: AxeFactory('Gold'),
+
+    StoneSpear: SpearFactory('Stone'),
+    IronSpear: SpearFactory('Iron'),
+    SilverSpear: SpearFactory('Silver'),
+    GoldSpear: SpearFactory('Gold')
 };
