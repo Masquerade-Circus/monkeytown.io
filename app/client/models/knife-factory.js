@@ -27,7 +27,7 @@ let KnifeFactory = (Type) => () => {
         new THREE.ShapeGeometry(shape),
         new THREE.MeshStandardMaterial({ color, side: THREE.DoubleSide })
     );
-    mesh.position.set(-1, 1, 1);
+    mesh.position.set(-1, 0, 1);
     mesh.rotation.x = -Math.PI / 2;
     mesh.rotation.z = Math.PI / 2;
     mesh.castShadow = true;
