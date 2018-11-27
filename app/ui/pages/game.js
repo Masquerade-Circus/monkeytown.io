@@ -23,7 +23,7 @@ let Page = {
         let label = '';
         switch (level) {
             case 0:
-                label = `Wooden ${item.name} (wood: ${item.wood} | stone: ${item.stone})`;
+                label = `Stone ${item.name} (wood: ${item.wood} | stone: ${item.stone})`;
                 break;
             case 1:
                 label = `Iron ${item.name} (wood: ${item.wood} | stone: ${item.stone} | iron: ${item.stone})`;

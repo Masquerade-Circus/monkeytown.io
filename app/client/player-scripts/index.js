@@ -25,7 +25,7 @@ let Factory = (Game) => {
         Game.app.camera.position.copy(Game.player.body.position);
         Game.app.camera.position.y += 15;
         // Game.app.camera.position.y += 220;
-        // Game.app.camera.position.z += 8;
+        Game.app.camera.position.z += 8;
         Game.app.camera.lookAt(Game.player.body.position);
     });
 

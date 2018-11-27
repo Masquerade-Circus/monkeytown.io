@@ -1,5 +1,21 @@
-let KnifeFactory = () => {
-    let i = 0.5;
+let KnifeFactory = (Type) => () => {
+    let color;
+    switch (Type) {
+        case 'Gold':
+            color = 0xFFD700;
+            break;
+        case 'Silver':
+            color = 0xCBCDCD;
+            break;
+        case 'Iron':
+            color = 0x828383;
+            break;
+        case 'Stone':
+            color = 0x535454;
+            break;
+    }
+
+    let i = 0.3;
 
     let shape = new THREE.Shape();
 
@@ -9,10 +25,11 @@ let KnifeFactory = () => {
 
     let mesh = new THREE.Mesh(
         new THREE.ShapeGeometry(shape),
-        new THREE.MeshStandardMaterial({ color: 0xCBCDCD, metalness: 1, roughness: 0.5, emissive: 0x676767, side: THREE.DoubleSide })
+        new THREE.MeshStandardMaterial({ color, side: THREE.DoubleSide })
     );
-    mesh.position.set(0, 1.2, 0);
+    mesh.position.set(-1, 1, 1);
     mesh.rotation.x = -Math.PI / 2;
+    mesh.rotation.z = Math.PI / 2;
     mesh.castShadow = true;
     mesh.receiveShadow = true;
 

@@ -13,5 +13,9 @@ export default {
     Silver: RockFactory('Silver'),
     Gold: RockFactory('Gold'),
     Tree: TreeFactory,
-    Knife: KnifeFactory
+
+    StoneKnife: KnifeFactory('Stone'),
+    IronKnife: KnifeFactory('Iron'),
+    SilverKnife: KnifeFactory('Silver'),
+    GoldKinife: KnifeFactory('Gold')
 };

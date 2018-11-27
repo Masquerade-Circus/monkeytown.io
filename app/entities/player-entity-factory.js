@@ -28,6 +28,12 @@ let Factory = () => {
                 }
             };
 
+            let itemLevels = {
+                1: 'Stone',
+                2: 'Iron',
+                3: 'Silver',
+                4: 'Gold'
+            };
             entity.getItem = (index) => {
                 let id = Object.keys(INVENTORY)[index];
                 let item = INVENTORY[id];
@@ -38,35 +44,32 @@ let Factory = () => {
                     response.damage = item.damage * level;
                     response.collect = item.collect * level;
                     response.range = level === 0 ? 0 : item.range;
+                    response.fullName = `${itemLevels[level]}${item.name}`;
                     return response;
                 }
             };
 
             let prevItem;
-            entity.every(5000, () => {
+            entity.every(100, () => {
                 if (!prevItem) {
                     prevItem = entity.getItem(entity[PROPS.Equiped]);
                 }
 
                 let newItem = entity.getItem(entity[PROPS.Equiped]);
 
-                if (
-                    newItem &&
-                    (
-                        newItem.name !== prevItem.name
-                        || newItem.level !== prevItem.level
-                    )
-                ) {
+                if (newItem.fullName !== prevItem.fullName) {
 
                     if (prevItem) {
-                        let model = entity.body.getObjectByName(prevItem.name);
+                        let model = Model.getObjectByName(prevItem.fullName);
                         if (model) {
                             Model.remove(model);
                         }
                     }
 
-                    if (newItem && newItem.level > 0) {
-                        entity.body.add(Entities.models[newItem.name].clone());
+                    if (newItem.level > 0) {
+                        let model = Entities.models[newItem.fullName].clone();
+                        model.name = newItem.fullName;
+                        Model.add(model);
                     }
 
                     prevItem = newItem;
