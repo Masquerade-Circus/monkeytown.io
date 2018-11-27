@@ -17,39 +17,38 @@ let Page = {
         danger: '#ff1744'
     },
     buy(event) {
-        Game.player.runScript('buy', event.target.dataset.item);
+        Game.player.runScript('buy', event.target.dataset.id);
     },
-    getBuyButton(name, level) {
-        let item = INVENTORY[name];
+    getBuyButton(id, item, level) {
         let label = '';
         switch (level) {
             case 0:
-                label = `Wooden ${name} (wood: ${item.wood} | stone: ${item.stone})`;
+                label = `Wooden ${item.name} (wood: ${item.wood} | stone: ${item.stone})`;
                 break;
             case 1:
-                label = `Iron ${name} (wood: ${item.wood} | stone: ${item.stone} | iron: ${item.stone})`;
+                label = `Iron ${item.name} (wood: ${item.wood} | stone: ${item.stone} | iron: ${item.stone})`;
                 break;
             case 2:
-                label = `Silver ${name} (wood: ${item.wood} | stone: ${item.stone} | silver: ${item.stone})`;
+                label = `Silver ${item.name} (wood: ${item.wood} | stone: ${item.stone} | silver: ${item.stone})`;
                 break;
             case 3:
-                label = `Golden ${name} (wood: ${item.wood} | stone: ${item.stone} | gold: ${item.stone})`;
+                label = `Golden ${item.name} (wood: ${item.wood} | stone: ${item.stone} | gold: ${item.stone})`;
                 break;
         }
 
-        return <button onclick={Page.buy} data-item={name}>{label}</button>;
+        return <button onclick={Page.buy} data-id={id}>{label}</button>;
     },
     getStore() {
-        return Object.keys(INVENTORY).map(name => {
+        return Object.keys(INVENTORY).map(id => {
             let resources = Game.player[PROPS.Resources];
-            let item = INVENTORY[name];
-            let level = Game.player[PROPS.Inventory][item.id];
+            let item = INVENTORY[id];
+            let level = Game.player[PROPS.Inventory][id];
             if (
                 level === 0
                 && item.wood <= resources[RESOURCES.Wood]
                 && item.stone <= resources[RESOURCES.Stone]
             ) {
-                return Page.getBuyButton(name, level);
+                return Page.getBuyButton(id, item, level);
             }
 
             if (
@@ -58,7 +57,7 @@ let Page = {
                 && item.stone <= resources[RESOURCES.Stone]
                 && item.stone <= resources[RESOURCES.Iron]
             ) {
-                return Page.getBuyButton(name, level);
+                return Page.getBuyButton(id, item, level);
             }
 
             if (
@@ -67,7 +66,7 @@ let Page = {
                 && item.stone <= resources[RESOURCES.Stone]
                 && item.stone <= resources[RESOURCES.Silver]
             ) {
-                return Page.getBuyButton(name, level);
+                return Page.getBuyButton(id, item, level);
             }
 
             if (
@@ -76,17 +75,17 @@ let Page = {
                 && item.stone <= resources[RESOURCES.Stone]
                 && item.stone <= resources[RESOURCES.Gold]
             ) {
-                return Page.getBuyButton(name, level);
+                return Page.getBuyButton(id, item, level);
             }
         });
     },
     getItems() {
-        let equiped = Object.values(INVENTORY)[Game.player[PROPS.Equiped]];
-        return Object.keys(INVENTORY).map(name => {
-            let item = INVENTORY[name];
-            let level = Game.player[PROPS.Inventory][item.id];
-            let selected = equiped.id === item.id;
-            return <Panel position="inline" color="black">{name} {level} {selected}</Panel>;
+        let equipedId = Object.keys(INVENTORY)[Game.player[PROPS.Equiped]];
+        return Object.keys(INVENTORY).map(id => {
+            let item = INVENTORY[id];
+            let level = Game.player[PROPS.Inventory][id];
+            let selected = equipedId === id;
+            return <Panel position="inline" color="black">{item.name} {level} {selected}</Panel>;
         });
     },
     getResources() {

@@ -16,10 +16,10 @@ const NET_TYPES = {
 const ENTITIES = {
     [NET_TYPES.Player]: PlayerEntityFactory,
     [NET_TYPES.Tree]: TreeEntityFactory,
-    [NET_TYPES.Stone]: RockEntityFactory('stone'),
-    [NET_TYPES.Iron]: RockEntityFactory('iron'),
-    [NET_TYPES.Silver]: RockEntityFactory('silver'),
-    [NET_TYPES.Gold]: RockEntityFactory('gold'),
+    [NET_TYPES.Stone]: RockEntityFactory('Stone'),
+    [NET_TYPES.Iron]: RockEntityFactory('Iron'),
+    [NET_TYPES.Silver]: RockEntityFactory('Silver'),
+    [NET_TYPES.Gold]: RockEntityFactory('Gold'),
     [NET_TYPES.Bush]: BushEntityFactory
 };
 
@@ -51,9 +51,9 @@ const RESOURCES = {
 };
 
 const INVENTORY = {
-    Knife: {id: 'a', wood: 25, stone: 25, damage: 2, range: 0, collect: 5},
-    Axe: {id: 'b', wood: 50, stone: 50, damage: 1, range: 0.5, collect: 10},
-    Spear: {id: 'c', wood: 100, stone: 100, damage: 3, range: 1, collect: 0}
+    a: {name: 'Knife', wood: 25, stone: 25, damage: 2, range: 0, collect: 5},
+    b: {name: 'Axe', wood: 50, stone: 50, damage: 1, range: 0.5, collect: 10},
+    c: {name: 'Spear', wood: 100, stone: 100, damage: 3, range: 1, collect: 0}
 };
 
 module.exports = {

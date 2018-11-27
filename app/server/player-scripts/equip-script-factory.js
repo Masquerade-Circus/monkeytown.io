@@ -2,30 +2,24 @@ let Entities = require('../../entities');
 let {PROPS, INVENTORY} = Entities;
 
 let Factory = (entity) => {
+    entity[PROPS.Equiped] = 0;
     entity.getEquipedItem = () => {
-        let item;
-        let equipedId = Object.values(INVENTORY)[entity[PROPS.Equiped]].id;
+        let id = Object.keys(INVENTORY)[entity[PROPS.Equiped]];
+        let item = INVENTORY[id];
 
-        for (let i in INVENTORY) {
-            if (equipedId === INVENTORY[i].id) {
-                let level = entity[PROPS.Inventory][equipedId];
-                item = Object.assign({level}, INVENTORY[i]);
-                item = {
-                    level,
-                    damage: INVENTORY[i].damage * level,
-                    collect: INVENTORY[i].collect * level,
-                    range: level === 0 ? 0 : INVENTORY[i].range
-                };
-                break;
-            }
-        }
-        return item;
+        let level = entity[PROPS.Inventory][id];
+        let response = Object.assign({level}, item);
+        response.damage = item.damage * level;
+        response.collect = item.collect * level;
+        response.range = level === 0 ? 0 : item.range;
+
+        return response;
     };
 
     entity.keyboard.onChange((type, data) => {
         if (type === 'mousewheel' && data !== 0) {
             let next = entity[PROPS.Equiped];
-            let max = Object.values(INVENTORY).length - 1;
+            let max = Object.keys(INVENTORY).length - 1;
             if (data === -1) {
                 next += 1;
                 if (next > max) {

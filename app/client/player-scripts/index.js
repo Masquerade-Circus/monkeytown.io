@@ -8,10 +8,10 @@ let Factory = (Game) => {
     Object.values(RESOURCES).forEach(item => Game.player[PROPS.Resources][item] = 0);
 
     Game.player[PROPS.Inventory] = {};
-    Object.values(INVENTORY).forEach(item => Game.player[PROPS.Inventory][item.id] = 0);
+    Object.keys(INVENTORY).forEach(id => Game.player[PROPS.Inventory][id] = 0);
 
-    Game.player.addScript('buy', (name) => {
-        Game.player.socket.emit('buy', name);
+    Game.player.addScript('buy', (id) => {
+        Game.player.socket.emit('buy', id);
     });
 
     Game.socket.on('updatePlayer', data => {
@@ -25,7 +25,7 @@ let Factory = (Game) => {
         Game.app.camera.position.copy(Game.player.body.position);
         Game.app.camera.position.y += 15;
         // Game.app.camera.position.y += 220;
-        Game.app.camera.position.z += 8;
+        // Game.app.camera.position.z += 8;
         Game.app.camera.lookAt(Game.player.body.position);
     });
 

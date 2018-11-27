@@ -15,7 +15,8 @@ const Entities = {
     RESOURCES,
     INVENTORY,
     Factories: {},
-    init() {
+    init(models) {
+        Entities.models = models;
         for (let nt in ENTITIES) {
             Entities.Factories[nt] = ENTITIES[nt]();
         }
@@ -152,10 +153,16 @@ const Entities = {
             }
         };
 
+        let Factory = Entities.Factories[entity[PROPS.NetType]];
+
         // Clone the model and set its initial position
         // At serverside we don't need the real model, just handle the Object3D props
-        if (!Entities.isNode && Entities.Factories[data[PROPS.NetType]].Model) {
-            let Model = Entities.Factories[data[PROPS.NetType]].Model.clone();
+        if (
+            !Entities.isNode
+            && Factory.Model
+            && Entities.models[Factory.Model]
+        ) {
+            let Model = Entities.models[Factory.Model].clone();
             Model.name = 'Model';
             entity.body.add(Model);
         }
@@ -175,12 +182,12 @@ const Entities = {
 
         // Init the entity
 
-        if (Entities.isNode && typeof Entities.Factories[entity[PROPS.NetType]].initServer === 'function') {
-            Entities.Factories[entity[PROPS.NetType]].initServer(entity);
+        if (Entities.isNode && typeof Factory.initServer === 'function') {
+            Factory.initServer(entity, Entities);
         }
 
-        if (!Entities.isNode && typeof Entities.Factories[entity[PROPS.NetType]].initClient === 'function') {
-            Entities.Factories[entity[PROPS.NetType]].initClient(entity);
+        if (!Entities.isNode && typeof Factory.initClient === 'function') {
+            Factory.initClient(entity, Entities);
         }
 
         // Set the world and the socket that belongs to this entity if any

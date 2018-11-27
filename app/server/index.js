@@ -6,7 +6,7 @@ const test = require('./test');
 const {PROPS, NET_TYPES} = Entities;
 
 const Game = {
-    deltaTime: Date.now(),
+    clock: null,
     ready: false,
     children: {},
     connection: Connection,
@@ -17,12 +17,13 @@ const Game = {
         Connection.initSockets();
         test();
 
+        Game.clock = new THREE.Clock(true);
         Game.update();
         Game.ready = true;
         GameReady(Game);
     },
     update() {
-        let dt = (Date.now() - Game.deltaTime) * .001;
+        let dt = Game.clock.getDelta();
 
         for (let world in Game.worlds) {
             Game.worlds[world].playerCount = 0;
@@ -42,7 +43,6 @@ const Game = {
             IO.sockets.sockets[s].sendWorld();
         }
 
-        Game.deltaTime = Date.now();
         setTimeout(() => Game.update(), 1000 / 30);
     },
     addEntity(childEntity) {
@@ -65,7 +65,7 @@ const Game = {
             };
         });
     },
-    getWorldEntities(player, maxDistance = 3) {
+    getWorldEntities(player, maxDistance = 3, additionalProps = []) {
         let world = Game.worlds[player.world];
         let worldEntities = {};
 
@@ -77,13 +77,13 @@ const Game = {
 
             // Get only the closest entities
             if (distance < maxDistance) {
-                worldEntities[i] = Game.getEntityInfo(entity);
+                worldEntities[i] = Game.getEntityInfo(entity, additionalProps);
             }
         }
 
         return worldEntities;
     },
-    getEntityInfo(entity) {
+    getEntityInfo(entity, additionalProps = []) {
         let info = {
             id: entity.id,
             [PROPS.Position]: {
@@ -101,6 +101,12 @@ const Game = {
             [PROPS.Lerp]: entity[PROPS.Lerp],
             [PROPS.Status]: entity[PROPS.Status]
         };
+
+        for (let l = additionalProps.length; l--;) {
+            if (entity[additionalProps[l]] !== undefined) {
+                info[additionalProps[l]] = entity[additionalProps[l]];
+            }
+        }
         return info;
     },
     fixedProps(obj = {}, precision = 3) {

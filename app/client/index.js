@@ -5,10 +5,11 @@ import test from './test';
 import PlayerScriptFactory from './player-scripts';
 import Entities from '../entities';
 import KeyboardFactory from '../shared/keyboard-factory';
+import Models from './models';
 
 let Game = {
     config,
-    deltaTime: Date.now(),
+    clock: null,
     is: {
         ready: false,
         connecting: false,
@@ -20,30 +21,33 @@ let Game = {
     children: {},
     keyboard: null,
     canvas: null,
+    models: {},
     async initGame() {
+        for (let name in Models) {
+            Game.models[name] = Models[name]();
+        }
         AppFactory(Game);
         Game.setQuality();
 
-        Entities.init();
+        Entities.init(Game.models);
         Game.connection = ConnectionFactory(Game);
         Game.connection.initSocket(Game.config.serverUrl);
         Game.keyboard = KeyboardFactory(document.body);
         test(Game);
 
+        Game.clock = new THREE.Clock(true);
         Game.update();
         await Game.getWorlds();
         Game.is.ready = true;
     },
     update() {
-        requestAnimationFrame(() => Game.update());
-
-        let dt = (Date.now() - Game.deltaTime) * .001;
+        requestAnimationFrame(Game.update);
+        let dt = Game.clock.getDelta();
 
         for (let i in Game.children) {
             Game.children[i].update(dt);
         }
 
-        Game.deltaTime = Date.now();
         Game.app.renderer.render(Game.app.scene, Game.app.camera);
     },
     setQuality(pixelRatio = 0.7) {

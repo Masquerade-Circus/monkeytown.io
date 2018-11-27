@@ -23,7 +23,7 @@ let Connection = {
 
                     Game.addEntity(player);
                     socket.world = world;
-                    callback(null, Game.fixedProps(Game.getEntityInfo(player)));
+                    callback(null, Game.fixedProps(Game.getEntityInfo(player, [PROPS.Equiped])));
                     PlayerScriptsFactory(player);
                     connecting = false;
                     return;
@@ -38,7 +38,7 @@ let Connection = {
             socket.sendWorld = function () {
                 if (!socket.sendingWorld) {
                     socket.sendingWorld = true;
-                    socket.emit('world', Game.fixedProps(Game.getWorldEntities(player || socket, 18 * 1.41)));
+                    socket.emit('world', Game.fixedProps(Game.getWorldEntities(player || socket, 18 * 1.41, [PROPS.Equiped])));
                     socket.sendingWorld = false;
                 }
             };

@@ -1,11 +1,11 @@
 let Entities = require('../../entities');
 let {PROPS, RESOURCES, INVENTORY} = Entities;
 
-let Factory = (entity) => (name) => {
+let Factory = (entity) => (id) => {
     let resources = entity[PROPS.Resources];
-    let item = INVENTORY[name];
+    let item = INVENTORY[id];
     if (item) {
-        let level = entity[PROPS.Inventory][item.id];
+        let level = entity[PROPS.Inventory][id];
         if (
             level === 0
                 && item.wood <= resources[RESOURCES.Wood]
@@ -13,7 +13,7 @@ let Factory = (entity) => (name) => {
         ) {
             entity[PROPS.Resources][RESOURCES.Wood] -= item.wood;
             entity[PROPS.Resources][RESOURCES.Stone] -= item.stone;
-            entity[PROPS.Inventory][item.id] = 1;
+            entity[PROPS.Inventory][id] = 1;
             entity.needsUpdate = true;
             return;
         }
@@ -27,7 +27,7 @@ let Factory = (entity) => (name) => {
             entity[PROPS.Resources][RESOURCES.Wood] -= item.wood;
             entity[PROPS.Resources][RESOURCES.Stone] -= item.stone;
             entity[PROPS.Resources][RESOURCES.Iron] -= item.stone;
-            entity[PROPS.Inventory][item.id] = 2;
+            entity[PROPS.Inventory][id] = 2;
             entity.needsUpdate = true;
             return;
         }
@@ -41,7 +41,7 @@ let Factory = (entity) => (name) => {
             entity[PROPS.Resources][RESOURCES.Wood] -= item.wood;
             entity[PROPS.Resources][RESOURCES.Stone] -= item.stone;
             entity[PROPS.Resources][RESOURCES.Silver] -= item.stone;
-            entity[PROPS.Inventory][item.id] = 3;
+            entity[PROPS.Inventory][id] = 3;
             entity.needsUpdate = true;
             return;
         }
@@ -55,7 +55,7 @@ let Factory = (entity) => (name) => {
             entity[PROPS.Resources][RESOURCES.Wood] -= item.wood;
             entity[PROPS.Resources][RESOURCES.Stone] -= item.stone;
             entity[PROPS.Resources][RESOURCES.Gold] -= item.stone;
-            entity[PROPS.Inventory][item.id] = 4;
+            entity[PROPS.Inventory][id] = 4;
             entity.needsUpdate = true;
             return;
         }
