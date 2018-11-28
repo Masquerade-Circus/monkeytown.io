@@ -4,30 +4,32 @@ let KeyboardScriptFactory = (Game) => {
     let intersects;
 
     Game.keyboard.onChange((type, data) => {
-        if (Game.keyboard.target === Game.canvas || Game.keyboard.target === Game.css2d) {
-            if (type === 'mousemove') {
-                if (mouse.x !== data.x || mouse.y !== data.y) {
-                    mouse.x = data.x;
-                    mouse.y = data.y;
-                    raycaster.setFromCamera(mouse, Game.app.camera);
-                    intersects = raycaster.intersectObjects([Game.app.ground]);
-                    if (intersects.length === 1) {
-                        let p = {
-                            x: intersects[0].point.x,
-                            y: intersects[0].point.y,
-                            z: intersects[0].point.z
-                        };
-                        Game.player.socket.emit('keyboard', type, Game.fixedProps(p));
+        if (Game.player) {
+            if (Game.keyboard.target === Game.canvas || Game.keyboard.target === Game.css2d) {
+                if (type === 'mousemove') {
+                    if (mouse.x !== data.x || mouse.y !== data.y) {
+                        mouse.x = data.x;
+                        mouse.y = data.y;
+                        raycaster.setFromCamera(mouse, Game.app.camera);
+                        intersects = raycaster.intersectObjects([Game.app.ground]);
+                        if (intersects.length === 1) {
+                            let p = {
+                                x: intersects[0].point.x,
+                                y: intersects[0].point.y,
+                                z: intersects[0].point.z
+                            };
+                            Game.player.socket.emit('keyboard', type, Game.fixedProps(p));
+                        }
                     }
+                    return;
                 }
-                return;
+
+                Game.player.socket.emit('keyboard', type, data);
             }
 
-            Game.player.socket.emit('keyboard', type, data);
-        }
-
-        if (type === 'mouseup' || type === 'keyup') {
-            Game.player.socket.emit('keyboard', type, data);
+            if (type === 'mouseup' || type === 'keyup') {
+                Game.player.socket.emit('keyboard', type, data);
+            }
         }
     });
 };

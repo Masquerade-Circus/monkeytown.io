@@ -32,7 +32,8 @@ const Game = {
         for (let i in Game.children) {
             Game.children[i].update(dt);
             if (
-                Game.children[i][PROPS.NetType] === NET_TYPES.Player
+                Game.children[i]
+                && Game.children[i][PROPS.NetType] === NET_TYPES.Player
                 && Game.children[i].world
             ) {
                 Game.worlds[Game.children[i].world].playerCount += 1;

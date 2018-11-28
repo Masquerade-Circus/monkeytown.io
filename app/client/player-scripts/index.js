@@ -19,6 +19,9 @@ let Factory = (Game) => {
     Game.socket.on('updatePlayer', data => {
         if (Game.player) {
             Object.assign(Game.player, data);
+            if (Game.player[PROPS.HasDied]) {
+                Game.player.remove = true;
+            }
         }
     });
 
@@ -33,6 +36,12 @@ let Factory = (Game) => {
 
     Game.player.addScript('tick', (dt) => {
         Game.player.runScript('topDownCamera', dt);
+    });
+    Game.player.addScript('destroy', () => {
+        setTimeout(() => {
+            Game.is.connected = false;
+            Game.player = undefined;
+        }, 3000);
     });
 };
 

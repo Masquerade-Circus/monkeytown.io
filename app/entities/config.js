@@ -40,7 +40,8 @@ const PROPS = {
     Inventory: 'h',
     Equiped: 'i',
     Life: 'j',
-    MaxLife: 'k'
+    MaxLife: 'k',
+    HasDied: 'l'
 };
 
 const RESOURCES = {

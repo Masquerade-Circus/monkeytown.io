@@ -17,7 +17,8 @@ let Factory = (entity) => {
         if (entity.needsUpdate) {
             entity.socket.emit('updatePlayer', {
                 [PROPS.Resources]: entity[PROPS.Resources],
-                [PROPS.Inventory]: entity[PROPS.Inventory]
+                [PROPS.Inventory]: entity[PROPS.Inventory],
+                [PROPS.HasDied]: entity[PROPS.HasDied]
             });
             entity.needsUpdate = false;
         }

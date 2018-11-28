@@ -39,17 +39,19 @@ const Entities = {
             name: data.name,
 
             destroy() {
-                entity.runScript('destroy');
-                if (entity && entity.body && entity.body.parent) {
-                    entity.body.parent.remove(entity.body);
-                }
+                if (entity) {
+                    entity.runScript('destroy');
+                    if (entity && entity.body && entity.body.parent) {
+                        entity.body.parent.remove(entity.body);
+                    }
 
-                if (Entities.isNode) {
-                    delete Game.worlds[entity.world].children[entity.id];
-                }
+                    if (Entities.isNode) {
+                        delete Game.worlds[entity.world].children[entity.id];
+                    }
 
-                delete entity.parent.children[entity.id];
-                entity = undefined;
+                    delete entity.parent.children[entity.id];
+                    entity = undefined;
+                }
             },
             update(dt) {
                 // Update position on the client

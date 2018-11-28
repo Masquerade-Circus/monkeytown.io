@@ -14,7 +14,7 @@ let Connection = {
                     name = 'Anonymous';
                 }
                 name = name.trim().slice(0, 23);
-                if (!player && !connecting && Game.children[socket.id] === undefined) {
+                if (!connecting && Game.children[socket.id] === undefined) {
                     connecting = true;
                     player = Entities.create({
                         [PROPS.NetType]: NET_TYPES.Player,

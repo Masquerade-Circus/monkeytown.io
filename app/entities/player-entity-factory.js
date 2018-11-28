@@ -57,7 +57,7 @@ let Factory = () => {
 
                 let newItem = entity.getItem(entity[PROPS.Equiped]);
 
-                if (newItem.fullName !== prevItem.fullName) {
+                if (newItem && newItem.fullName !== prevItem.fullName) {
 
                     if (prevItem) {
                         let model = Model.getObjectByName(prevItem.fullName);

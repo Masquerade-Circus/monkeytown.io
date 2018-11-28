@@ -93,14 +93,24 @@ let Page = {
             return <div>{item}: {Game.player[PROPS.Resources][RESOURCES[item]]}</div>;
         });
     },
+    getMiddleMessage() {
+        if (Game.player[PROPS.HasDied]) {
+            return 'You died';
+        }
+    },
     view() {
         if (Game.player) {
+            if (Game.player[PROPS.HasDied]) {
+                return <article oninit={Page.onupdate} onupdate={Page.onupdate}>
+                    <Panel position="center middle" color="black">{Page.getMiddleMessage()}</Panel>
+                </article>;
+            }
+
             return <article oninit={Page.onupdate} onupdate={Page.onupdate}>
                 <Panel position="left top">
                     <Panel title="Resources" position="inline" color="black">{Page.getResources()}</Panel>
                     <Panel position="inline">{Page.getStore()}</Panel>
                 </Panel>
-
                 <Panel position="bottom center">{Page.getItems()}</Panel>
 
 

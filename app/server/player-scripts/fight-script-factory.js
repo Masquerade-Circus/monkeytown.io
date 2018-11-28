@@ -2,10 +2,17 @@ let Entities = require('../../entities');
 let {PROPS, STATUS, NET_TYPES, RESOURCES, INVENTORY} = Entities;
 
 let Factory = (entity) => {
+    entity[PROPS.HasDied] = false;
+    entity.die = () => {
+        entity[PROPS.HasDied] = true;
+        entity.needsUpdate = true;
+        entity.remove = true;
+    };
     entity.applyDamage = (damage) => {
         entity[PROPS.Life] -= damage;
         if (entity[PROPS.Life] < 0) {
             entity[PROPS.Life] = 0;
+            entity.die();
         }
     };
     entity.addScript('fight', () => {
@@ -26,7 +33,7 @@ let Factory = (entity) => {
 
                     switch (entities[i][PROPS.NetType]) {
                         case NET_TYPES.Player:
-                            Game.children[i].applyDamage(item.damage + 1);
+                            Game.children[i].applyDamage(item.damage + 5);
                             break;
                         case NET_TYPES.Tree:
                             if (random <= 70) {
