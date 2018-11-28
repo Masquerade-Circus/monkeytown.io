@@ -11,7 +11,7 @@ let Factory = (entity) => {
     EquipScriptFactory(entity);
     entity.addScript('movement', MovementFactory(entity));
     entity.socket.on('buy', BuyScriptFactory(entity));
-    entity.addScript('fight', FightScriptFactory(entity));
+    FightScriptFactory(entity);
 
     entity.addScript('start', (dt) => {
         entity.runScript('movement', dt);
