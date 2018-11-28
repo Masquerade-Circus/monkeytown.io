@@ -10,6 +10,9 @@ let Factory = (entity) => {
     entity[PROPS.Inventory] = {};
     Object.keys(INVENTORY).forEach(id => entity[PROPS.Inventory][id] = 0);
 
+    entity[PROPS.Life] = 50;
+    entity[PROPS.MaxLife] = 50;
+
     entity.addScript('updatePlayer', () => {
         if (entity.needsUpdate) {
             entity.socket.emit('updatePlayer', {
@@ -20,6 +23,8 @@ let Factory = (entity) => {
         }
     });
     entity.runScript('updatePlayer');
+
+    entity.every(1000, () => entity.socket.sendWorld(['name']));
 };
 
 module.exports = Factory;

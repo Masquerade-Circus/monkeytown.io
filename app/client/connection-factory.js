@@ -17,9 +17,9 @@ const ConnectionFactory = (Game) => {
             // Custom game events
             Game.socket.on('world', data => Game.updateWorld(data));
         },
-        connectServer(world = 'Alpha') {
+        connectServer(name, world = 'Alpha') {
             return new Promise((resolve) => {
-                Game.socket.emit('connectServer', world, (err, entity) => {
+                Game.socket.emit('connectServer', name, world, (err, entity) => {
                     if (err) {
                         console.error(err);
                         return;

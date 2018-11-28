@@ -12,7 +12,7 @@ const Game = {
     connection: Connection,
     worlds: {},
     initGame() {
-        Entities.init();
+        Entities.init(Game);
         Game.generateWorlds();
         Connection.initSockets();
         test();

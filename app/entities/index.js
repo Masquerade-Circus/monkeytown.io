@@ -4,7 +4,8 @@ const {
     ENTITIES,
     STATUS,
     RESOURCES,
-    INVENTORY
+    INVENTORY,
+    ADDITIONAL_PROPERTIES
 } = require('./config');
 
 const Entities = {
@@ -14,9 +15,10 @@ const Entities = {
     NET_TYPES,
     RESOURCES,
     INVENTORY,
+    ADDITIONAL_PROPERTIES,
     Factories: {},
-    init(models) {
-        Entities.models = models;
+    init(Game) {
+        Entities.Game = Game;
         for (let nt in ENTITIES) {
             Entities.Factories[nt] = ENTITIES[nt]();
         }
@@ -34,8 +36,10 @@ const Entities = {
             [PROPS.Scale]: data[PROPS.Scale] || 1,
             [PROPS.Lerp]: data[PROPS.Lerp] || 1,
             [PROPS.Status]: data[PROPS.Status] || 0,
+            name: data.name,
 
             destroy() {
+                entity.runScript('destroy');
                 if (entity && entity.body && entity.body.parent) {
                     entity.body.parent.remove(entity.body);
                 }
@@ -68,7 +72,7 @@ const Entities = {
 
                 entity.runScript('start', dt);
 
-                entity.runEveryTimers(dt);
+                entity.runEveryTimers();
 
                 entity.runScript('tick', dt);
 
@@ -135,7 +139,8 @@ const Entities = {
             scripts: {
                 'start': [],
                 'tick': [],
-                'end': []
+                'end': [],
+                'destroy': []
             },
             limit(distance = 100) {
                 if (entity.body.position.x < -distance) {
@@ -160,9 +165,9 @@ const Entities = {
         if (
             !Entities.isNode
             && Factory.Model
-            && Entities.models[Factory.Model]
+            && Entities.Game.models[Factory.Model]
         ) {
-            let Model = Entities.models[Factory.Model].clone();
+            let Model = Entities.Game.models[Factory.Model].clone();
             Model.name = 'Model';
             entity.body.add(Model);
         }

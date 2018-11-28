@@ -1,5 +1,5 @@
 const Entities = require('../entities');
-const {PROPS, NET_TYPES} = Entities;
+const {PROPS, NET_TYPES, ADDITIONAL_PROPERTIES} = Entities;
 const PlayerScriptsFactory = require('./player-scripts');
 
 let Connection = {
@@ -9,7 +9,11 @@ let Connection = {
             let connecting = false;
 
             socket.world = 'Alpha';
-            socket.on("connectServer", function (world = 'Alpha', callback = () => { }) {
+            socket.on("connectServer", function (name, world = 'Alpha', callback = () => { }) {
+                if (!name || name.trim().length === 0) {
+                    name = 'Anonymous';
+                }
+                name = name.trim().slice(0, 23);
                 if (!player && !connecting && Game.children[socket.id] === undefined) {
                     connecting = true;
                     player = Entities.create({
@@ -18,12 +22,13 @@ let Connection = {
                         [PROPS.Lerp]: 0.1,
                         id: socket.id,
                         socket,
-                        world
+                        world,
+                        name
                     });
 
                     Game.addEntity(player);
                     socket.world = world;
-                    callback(null, Game.fixedProps(Game.getEntityInfo(player, [PROPS.Equiped])));
+                    callback(null, Game.fixedProps(Game.getEntityInfo(player, ADDITIONAL_PROPERTIES)));
                     PlayerScriptsFactory(player);
                     connecting = false;
                     return;
@@ -34,11 +39,17 @@ let Connection = {
             socket.on('disconnect', () => player && player.destroy());
             socket.on('getWorlds', (callback) => callback(Game.getWorlds()));
 
+            let distance = 18 * 1.41;
             socket.sendingWorld = false;
-            socket.sendWorld = function () {
+            socket.sendWorld = function (additionalProperties = []) {
                 if (!socket.sendingWorld) {
                     socket.sendingWorld = true;
-                    socket.emit('world', Game.fixedProps(Game.getWorldEntities(player || socket, 18 * 1.41, [PROPS.Equiped])));
+                    let entitiesInfo = Game.getWorldEntities(
+                        player || socket,
+                        distance,
+                        ADDITIONAL_PROPERTIES.concat(additionalProperties)
+                    );
+                    socket.emit('world', Game.fixedProps(entitiesInfo));
                     socket.sendingWorld = false;
                 }
             };

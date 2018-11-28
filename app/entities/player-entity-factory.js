@@ -9,6 +9,7 @@ let Factory = () => {
 
         },
         initClient(entity, Entities) {
+            let Game = Entities.Game;
             let Model = entity.body.getObjectByName('Model');
             let Fighting = {
                 animating: false,
@@ -66,7 +67,7 @@ let Factory = () => {
                     }
 
                     if (newItem.level > 0) {
-                        let model = Entities.models[newItem.fullName].clone();
+                        let model = Game.models[newItem.fullName].clone();
                         model.name = newItem.fullName;
                         Model.add(model);
                     }
@@ -75,7 +76,33 @@ let Factory = () => {
                 }
             });
 
+            let lifeBar = Game.cssModels.BarFactory('red');
+            lifeBar.name = 'life';
+            Game.app.scene.add(lifeBar);
+            entity.addScript('destroy', () => Game.app.scene.remove(lifeBar));
+            entity.every(400, () => {
+                let percent = entity[PROPS.Life] / entity[PROPS.MaxLife] * 100;
+                lifeBar.element.firstChild.style.width = `${percent}%`;
+            });
+            entity.lifeBar = lifeBar;
+
+            let name = entity.name;
+            let label = Game.cssModels.LabelFactory(name);
+            label.name = 'label';
+            Game.app.scene.add(label);
+            entity.addScript('destroy', () => Game.app.scene.remove(label));
+            entity.every(1000, () => {
+                if (entity.name && entity.name !== name) {
+                    name = entity.name;
+                    label.element.innerText = name;
+                }
+            });
+
             entity.addScript('tick', (dt) => {
+                lifeBar.position.copy(entity.body.position);
+                lifeBar.position.z -= 1.3;
+                label.position.copy(entity.body.position);
+                label.position.z -= 1.8;
                 if (entity[PROPS.Status] === STATUS.Fighting) {
                     Fighting.animate();
                 }

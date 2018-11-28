@@ -21,7 +21,6 @@ let Page = {
     },
     play() {
         Game.connectServer();
-        // v.routes.go('/game');
     },
     onupdate() {
         if (Game.player) {
@@ -33,13 +32,16 @@ let Page = {
             Page.play();
         }
     },
+    oninput(e) {
+        Game.name = e.target.value.trim().slice(0, 23);
+    },
     view() {
         return <article onupdate={Page.onupdate}>
             <Panel position="center middle">
                 {/* {v.trust(logo)} */}
                 <div data-flex="">
                     <Panel position="inline" color="white">
-                        <input placeholder="Player name"/>
+                        <input placeholder="Player name" oninput={Page.oninput} value={Game.name}/>
                         <select onchange={Page.selectWorld}>
                             {Page.getOptions()}
                         </select>

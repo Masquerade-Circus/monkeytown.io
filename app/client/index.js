@@ -6,6 +6,7 @@ import PlayerScriptFactory from './player-scripts';
 import Entities from '../entities';
 import KeyboardFactory from '../shared/keyboard-factory';
 import Models from './models';
+import CssModels from './css-models';
 
 let Game = {
     config,
@@ -22,6 +23,8 @@ let Game = {
     keyboard: null,
     canvas: null,
     models: {},
+    cssModels: CssModels,
+    name: '',
     async initGame() {
         for (let name in Models) {
             Game.models[name] = Models[name]();
@@ -29,7 +32,7 @@ let Game = {
         AppFactory(Game);
         Game.setQuality();
 
-        Entities.init(Game.models);
+        Entities.init(Game);
         Game.connection = ConnectionFactory(Game);
         Game.connection.initSocket(Game.config.serverUrl);
         Game.keyboard = KeyboardFactory(document.body);
@@ -49,6 +52,7 @@ let Game = {
         }
 
         Game.app.renderer.render(Game.app.scene, Game.app.camera);
+        Game.app.css2drenderer.render(Game.app.scene, Game.app.camera);
     },
     setQuality(pixelRatio = 0.7) {
         Game.quality = pixelRatio;
@@ -87,7 +91,7 @@ let Game = {
     async connectServer() {
         if (Game.is.ready && !Game.is.connecting && !Game.is.connected) {
             Game.is.connecting = true;
-            let player = await Game.connection.connectServer(Game.selectedWorld);
+            let player = await Game.connection.connectServer(Game.name, Game.selectedWorld);
             let entity = Entities.create(player);
             Game.addEntity(entity);
             Game.player = entity;

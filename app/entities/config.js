@@ -38,7 +38,9 @@ const PROPS = {
     Status: 'f',
     Resources: 'g',
     Inventory: 'h',
-    Equiped: 'i'
+    Equiped: 'i',
+    Life: 'j',
+    MaxLife: 'k'
 };
 
 const RESOURCES = {
@@ -56,11 +58,19 @@ const INVENTORY = {
     c: {name: 'Spear', wood: 100, stone: 100, damage: 3, range: 2, collect: 0}
 };
 
+const ADDITIONAL_PROPERTIES = [
+    PROPS.Inventory,
+    PROPS.Equiped,
+    PROPS.Life,
+    PROPS.MaxLife
+];
+
 module.exports = {
     PROPS,
     NET_TYPES,
     ENTITIES,
     STATUS,
     RESOURCES,
-    INVENTORY
+    INVENTORY,
+    ADDITIONAL_PROPERTIES
 };

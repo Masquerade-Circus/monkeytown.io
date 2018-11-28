@@ -1,4 +1,3 @@
-
 let AppFactory = function (Game) {
     Game.app = {};
 
@@ -27,10 +26,18 @@ let AppFactory = function (Game) {
     Game.canvas.setAttribute('tabindex', '0');
     Game.canvas.setAttribute('id', 'game-canvas');
 
+    Game.app.css2drenderer = new THREE.CSS2DRenderer();
+    Game.app.css2drenderer.setSize(window.innerWidth, window.innerHeight);
+    Game.css2d = Game.app.css2drenderer.domElement;
+    document.body.appendChild(Game.css2d);
+    Game.css2d.setAttribute('tabindex', '0');
+    Game.css2d.setAttribute('id', 'game-css2d');
+
     window.addEventListener('resize', function () {
         Game.app.camera.aspect = window.innerWidth / window.innerHeight;
         Game.app.camera.updateProjectionMatrix();
         Game.app.renderer.setSize(window.innerWidth, window.innerHeight);
+        Game.app.css2drenderer.setSize(window.innerWidth, window.innerHeight);
     });
 
 

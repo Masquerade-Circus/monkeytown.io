@@ -4,7 +4,7 @@ let KeyboardScriptFactory = (Game) => {
     let intersects;
 
     Game.keyboard.onChange((type, data) => {
-        if (Game.keyboard.target === Game.canvas) {
+        if (Game.keyboard.target === Game.canvas || Game.keyboard.target === Game.css2d) {
             if (type === 'mousemove') {
                 if (mouse.x !== data.x || mouse.y !== data.y) {
                     mouse.x = data.x;
@@ -23,6 +23,10 @@ let KeyboardScriptFactory = (Game) => {
                 return;
             }
 
+            Game.player.socket.emit('keyboard', type, data);
+        }
+
+        if (type === 'mouseup' || type === 'keyup') {
             Game.player.socket.emit('keyboard', type, data);
         }
     });
