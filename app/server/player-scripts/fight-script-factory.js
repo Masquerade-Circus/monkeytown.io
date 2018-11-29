@@ -17,58 +17,73 @@ let Factory = (entity) => {
     };
     entity.addScript('fight', () => {
 
-        if (entity.keyboard.isButtonPressed('left') && entity[PROPS.Status] !== STATUS.Fighting) {
+        if (!entity[PROPS.HasDied] && entity.keyboard.isButtonPressed('left') && entity[PROPS.Status] !== STATUS.Fighting) {
             entity[PROPS.Status] = STATUS.Fighting;
             let item = entity.getEquipedItem();
-            // {damage: 2, range: 0, collect: 0.05}
+            // {damage: 2, range: 0, collect: 0.05, life: 0}
 
-            let entities = Game.getWorldEntities(entity, 3 + item.range);
-            for (let i in entities) {
-                if (i !== entity.id && Game.children[i]) {
-                    if (entities[i][PROPS.NetType] !== NET_TYPES.Player) {
-                        Game.children[i].runScript('fight');
+            if (item.life > 0) {
+                if (
+                    entity[PROPS.Resources][RESOURCES.Food] > 0
+                    && entity[PROPS.Life] < entity[PROPS.MaxLife]
+                ) {
+                    let life = Math.min(item.life, entity[PROPS.Resources][RESOURCES.Food]);
+                    entity[PROPS.Life] += life;
+                    entity[PROPS.Resources][RESOURCES.Food] -= life;
+                    if (entity[PROPS.Life] > entity[PROPS.MaxLife]) {
+                        entity[PROPS.Life] = entity[PROPS.MaxLife];
                     }
-
-                    let random = (0 | Math.random() * 101) - item.collect;
-
-                    switch (entities[i][PROPS.NetType]) {
-                        case NET_TYPES.Player:
-                            Game.children[i].applyDamage(item.damage + 5);
-                            break;
-                        case NET_TYPES.Tree:
-                            if (random <= 70) {
-                                entity[PROPS.Resources][RESOURCES.Wood] += 3;
-                                entity[PROPS.Resources][RESOURCES.Food] += 1;
-                            }
-                            break;
-                        case NET_TYPES.Stone:
-                            if (random <= 70) {
-                                entity[PROPS.Resources][RESOURCES.Stone] += 1;
-                            }
-                            break;
-                        case NET_TYPES.Bush:
-                            if (random <= 70) {
-                                entity[PROPS.Resources][RESOURCES.Food] += 3;
-                            }
-                            break;
-                        case NET_TYPES.Iron:
-                            if (random <= 60) {
-                                entity[PROPS.Resources][RESOURCES.Iron] += 1;
-                            }
-                            break;
-                        case NET_TYPES.Silver:
-                            if (random <= 40) {
-                                entity[PROPS.Resources][RESOURCES.Silver] += 1;
-                            }
-                            break;
-                        case NET_TYPES.Gold:
-                            if (random <= 20) {
-                                entity[PROPS.Resources][RESOURCES.Gold] += 1;
-                            }
-                            break;
-                    }
-
                     entity.needsUpdate = true;
+                }
+            } else {
+                let entities = Game.getWorldEntities(entity, 3 + item.range);
+                for (let i in entities) {
+                    if (i !== entity.id && Game.children[i]) {
+                        if (entities[i][PROPS.NetType] !== NET_TYPES.Player) {
+                            Game.children[i].runScript('fight');
+                        }
+
+                        let random = (0 | Math.random() * 101) - item.collect;
+
+                        switch (entities[i][PROPS.NetType]) {
+                            case NET_TYPES.Player:
+                                Game.children[i].applyDamage(item.damage + 5);
+                                break;
+                            case NET_TYPES.Tree:
+                                if (random <= 70) {
+                                    entity[PROPS.Resources][RESOURCES.Wood] += 3;
+                                    entity[PROPS.Resources][RESOURCES.Food] += 1;
+                                }
+                                break;
+                            case NET_TYPES.Stone:
+                                if (random <= 70) {
+                                    entity[PROPS.Resources][RESOURCES.Stone] += 1;
+                                }
+                                break;
+                            case NET_TYPES.Bush:
+                                if (random <= 70) {
+                                    entity[PROPS.Resources][RESOURCES.Food] += 3;
+                                }
+                                break;
+                            case NET_TYPES.Iron:
+                                if (random <= 60) {
+                                    entity[PROPS.Resources][RESOURCES.Iron] += 1;
+                                }
+                                break;
+                            case NET_TYPES.Silver:
+                                if (random <= 40) {
+                                    entity[PROPS.Resources][RESOURCES.Silver] += 1;
+                                }
+                                break;
+                            case NET_TYPES.Gold:
+                                if (random <= 20) {
+                                    entity[PROPS.Resources][RESOURCES.Gold] += 1;
+                                }
+                                break;
+                        }
+
+                        entity.needsUpdate = true;
+                    }
                 }
             }
 

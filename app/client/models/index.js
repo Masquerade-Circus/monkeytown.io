@@ -6,6 +6,7 @@ import TreeFactory from './tree-factory';
 import KnifeFactory from './knife-factory';
 import AxeFactory from './axe-factory';
 import SpearFactory from './spear-factory';
+import AppleFactory from './apple-factory';
 
 export default {
     Bush: BushFactory,
@@ -29,5 +30,7 @@ export default {
     StoneSpear: SpearFactory('Stone'),
     IronSpear: SpearFactory('Iron'),
     SilverSpear: SpearFactory('Silver'),
-    GoldSpear: SpearFactory('Gold')
+    GoldSpear: SpearFactory('Gold'),
+
+    Apple: AppleFactory
 };

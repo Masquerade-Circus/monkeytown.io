@@ -40,43 +40,46 @@ let Page = {
     },
     getStore() {
         return Object.keys(INVENTORY).map(id => {
-            let resources = Game.player[PROPS.Resources];
             let item = INVENTORY[id];
-            let level = Game.player[PROPS.Inventory][id];
-            if (
-                level === 0
-                && item.wood <= resources[RESOURCES.Wood]
-                && item.stone <= resources[RESOURCES.Stone]
-            ) {
-                return Page.getBuyButton(id, item, level);
+            if (item.buyable) {
+                let resources = Game.player[PROPS.Resources];
+                let level = Game.player[PROPS.Inventory][id];
+                if (
+                    level === 0
+                    && item.wood <= resources[RESOURCES.Wood]
+                    && item.stone <= resources[RESOURCES.Stone]
+                ) {
+                    return Page.getBuyButton(id, item, level);
+                }
+
+                if (
+                    level === 1
+                    && item.wood <= resources[RESOURCES.Wood]
+                    && item.stone <= resources[RESOURCES.Stone]
+                    && item.stone <= resources[RESOURCES.Iron]
+                ) {
+                    return Page.getBuyButton(id, item, level);
+                }
+
+                if (
+                    level === 2
+                    && item.wood <= resources[RESOURCES.Wood]
+                    && item.stone <= resources[RESOURCES.Stone]
+                    && item.stone <= resources[RESOURCES.Silver]
+                ) {
+                    return Page.getBuyButton(id, item, level);
+                }
+
+                if (
+                    level === 3
+                    && item.wood <= resources[RESOURCES.Wood]
+                    && item.stone <= resources[RESOURCES.Stone]
+                    && item.stone <= resources[RESOURCES.Gold]
+                ) {
+                    return Page.getBuyButton(id, item, level);
+                }
             }
 
-            if (
-                level === 1
-                && item.wood <= resources[RESOURCES.Wood]
-                && item.stone <= resources[RESOURCES.Stone]
-                && item.stone <= resources[RESOURCES.Iron]
-            ) {
-                return Page.getBuyButton(id, item, level);
-            }
-
-            if (
-                level === 2
-                && item.wood <= resources[RESOURCES.Wood]
-                && item.stone <= resources[RESOURCES.Stone]
-                && item.stone <= resources[RESOURCES.Silver]
-            ) {
-                return Page.getBuyButton(id, item, level);
-            }
-
-            if (
-                level === 3
-                && item.wood <= resources[RESOURCES.Wood]
-                && item.stone <= resources[RESOURCES.Stone]
-                && item.stone <= resources[RESOURCES.Gold]
-            ) {
-                return Page.getBuyButton(id, item, level);
-            }
         });
     },
     getItems() {

@@ -29,6 +29,7 @@ let Factory = () => {
             };
 
             let itemLevels = {
+                0: '',
                 1: 'Stone',
                 2: 'Iron',
                 3: 'Silver',
@@ -66,7 +67,7 @@ let Factory = () => {
                         }
                     }
 
-                    if (newItem.level > 0) {
+                    if (newItem && Game.models[newItem.fullName]) {
                         let model = Game.models[newItem.fullName].clone();
                         model.name = newItem.fullName;
                         Model.add(model);
