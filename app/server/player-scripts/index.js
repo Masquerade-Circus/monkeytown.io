@@ -9,8 +9,8 @@ let Factory = (entity) => {
     KeyboardFactory(entity);
     InitPlayerFactory(entity);
     EquipScriptFactory(entity);
-    entity.addScript('movement', MovementFactory(entity));
-    entity.socket.on('buy', BuyScriptFactory(entity));
+    MovementFactory(entity);
+    BuyScriptFactory(entity);
     FightScriptFactory(entity);
 
     entity.addScript('start', (dt) => {
