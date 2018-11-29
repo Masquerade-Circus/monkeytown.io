@@ -3,7 +3,7 @@ const Connection = require('./connection');
 const GameReady = require('./game-ready');
 const test = require('./test');
 
-const {PROPS, NET_TYPES} = Entities;
+const {PROPS, NET_TYPES, RESOURCES} = Entities;
 
 const Game = {
     clock: null,
@@ -62,9 +62,34 @@ const Game = {
                 children: {},
                 name: world,
                 playerCount: 0,
-                maxPlayers: 48
+                maxPlayers: 48,
+                leaderboard: []
             };
         });
+        Game.updateLeaderboards();
+    },
+    updateLeaderboards() {
+        for (let world in Game.worlds) {
+            let leaderboard = [];
+            for (let id in Game.worlds[world].children) {
+                if (Game.children[id][PROPS.NetType] === NET_TYPES.Player) {
+                    leaderboard.push({
+                        id,
+                        name: Game.children[id].name,
+                        score: Game.children[id][PROPS.Resources][RESOURCES.Gold]
+                    });
+                }
+            }
+            leaderboard.sort((a, b) => {
+                if (a.score === b.score) {
+                    return a.name - b.name;
+                }
+
+                return b.score - a.score;
+            });
+            Game.worlds[world].leaderboard = leaderboard.slice(0, 10);
+        }
+        setTimeout(Game.updateLeaderboards, 5000);
     },
     getWorldEntities(player, maxDistance = 3, additionalProps = []) {
         let world = Game.worlds[player.world];

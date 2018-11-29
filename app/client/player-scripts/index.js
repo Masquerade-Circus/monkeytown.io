@@ -25,6 +25,8 @@ let Factory = (Game) => {
         }
     });
 
+    Game.socket.on('leaderboard', leaderboard => Game.leaderboard = leaderboard);
+
     // Camera
     Game.player.addScript('topDownCamera', (dt) => {
         Game.app.camera.position.copy(Game.player.body.position);

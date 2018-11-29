@@ -101,6 +101,11 @@ let Page = {
             return 'You died';
         }
     },
+    getLeaderboard() {
+        return Game.leaderboard.map((item, index) => {
+            return <div style={item.id === Game.player.id ? 'color: #7ac31b' : ''}>{index} - {item.name} ({item.score})</div>;
+        });
+    },
     view() {
         if (Game.player) {
             if (Game.player[PROPS.HasDied]) {
@@ -122,9 +127,7 @@ let Page = {
                     <br/>
                     {Game.player[PROPS.Position].x}/{Game.player[PROPS.Position].z}
                 </Panel>
-                <Panel position="top right">
-                    {Object.keys(Page.colors).map(color => <div data-background={color}>{color} {Page.colors[color]}</div>)}
-                </Panel>
+                <Panel title="Leaderboard" position="top right" color="black">{Page.getLeaderboard()}</Panel>
             </article>;
         }
         return <article oninit={Page.onupdate} onupdate={Page.onupdate}></article>;

@@ -25,6 +25,7 @@ let Game = {
     models: {},
     cssModels: CssModels,
     name: '',
+    leaderboard: [],
     async initGame() {
         for (let name in Models) {
             Game.models[name] = Models[name]();
