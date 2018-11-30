@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "name": "MonkeyTown.io",
+  "description": "Awesome hybrid 3d/2d Survival IO game",
+  "icons": {
+    "60": "/icons/firefox_app_60x60.png",
+    "128": "/icons/firefox_app_128x128.png",
+    "512": "/icons/firefox_app_512x512.png"
+  },
+  "developer": {
+    "name": "Christian César Robledo López (Masquerade Circus)",
+    "url": "http://masquerade-circus.net"
+  }
+}

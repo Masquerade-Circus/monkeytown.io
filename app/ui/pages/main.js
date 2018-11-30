@@ -1,4 +1,6 @@
 import {displayName, version, description} from '../../../package.json';
+import icons from '../icons.svg';
+import Links from './links';
 
 let Main = {
     title: displayName,
@@ -14,9 +16,10 @@ let Main = {
                 <meta http-equiv="x-UA-Compatible" content="IE=edge"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, minimal-ui"/>
                 <link href={`/css/main.css?v=${Main.id}`} rel="stylesheet"/>
-                <link rel="shortcut icon" href="/imgs/favicon.ico"/>
+                <Links/>
             </head>
             <body>
+                <div id="hidden-icons">{v.trust(icons)}</div>
                 <div id="ui">
                     {children}
                     <script src={`/js/socket.io.js?v=${Main.id}`}></script>

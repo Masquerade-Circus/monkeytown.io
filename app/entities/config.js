@@ -57,7 +57,7 @@ const INVENTORY = {
     a: {name: 'Knife', wood: 25, stone: 25, damage: 2, range: 1, collect: 5, life: 0, buyable: true},
     b: {name: 'Axe', wood: 50, stone: 50, damage: 1, range: 1.5, collect: 10, life: 0, buyable: true},
     c: {name: 'Spear', wood: 100, stone: 100, damage: 3, range: 2, collect: 0, life: 0, buyable: true},
-    d: {name: 'Apple', wood: 0, stone: 0, damage: 0, range: 0, collect: 0, life: 10, buyable: false}
+    d: {name: 'Apple', wood: 0, stone: 0, damage: 0, range: 0, collect: 0, life: 10, buyable: false, color: 'apple'}
 };
 
 const ADDITIONAL_PROPERTIES = [

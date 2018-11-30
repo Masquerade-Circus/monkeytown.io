@@ -10,7 +10,7 @@ let Factory = (Game) => {
     Game.player[PROPS.Inventory] = {};
     Object.keys(INVENTORY).forEach(id => Game.player[PROPS.Inventory][id] = 0);
 
-    Game.player.lifeBar.element.firstChild.style.backgroundColor = 'green';
+    Game.player.lifeBar.element.firstChild.setAttribute('data-background', 'success');
 
     Game.player.addScript('buy', (id) => {
         Game.player.socket.emit('buy', id);

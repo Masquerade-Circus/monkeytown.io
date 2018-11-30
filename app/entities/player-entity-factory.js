@@ -77,7 +77,7 @@ let Factory = () => {
                 }
             });
 
-            let lifeBar = Game.cssModels.BarFactory('red');
+            let lifeBar = Game.cssModels.BarFactory('danger');
             lifeBar.name = 'life';
             Game.app.scene.add(lifeBar);
             entity.addScript('destroy', () => Game.app.scene.remove(lifeBar));

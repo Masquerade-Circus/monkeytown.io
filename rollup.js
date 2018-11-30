@@ -4,14 +4,16 @@ let nodeResolve = require('rollup-plugin-node-resolve');
 let includepaths = require('rollup-plugin-includepaths');
 let filesize = require('rollup-plugin-filesize');
 let progress = require('rollup-plugin-progress');
-let uglify = require('rollup-plugin-uglify');
+let {uglify} = require('rollup-plugin-uglify');
 let buble = require('rollup-plugin-buble');
 let string = require('rollup-plugin-string');
 let json = require('rollup-plugin-json');
 let async = require('rollup-plugin-async');
+let butternut = require('rollup-plugin-butternut');
+
+console.log(uglify);
 
 let uglifyOptions = {
-    ecma: 5,
     mangle: true,
     compress: {
         warnings: false, // Suppress uglification warnings
@@ -64,7 +66,8 @@ let outputOptions = {
 
 if (process.env.NODE_ENV === 'production') {
     outputOptions.sourcemap = false;
-    inputOptions.plugins.push(uglify(uglifyOptions));
+    // inputOptions.plugins.push(uglify(uglifyOptions));
+    inputOptions.plugins.push(butternut({check: true, sourcemap: false}));
     inputOptions.plugins.push(filesize());
     rollup.rollup(inputOptions)
         .then(bundle => bundle.write(outputOptions))

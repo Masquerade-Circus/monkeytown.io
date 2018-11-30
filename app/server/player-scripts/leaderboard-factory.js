@@ -1,5 +1,3 @@
-let Entities = require('../../entities');
-
 let Factory = (entity) => {
     let previousLeaderboard = Game.worlds[entity.world].leaderboard;
 

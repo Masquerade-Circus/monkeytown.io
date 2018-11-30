@@ -20,7 +20,7 @@ export default {
     StoneKnife: KnifeFactory('Stone'),
     IronKnife: KnifeFactory('Iron'),
     SilverKnife: KnifeFactory('Silver'),
-    GoldKinife: KnifeFactory('Gold'),
+    GoldKnife: KnifeFactory('Gold'),
 
     StoneAxe: AxeFactory('Stone'),
     IronAxe: AxeFactory('Iron'),

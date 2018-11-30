@@ -3,7 +3,7 @@ let Factory = (color) => {
     element.className = 'bar';
     let child = document.createElement('div');
     child.style.width = '100%';
-    child.style.backgroundColor = color;
+    child.setAttribute('data-background', color);
     element.appendChild(child);
 
     return new THREE.CSS2DObject(element);

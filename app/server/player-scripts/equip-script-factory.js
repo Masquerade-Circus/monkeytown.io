@@ -37,6 +37,25 @@ let Factory = (entity) => {
             entity[PROPS.Equiped] = next;
             entity.needsUpdate = true;
         }
+
+        if (type === 'keydown') {
+            if (entity.keyboard.isKeyPressed('1')) {
+                entity[PROPS.Equiped] = 0;
+                entity.needsUpdate = true;
+            }
+            if (entity.keyboard.isKeyPressed('2')) {
+                entity[PROPS.Equiped] = 1;
+                entity.needsUpdate = true;
+            }
+            if (entity.keyboard.isKeyPressed('3')) {
+                entity[PROPS.Equiped] = 2;
+                entity.needsUpdate = true;
+            }
+            if (entity.keyboard.isKeyPressed('4')) {
+                entity[PROPS.Equiped] = 3;
+                entity.needsUpdate = true;
+            }
+        }
     });
 };
 
