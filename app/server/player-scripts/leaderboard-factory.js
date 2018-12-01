@@ -9,7 +9,10 @@ let Factory = (entity) => {
             different = true;
         } else {
             for (let l = newLeaderboard.length; l--;) {
-                if (newLeaderboard[l].id !== previousLeaderboard[l].id) {
+                if (
+                    newLeaderboard[l].id !== previousLeaderboard[l].id
+                    || newLeaderboard[l].score !== previousLeaderboard[l].score
+                ) {
                     different = true;
                     break;
                 }

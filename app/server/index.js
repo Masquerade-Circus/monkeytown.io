@@ -89,7 +89,7 @@ const Game = {
             });
             Game.worlds[world].leaderboard = leaderboard.slice(0, 10);
         }
-        setTimeout(Game.updateLeaderboards, 5000);
+        setTimeout(Game.updateLeaderboards, 2000);
     },
     getWorldEntities(player, maxDistance = 3, additionalProps = []) {
         let world = Game.worlds[player.world];

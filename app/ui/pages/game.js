@@ -119,14 +119,13 @@ let Page = {
     getItems() {
         let equipedId = Object.keys(INVENTORY)[Game.player[PROPS.Equiped]];
 
-        return Object.keys(INVENTORY).map(id => {
+        return Object.keys(INVENTORY).map((id) => {
             let item = INVENTORY[id];
             let level = Game.player[PROPS.Inventory][id];
             let selected = equipedId === id;
             return <Panel position="inline" color="black" border={selected ? "success" : ""}>
                 <div title={item.name !== 'Apple' ? item.name : 'Food'}>
                     <Icon icon={item.name.toLowerCase()} color={item.color || Page.itemColors[level]} size="md"/>
-                    {item.name !== 'Apple' ? `(${level})` : ''}
                 </div>
             </Panel>;
         });
@@ -143,7 +142,7 @@ let Page = {
     },
     getLeaderboard() {
         return Game.leaderboard.map((item, index) => {
-            return <div style={item.id === Game.player.id ? 'color: #7ac31b' : ''}>{index} - {item.name} ({item.score})</div>;
+            return <div style={item.id === Game.player.id ? 'color: #7ac31b' : ''}>{index + 1}. {item.name} ({item.score})</div>;
         });
     },
     getMinimap() {

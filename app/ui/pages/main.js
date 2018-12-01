@@ -17,6 +17,16 @@ let Main = {
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, minimal-ui"/>
                 <link href={`/css/main.css?v=${Main.id}`} rel="stylesheet"/>
                 <Links/>
+                <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130237454-1"></script>
+                <script>
+                    {v.trust(`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-130237454-1');  
+                    `)}
+                </script>
             </head>
             <body>
                 <div id="hidden-icons">{v.trust(icons)}</div>
@@ -27,17 +37,6 @@ let Main = {
                     <script src={`/js/CSS2DRenderer.js?v=${Main.id}`}></script>
                     <script src={`/js/index.min.js?v=${Main.id}`}></script>
                 </div>
-                {v.trust(`
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130237454-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-130237454-1');
-</script>
-                `)}
-
             </body>
         </html>;
 

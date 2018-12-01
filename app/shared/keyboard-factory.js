@@ -66,10 +66,10 @@ let KeyboardFactory = function (element, preventContext = true) {
                 x.toUpperCase().charCodeAt(0);
         },
         isKeyPressed(x) {
-            return Keyboard.pressedKeys.indexOf(Keyboard.code(x)) !== -1;
+            return Keyboard.pressedKeys.indexOf(Keyboard.code('' + x)) !== -1;
         },
         pressKey(key) {
-            let code = Keyboard.code(key);
+            let code = Keyboard.code('' + key);
             if (Keyboard.pressedKeys.indexOf(code) === -1) {
                 Keyboard.pressedKeys.push(code);
             }
