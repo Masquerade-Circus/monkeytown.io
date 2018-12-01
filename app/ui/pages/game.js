@@ -113,7 +113,7 @@ let Page = {
         items = items.filter(item => item !== undefined);
 
         if (items.length > 0) {
-            return <Panel title="Store" position="inline" color="black">{items}</Panel>;
+            return <Panel title="Store" position="top center" color="black">{items}</Panel>;
         }
     },
     getItems() {
@@ -146,6 +146,11 @@ let Page = {
             return <div style={item.id === Game.player.id ? 'color: #7ac31b' : ''}>{index} - {item.name} ({item.score})</div>;
         });
     },
+    getMinimap() {
+        return <div onupdate={(vnode) => {
+            vnode.dom.appendChild(Game.minimap.element);
+        }}></div>;
+    },
     view() {
         if (Game.player) {
             if (Game.player[PROPS.HasDied]) {
@@ -155,7 +160,8 @@ let Page = {
             }
 
             return <article oninit={Page.onupdate} onupdate={Page.onupdate}>
-                <Panel position="left top">{Page.getStore()}</Panel>
+                <Panel position="left top">{Page.getMinimap()}</Panel>
+                {Page.getStore()}
                 <Panel title="Leaderboard" position="top right" color="black">{Page.getLeaderboard()}</Panel>
                 <Panel position="bottom center">{Page.getItems()}</Panel>
                 <Panel position="bottom right">{Page.getResources()}</Panel>

@@ -7,6 +7,7 @@ import Entities from '../entities';
 import KeyboardFactory from '../shared/keyboard-factory';
 import Models from './models';
 import CssModels from './css-models';
+import MinimapFactory from './minimap/minimapFactory';
 
 let Game = {
     config,
@@ -22,6 +23,8 @@ let Game = {
     children: {},
     keyboard: null,
     canvas: null,
+    css2d: null,
+    minimap: null,
     models: {},
     cssModels: CssModels,
     name: '',
@@ -45,6 +48,7 @@ let Game = {
         Game.keyboard = KeyboardFactory(document.body);
         test(Game);
 
+        Game.minimap = MinimapFactory(Game);
         Game.clock = new THREE.Clock(true);
         Game.update();
         await Game.getWorlds();
@@ -60,6 +64,7 @@ let Game = {
 
         Game.app.renderer.render(Game.app.scene, Game.app.camera);
         Game.app.css2drenderer.render(Game.app.scene, Game.app.camera);
+        Game.minimap.update();
     },
     setQuality(pixelRatio = 0.7) {
         Game.quality = pixelRatio;
