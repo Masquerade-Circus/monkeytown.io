@@ -2,6 +2,7 @@ import BushFactory from './bush-factory';
 import MonkeyFactory from './monkey-factory';
 import RockFactory from './rock-factory';
 import TreeFactory from './tree-factory';
+import SheepFactory from './sheep-factory';
 
 import KnifeFactory from './knife-factory';
 import AxeFactory from './axe-factory';
@@ -16,6 +17,7 @@ export default {
     Silver: RockFactory('Silver'),
     Gold: RockFactory('Gold'),
     Tree: TreeFactory,
+    Sheep: SheepFactory,
 
     StoneKnife: KnifeFactory('Stone'),
     IronKnife: KnifeFactory('Iron'),

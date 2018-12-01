@@ -2,11 +2,13 @@ import {displayName, version, description} from '../../../package.json';
 import icons from '../icons.svg';
 import Links from './links';
 
+let dev = false;
+
 let Main = {
     title: displayName,
     version: version,
     description: description,
-    id: (0 | Math.random() * 6.04e7).toString(36), // change this to version when publish
+    id: dev ? (0 | Math.random() * 6.04e7).toString(36) : version, // change this to version when publish
     view(...children) {
         let view = <html lang="en">
             <head>

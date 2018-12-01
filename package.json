@@ -2,7 +2,7 @@
     "name": "monkeytown.io",
     "displayName": "MonkeyTown.io",
     "description": "Awesome hybrid 3d/2d Survival IO game",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "main": "index.js",
     "license": "Apache 2.0",
     "scripts": {
