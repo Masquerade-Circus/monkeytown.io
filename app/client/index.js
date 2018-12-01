@@ -30,6 +30,10 @@ let Game = {
     name: '',
     leaderboard: [],
     url: null,
+    audio: {
+        ambient: null,
+        fight: null
+    },
     async initGame() {
         let loc = window.location;
         Game.url = loc.origin || (loc.protocol

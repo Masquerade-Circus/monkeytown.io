@@ -3,6 +3,7 @@ import {PROPS, RESOURCES, INVENTORY} from '../../entities/config';
 
 let Factory = (Game) => {
     KeyboardScriptFactory(Game);
+    Game.player.body.add(Game.app.listener);
 
     Game.player[PROPS.Resources] = {};
     Object.values(RESOURCES).forEach(item => Game.player[PROPS.Resources][item] = 0);

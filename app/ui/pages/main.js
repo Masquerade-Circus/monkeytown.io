@@ -27,6 +27,17 @@ let Main = {
                     <script src={`/js/CSS2DRenderer.js?v=${Main.id}`}></script>
                     <script src={`/js/index.min.js?v=${Main.id}`}></script>
                 </div>
+                {v.trust(`
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130237454-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-130237454-1');
+</script>
+                `)}
+
             </body>
         </html>;
 

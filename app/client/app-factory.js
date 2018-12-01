@@ -11,9 +11,17 @@ let AppFactory = function (Game) {
     Game.app.scene.add(Game.app.camera);
 
     Game.app.mixer = new THREE.AnimationMixer(Game.app.scene);
-
     Game.app.listener = new THREE.AudioListener();
-    Game.app.camera.add(Game.app.listener);
+    let AudioLoader = new THREE.AudioLoader();
+    AudioLoader.load(Game.url + '/sound/mushroom-dance.ogg', (buffer) => {
+        Game.audio.ambient = new THREE.Audio(Game.app.listener);
+        Game.audio.ambient.setBuffer(buffer);
+        Game.audio.ambient.setLoop(true);
+        Game.audio.ambient.setVolume(0.3);
+        Game.audio.ambient.play();
+    });
+    AudioLoader.load(Game.url + '/sound/menu-rollover.ogg', (buffer) => Game.audio.fight = buffer);
+    // Game.app.camera.add(Game.app.listener);
 
     Game.app.renderer = new THREE.WebGLRenderer({ antialias: true });
     Game.app.renderer.setPixelRatio(window.devicePixelRatio);

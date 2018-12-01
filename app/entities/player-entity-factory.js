@@ -10,12 +10,19 @@ let Factory = () => {
         },
         initClient(entity, Entities) {
             let Game = Entities.Game;
+            let audio = new THREE.PositionalAudio(Game.app.listener);
+            audio.setBuffer(Game.audio.fight);
+            audio.setRefDistance(5);
+            audio.setVolume(0.9);
+
+            entity.body.add(audio);
             let Model = entity.body.getObjectByName('Model');
             let Fighting = {
                 animating: false,
                 animate() {
                     if (!Fighting.animating) {
                         Fighting.animating = true;
+                        audio.play();
                         TinyAnimate.animate(0, Math.PI / 2, 100, Fighting.update, 'easeIn', () => {
                             TinyAnimate.animate(Math.PI / 2, 0, 400, Fighting.update, 'easeOut', () => {
                                 Fighting.animating = false;
