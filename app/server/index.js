@@ -163,6 +163,23 @@ const Game = {
             };
         }
         return worlds;
+    },
+    getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+    getRandomPointInRegion(region = {x: -100, x2: 100, y: 0, y2: 0, z: -100, z2: 100}) {
+        let point = {
+            x: region.x2 !== region.x
+                ? Game.getRandomNumber(region.x, region.x2)
+                : region.x,
+            y: region.y2 !== region.y
+                ? Game.getRandomNumber(region.y, region.y2)
+                : region.y,
+            z: region.z2 !== region.z
+                ? Game.getRandomNumber(region.z, region.z2)
+                : region.z
+        };
+        return point;
     }
 };
 

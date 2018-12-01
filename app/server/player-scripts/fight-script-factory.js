@@ -46,6 +46,13 @@ let Factory = (entity) => {
                         let random = (0 | Math.random() * 101) - item.collect;
 
                         switch (entities[i][PROPS.NetType]) {
+                            case NET_TYPES.Sheep:
+                                Game.children[i].applyDamage(item.damage + 5);
+                                if (Game.children[i][PROPS.HasDied]) {
+                                    entity[PROPS.Resources][RESOURCES.Food] += 10;
+                                    entity[PROPS.Resources][RESOURCES.Gold] += 10;
+                                }
+                                break;
                             case NET_TYPES.Player:
                                 Game.children[i].applyDamage(item.damage + 5);
                                 break;
