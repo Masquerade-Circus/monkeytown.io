@@ -26,7 +26,13 @@ let Game = {
     cssModels: CssModels,
     name: '',
     leaderboard: [],
+    url: null,
     async initGame() {
+        let loc = window.location;
+        Game.url = loc.origin || (loc.protocol
+            + '//'
+            + loc.hostname
+            + (loc.port ? (':' + loc.port) : ''));
         for (let name in Models) {
             Game.models[name] = Models[name]();
         }
@@ -35,7 +41,7 @@ let Game = {
 
         Entities.init(Game);
         Game.connection = ConnectionFactory(Game);
-        Game.connection.initSocket(Game.config.serverUrl);
+        Game.connection.initSocket(Game.url);
         Game.keyboard = KeyboardFactory(document.body);
         test(Game);
 

@@ -13,6 +13,7 @@ v.routes('#ui', router);
 if (v.is.browser) {
     Game.initGame();
     setInterval(() => v.update(), 100);
+    v.sw('/sw.js');
 }
 
 // Export what is needed for the backend

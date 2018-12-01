@@ -70,9 +70,11 @@ let Page = {
                             <br/><code>Left button</code> To gather resources / fight other players
                             <br/><code>Mousewheel/1-4</code> To equip item
                         </div>
-
                     </Panel>
                 </div>
+            </Panel>
+            <Panel position="bottom right" color="black">
+                Icon for logo by <a href="https://thenounproject.com/cinnamonstick91" title="cinnamonstick91" data-color="info" target="_blank" rel="no-follow">cinnamonstick91</a>
             </Panel>
         </article>;
     }
