@@ -80,6 +80,7 @@ let SheepFactory = () => {
     sheep.add(ear2);
 
     let object = new THREE.Object3D();
+    object.position.set(0, 0.8, 0);
     object.add(sheep);
     return object;
 };
