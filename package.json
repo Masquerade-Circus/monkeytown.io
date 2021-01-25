@@ -21,7 +21,7 @@
         "micro": "^9.3.3",
         "micro-ex-router": "^1.5.4",
         "recursive-readdir": "^2.2.2",
-        "socket.io": "^2.1.1",
+        "socket.io": "^2.4.0",
         "three": "^0.98.0",
         "valyrian.js": "^2.0.6"
     },
